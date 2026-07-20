@@ -1,4 +1,5 @@
 
+#include <cmath>
 #include <stdio.h>
 #include <limits.h>
 #include <stdint.h>
@@ -53,13 +54,48 @@ int main() {
     // extract the lower 7 bits of n.  e.g. to ensure a value
     // is within the range 0-127 (ASCII characters)
 
+    /*
+Bitwise AND (&) compares two numbers one bit at a time.
+A result bit is 1 only when both input bits are 1.
+
+Example:
+  1100
+& 1010
+------
+  1000
+*/
+
+
     int n = 257;
+
+    printf("before");
+    print_bits(n);
     n = n & 0177;
     printf("n = %d\n", n);
+    printf("after");
     print_bits(n);
 
+    int x = 0b100;
+    int y = 0b011;
+    unsigned int z = 0b111;
 
- 
+    // bitwise OR
+    // 1100 | 1010 = 1110
+    // useful for chaning individual bits
+    // Common use: setting several hardware-control bits without changing the others.
+    
+
+    x = x | y;
+
+    printf("x = ");
+    print_bits(x);
+    printf("y = ");
+    print_bits(y);
+
+    printf("z = ");
+    print_bits(z);
+
+    
 
 
 
