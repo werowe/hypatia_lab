@@ -1,11 +1,30 @@
+cat > README.md <<'EOF'
+# C Programming and Embedded Systems Examples
 
-* [class 1](https://onecompiler.com/c/44vsgr5ag)
+This repository contains C programming examples organized by topic.
 
-* [hello world](hello_world.c)
-* [bit_shift]!(bit_shift.c)
+## Topics
 
-* [copy one character at a time](copy.c)
-* [Structs](structs.c)
+- [Arduino](arduino/)
+- [Arrays](arrays/)
+- [Bits and Bitwise Operations](bits/)
+- [Conditionals](conditionals/)
+- [Data Types](data_types/)
+- [Electronics](electronics/)
+- [Functions](functions/)
+- [Loops](loops/)
+- [Memory](memory/)
+- [Operators](operators/)
+- [Pointers](pointers/)
+- [Projects](projects/)
+- [Registers](registers/)
+- [Snippets](snippets/)
+- [Strings](strings/)
+- [Structs](structs/)
 
+## Building a Program
 
+Use the compilation script from the repository root:
 
+```bash
+./compile.sh path/to/program.c
