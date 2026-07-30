@@ -128,110 +128,36 @@ The range is not `-127` to `127` because zero also requires its own bit pattern.
 
 ## Why `11111111` Means `-1`
 
-Yes—this is similar to **9's complement or 10's complement subtraction** in decimal.
+## Why Does `11111111` Mean `-1`?
 
-Two's complement allows a computer to perform subtraction by using addition and then discarding the extra overflow bit.
+An 8-bit number can store only 8 bits.
 
-For an 8-bit number, arithmetic wraps around at:
+Look what happens when we add `1` to `11111111`:
 
 ```text
-2^8 = 256
-
-The bit pattern for -1 is the value that becomes zero when you add 1 and discard anything beyond 8 bits:
-
   11111111
 + 00000001
 ----------
 1 00000000
 
-An 8-bit register can store only 8 bits, so the extra bit on the left is discarded:
+The answer contains 9 bits, but the computer can store only 8.
+
+So it discards the extra bit on the left:
 
 00000000
 
-Therefore:
+This means:
 
-11111111 + 1 = 00000000
+11111111 + 1 = 0
 
-This means that 11111111 behaves like -1.
+Therefore, 11111111 acts like -1, because:
 
-Signed and Unsigned Interpretations
+-1 + 1 = 0
 
-The same bits can have different meanings depending on whether the number is signed or unsigned:
+That is why an 8-bit signed integer uses:
 
-11111111 = 255   unsigned
-11111111 = -1    signed two's complement
+11111111 = -1
 
-The bits do not change. Only their interpretation changes.
+Later, when they understand binary addition well, you can teach the full rule:
 
-Modular Arithmetic Explanation
-
-In 8-bit arithmetic:
-
--1 ≡ 255 (mod 256)
-
-This is because:
-
--1 + 256 = 255
-
-Since 8-bit arithmetic wraps around after 255, the values -1 and 255 use the same bit pattern.
-
-Creating -1 Using Two's Complement
-
-Start with positive 1:
-
-00000001
-
-Invert every bit:
-
-11111110
-
-Then add 1:
-
-  11111110
-+ 00000001
-----------
-  11111111
-
-Therefore:
-
--1 = 11111111
-Subtraction Using Addition
-
-To calculate:
-
-5 - 1
-
-the computer can instead calculate:
-
-5 + (-1)
-
-In binary:
-
-  00000101    5
-+ 11111111   -1
------------
-1 00000100
-
-Discard the extra carry bit:
-
-00000100
-
-This equals:
-
-4
-
-So:
-
-5 + (-1) = 4
-
-Two's complement lets the computer perform subtraction using the same circuitry it uses for addition.
-
-
-
-## double 
-is floating point number
-
-
-
-## Strings and Char
-
+> To make a negative number, invert the bits and add `1`.
