@@ -1,4 +1,4 @@
-cat > README.md <<'EOF'
+ 
 # C Programming and Embedded Systems Examples
 
 This repository contains C programming examples organized by topic.
