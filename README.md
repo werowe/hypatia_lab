@@ -9,7 +9,7 @@ This repository contains C programming examples organized by topic.
 - [Arrays](arrays/)
 - [Bits and Bitwise Operations](bits/)
 - [Conditionals](conditionals/)
-- [Integers](data_types/)
+- [Integers](integers/)
 - [char](char/)
 - [Electronics](electronics/)
 - [Functions](functions/)
