@@ -1,7 +1,7 @@
  
 # Arduino Lab
 
-This repository contains C programming examples organized by topic.
+
 
 ## Videos and Code
 
