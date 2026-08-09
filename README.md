@@ -7,7 +7,7 @@ This repository contains C programming examples organized by topic.
 
 * [Configure VSCode with Arduino](https://github.com/werowe/arcuino_projects/blob/main/README.md)
 
-## Topics
+## Curriculum and Course Material
 
 - [Arduino](arduino/ARDUINO.md)
 - [Arrays](arrays/ARRAYS.md)
