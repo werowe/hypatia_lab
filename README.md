@@ -1,10 +1,12 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/logo.png" alt="Hypatia" width="380">
+<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia%20logo%20-%20colors.jpg" alt="Hypatia Academy" width="360">
 
 <br><br>
 
-<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia_lab_logo.jpg" alt="Hypatia Arduino Lab" width="200">
+<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/logo.png" alt="Hypatia" width="260">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia_lab_logo.jpg" alt="Hypatia Arduino Lab" width="100">
 
 <h1>⚡ HYPATIA ARDUINO LAB ⚡</h1>
 
@@ -231,8 +233,6 @@ to the final project.
 <div align="center">
 
 ## 🐍 Looking for the Python Course?
-
-<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia%20logo%20-%20colors.jpg" alt="Hypatia" width="150">
 
 <p>
 I no longer teach Python, but six years of lecture notes, notebooks, and videos<br>
