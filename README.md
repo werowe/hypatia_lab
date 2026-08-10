@@ -3,11 +3,15 @@
 
 
 
-## Videos and Code
+## Arduino Circuits
 
-* [Configure VSCode with Arduino](https://github.com/werowe/arcuino_projects/blob/main/README.md)
 
-## Curriculum and Course Material
+* [Using a Transistor as a Switch](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch)
+* [Logical Or](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or)
+* [Logical AND gate](https://www.tinkercad.com/things/car8xmCvPKY-logical-and)
+* [Shift Register](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led)
+
+## C Course
 
 - [Arduino](arduino/ARDUINO.md)
 - [Arrays](arrays/ARRAYS.md)
