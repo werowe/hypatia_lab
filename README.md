@@ -31,9 +31,4 @@
 - [Strings](strings/STRINGS.md)
 - [Structs](structs/STRUCTS.md)
 
-## Building a Program
 
-Use the compilation script from the repository root:
-
-```bash
-./compile.sh path/to/program.c
