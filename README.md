@@ -24,6 +24,10 @@ for students ages 13–18.</strong>
 <a href="https://hypatiaacademy.io/">
 <img src="https://img.shields.io/badge/%F0%9F%8C%90%20%20ENROLL%20AT%20HYPATIAACADEMY.IO%20%20%E2%86%92-fb923c?style=for-the-badge&labelColor=0A2540" alt="Enroll at hypatiaacademy.io">
 </a>
+&nbsp;
+<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">
+<img src="https://img.shields.io/badge/WATCH%20ON%20YOUTUBE-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="Hypatia Arduino Lab on YouTube">
+</a>
 
 <br><br>
 
@@ -33,11 +37,15 @@ for students ages 13–18.</strong>
 &nbsp;
 <a href="projects/PROJECTS.md"><img src="https://img.shields.io/badge/PROJECTS-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Projects"></a>
 &nbsp;
+<a href="#-watch-the-course"><img src="https://img.shields.io/badge/VIDEOS-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Videos"></a>
+&nbsp;
 <a href="https://github.com/werowe/HypatiaAcademy"><img src="https://img.shields.io/badge/PYTHON%20ARCHIVE-64748b?style=for-the-badge&labelColor=0A2540" alt="Python Archive"></a>
 
 <br><br>
 
 <a href="https://hypatiaacademy.io/">🌐 hypatiaacademy.io</a>
+&nbsp;•&nbsp;
+<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">▶️ YouTube</a>
 &nbsp;•&nbsp;
 <a href="mailto:contact@walkerrowe.com">✉️ contact@walkerrowe.com</a>
 &nbsp;•&nbsp;
@@ -230,6 +238,35 @@ to the final project.
 
 <div align="center">
 
+## 📺 Watch the Course
+
+<table>
+<tr><td align="center">
+
+### ▶️ Hypatia Arduino Lab on YouTube
+
+Every topic in this repository is also taught on video.
+
+Not just circuits — we explain **what the code means, how the circuit works,
+and why each component is there.** C programming, Arduino IDE 2, digital pins,
+analog input, serial communication, LEDs, resistors, breadboards, sensors,
+motors, and the electronics theory underneath all of it.
+
+<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">
+<img src="https://img.shields.io/badge/%20%20SUBSCRIBE%20TO%20HYPATIA%20ARDUINO%20LAB%20%20-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="Subscribe on YouTube">
+</a>
+
+</td></tr>
+</table>
+
+<br>
+
+</div>
+
+---
+
+<div align="center">
+
 ## 🐍 Looking for the Python Course?
 
 <p>
@@ -264,10 +301,16 @@ Based in Paphos, Cyprus — European time zones.
 <a href="https://hypatiaacademy.io/">
 <img src="https://img.shields.io/badge/%F0%9F%8C%90%20%20HYPATIAACADEMY.IO%20%20%E2%86%92-0A2540?style=for-the-badge&labelColor=0A2540" alt="hypatiaacademy.io">
 </a>
+&nbsp;
+<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">
+<img src="https://img.shields.io/badge/YOUTUBE-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="YouTube">
+</a>
 
 <br><br>
 
 <a href="https://hypatiaacademy.io/">🌐 hypatiaacademy.io</a>
+&nbsp;•&nbsp;
+<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">▶️ YouTube</a>
 &nbsp;•&nbsp;
 <a href="mailto:contact@walkerrowe.com">✉️ contact@walkerrowe.com</a>
 &nbsp;•&nbsp;
