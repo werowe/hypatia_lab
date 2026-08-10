@@ -1,9 +1,5 @@
-# DATA TYPES
+# INTEGER
 
-
-## Unsigned and Signed Integers
-
-```
 ## Signed and Unsigned 8-Bit Integers
 
 For an **8-bit integer**:
@@ -103,11 +99,6 @@ The range is not `-127` to `127` because zero also requires its own bit pattern.
 // indicates a negative number.
 ```
 
-```
-
-
-## Why `11111111` Means `-1`
-
 ## Why Does `11111111` Mean `-1`?
 
 An 8-bit number can store only 8 bits.
@@ -119,24 +110,33 @@ Look what happens when we add `1` to `11111111`:
 + 00000001
 ----------
 1 00000000
+```
 
 The answer contains 9 bits, but the computer can store only 8.
 
 So it discards the extra bit on the left:
 
+```text
 00000000
+```
 
 This means:
 
+```text
 11111111 + 1 = 0
+```
 
-Therefore, 11111111 acts like -1, because:
+Therefore, `11111111` acts like `-1`, because:
 
+```text
 -1 + 1 = 0
+```
 
 That is why an 8-bit signed integer uses:
 
+```text
 11111111 = -1
+```
 
 Later, when they understand binary addition well, you can teach the full rule:
 
