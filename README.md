@@ -1,12 +1,10 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia%20logo%20-%20colors.jpg" alt="Hypatia Academy" width="360">
-
-<br><br>
-
-<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/logo.png" alt="Hypatia" width="260">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia_lab_logo.jpg" alt="Hypatia Arduino Lab" width="100">
+<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia%20logo%20-%20colors.jpg" alt="Hypatia Academy" height="140">
+&nbsp;&nbsp;&nbsp;
+<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/logo.png" alt="Hypatia" height="140">
+&nbsp;&nbsp;&nbsp;
+<img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia_lab_logo.jpg" alt="Hypatia Arduino Lab" height="140">
 
 <h1>⚡ HYPATIA ARDUINO LAB ⚡</h1>
 
