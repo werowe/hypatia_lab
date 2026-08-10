@@ -3,16 +3,9 @@
 *.obj
 
 # Executables
-*.exe
 *.out
+*.exe
 *.app
-
-# Libraries
-*.a
-*.lib
-*.so
-*.dll
-*.dylib
 
 # Debug files
 *.dSYM/
@@ -23,8 +16,29 @@ build/
 bin/
 obj/
 
+# Dependency files
+*.d
+
 # macOS
 .DS_Store
 
 # VS Code
 .vscode/
+
+# Temporary/editor files
+*~
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Core dumps
+core
+core.*
+
+# CMake, if you ever use it
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile

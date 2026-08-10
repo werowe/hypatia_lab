@@ -158,7 +158,7 @@ to the final project.
 - [Printing](printing/PRINTING.md)
 
 ### The language
-
+- [Data Types](misc/DATATYPES.md)
 - [Integers](integers/INTEGERS.md)
 - [char](char/CHAR.md)
 - [Operators](operators/OPERATORS.md)
