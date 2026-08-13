@@ -25,6 +25,15 @@ obj/
 # VS Code
 .vscode/
 
+# DeepState local credentials and development artifacts
+deepstate/.env
+deepstate/.env.*
+!deepstate/.env.example
+deepstate/.venv/
+deepstate/.idea/
+deepstate/.ipynb_checkpoints/
+deepstate/*.ipynb.bak-*
+
 # Temporary/editor files
 *~
 *.swp
