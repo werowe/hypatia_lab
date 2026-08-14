@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, analysis, maps, or derived results, please cite
+  Walker Rowe's project and identify DeepStateMap.Live as the data source.
+title: DeepState Battlefield Change Analysis
+type: software
+authors:
+  - family-names: Rowe
+    given-names: Walker
+repository-code: https://github.com/werowe/hypatia_lab/tree/main/deepstate
+url: https://github.com/werowe/hypatia_lab/tree/main/deepstate
+license: MIT
+abstract: >-
+  A geospatial workflow for detecting, measuring, and mapping battlefield
+  status transitions in historical DeepStateMap.Live geometry. The analytical
+  concepts, project design, and most code are by Walker Rowe and were enhanced
+  with AI tools. DeepStateMap.Live supplies the underlying map data.
+preferred-citation:
+  type: software
+  authors:
+    - family-names: Rowe
+      given-names: Walker
+  title: DeepState Battlefield Change Analysis
+  year: 2026
+  url: https://github.com/werowe/hypatia_lab/tree/main/deepstate

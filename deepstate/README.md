@@ -4,6 +4,56 @@ This project downloads historical battlefield-map snapshots from DeepState,
 stores every snapshot in MongoDB, and uses GeoPandas to calculate how the
 occupied, contested, and liberated areas change over time.
 
+## Data source and authorship
+
+- **Data source:** Battlefield geometries, classifications, labels, and
+  snapshot times come from [DeepStateMap.Live](https://deepstatemap.live/).
+  DeepState is the source of the underlying map data; this project does not
+  create or independently verify those battlefield observations.
+- **Concepts and code:** The analytical concepts, project design, and most of
+  the code were written by **Walker Rowe**.
+- **AI-assisted enhancement:** AI tools were used to help review, explain,
+  debug, document, and enhance the analysis and code. AI assistance does not
+  change the provenance of the source data or imply independent verification
+  of DeepState's classifications.
+
+Any map, table, chart, or derived number produced by this project should
+therefore be described as a **Walker Rowe analysis of DeepState data, enhanced
+with AI tools**.
+
+## License and citation
+
+Copyright © 2026 Walker Rowe. The original code and documentation in this
+`deepstate` project are available under the [MIT License](LICENSE). The MIT
+license requires the copyright and permission notice to be retained in copies
+or substantial portions of the software.
+
+If you use the code, analysis, maps, charts, or derived results in a public
+project, article, presentation, or research work, please cite both the analysis
+author and the underlying data source:
+
+```text
+Rowe, Walker (2026). DeepState Battlefield Change Analysis.
+https://github.com/werowe/hypatia_lab/tree/main/deepstate
+Data source: DeepStateMap.Live, https://deepstatemap.live/
+AI tools were used to enhance the code and documentation.
+```
+
+Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
+
+The MIT license applies only to original code and documentation contributed by
+Walker Rowe in this project. It does **not** grant rights to DeepState's source
+data, map tiles, names, trademarks, or other third-party material. Those remain
+subject to their respective owners' terms. Users are responsible for checking
+the terms that apply to DeepState data and any other external material.
+
+MIT is an open-source software license, so the scholarly citation above is a
+clear attribution request rather than an additional restriction on software
+use. The legally required MIT attribution is preservation of the copyright
+and permission notice. A mandatory publication-citation condition would
+require a custom, non-standard license and would no longer be the standard MIT
+license.
+
 The main analysis notebook is `time_series_whole_country.ipynb`. Despite its
 name, the notebook first searches the whole battlefield for the strongest
 recent Ukrainian gain and then creates a compact local time series around that
@@ -543,3 +593,339 @@ overlay derives the locations whose classifications meet the before-and-after
 test. The sweeping window then ranks compact rectangles by how much of that
 derived geometry they contain; it never invents finer battlefield information
 inside an otherwise unclassified polygon.
+
+## Polygon sizes, map coverage, and a defensible net-change number
+
+### There are several different kinds of polygons
+
+The word "polygon" can refer to three different objects in this notebook, and
+they do not have the same size or purpose:
+
+| Polygon type | Size | Meaning |
+| --- | --- | --- |
+| DeepState source feature | Variable; there is no fixed size | One footprint supplied by a DeepState map layer |
+| Calculated `gain` piece | Variable; determined by intersecting snapshot boundaries | An irregular piece that passed a before-and-after status test |
+| Sweeping candidate window | Exactly 15 km by 15 km, or 225 km² | A search and viewing square, not an assertion that its whole area changed |
+
+The notebook's latest saved output says that it loaded 123 polygon features
+from the DeepState API. Those 123 features are not 123 equal grid cells. Some
+can be small local shapes, while others can represent very large continuous
+territories. The notebook currently prints only category totals, not the area
+of every individual source feature.
+
+The saved full-map totals are also useful for understanding coverage:
+
+```text
+Liberated areas:  41,306 km²
+Occupied areas:  117,096 km²
+Gray areas:        1,631 km²
+Combined:        160,033 km²
+```
+
+These values change whenever the API and notebook output are refreshed. The
+combined value is only about 26.5% of Ukraine's roughly 604,000 km² national
+area. Therefore, these status polygons do **not** constitute a complete
+wall-to-wall subdivision of Ukraine. In particular, ordinary
+Ukrainian-controlled land that has never been placed in a DeepState
+"liberated" layer is generally not represented by one of these three status
+totals. The API response can also contain points, military markers, static
+territory layers, and polygons unrelated to the three battlefield statuses.
+
+Consequently, "whole country" in the notebook filename means that the hotspot
+search starts across all available battlefield geometry. It does not mean
+that every square kilometre inside Ukraine's national boundary has been
+classified as liberated, occupied, or gray.
+
+### The search square and returned time-series rectangle are currently different sizes
+
+Every candidate constructed inside the sweeping loop is a true 15 km by 15 km
+square in `EPSG:3035`:
+
+```text
+candidate search area = 15 km × 15 km = 225 km²
+```
+
+There is, however, an important reprojection detail in the current code. It
+transforms the winning square to latitude and longitude, takes the transformed
+polygon's axis-aligned bounds, and returns only those four bounds. The next
+cell constructs a new latitude/longitude rectangle from the bounds. Because a
+projected square becomes slightly rotated relative to longitude and latitude,
+its bounding rectangle is larger than the original square.
+
+For the currently printed coordinates:
+
+```python
+{
+    "top_left": (48.091857248903636, 36.54101593838309),
+    "bottom_right": (47.91895293351347, 36.80103457484069),
+}
+```
+
+the returned rectangle is approximately 19.4 km wide by 19.2 km high, or
+373 km². Thus:
+
+- the hotspot ranking used a 225 km² candidate square;
+- the later local time series used an approximately 373 km² bounding
+  rectangle;
+- `gain_km2_in_window`, currently 39.72 km², measured only changed geometry
+  inside the original winning search square;
+- neither 225 km² nor 373 km² should be reported as the amount of land gained.
+
+If the intended time-series mask must remain exactly 225 km², the notebook
+should return the transformed winning polygon itself and clip with that
+polygon, rather than discard it and reconstruct a box from its bounds.
+
+## Interpreting the status table
+
+The table headers mean:
+
+| Header | Meaning in the current notebook |
+| --- | --- |
+| **liberated** | Total km² covered by features whose label contains "liberated" in that snapshot and rectangle |
+| **liberated Δ %** | Percentage change in that total from the preceding stored snapshot |
+| **occupied** | Total km² covered by features classified as occupied in that snapshot and rectangle |
+| **occupied Δ %** | Percentage change in that total from the preceding stored snapshot |
+| **gray** | Total km² covered by unknown/gray features in that snapshot and rectangle |
+| **gray Δ %** | Percentage change in that total from the preceding stored snapshot |
+
+The displayed heading currently says "Square Meters," but the code divides
+each value by `1_000_000`. The status totals are therefore square
+**kilometres**, not square metres.
+
+The row in question is:
+
+```text
+            liberated  liberated Δ %  occupied  occupied Δ %  gray  gray Δ %
+2026-08-12        127        1714.2857        97       -43.2749    51   -56.7797
+```
+
+Its preceding stored snapshot, 2026-08-10, contains:
+
+```text
+liberated = 7 km², occupied = 171 km², gray = 118 km²
+```
+
+The absolute differences are therefore:
+
+```text
+liberated: 127 -   7 = +120 km²
+occupied:   97 - 171 =  -74 km²
+gray:       51 - 118 =  -67 km²
+```
+
+The percentage calculations are mathematically consistent with those
+integer totals:
+
+```text
+liberated: 120 /   7 × 100 = +1714.2857%
+occupied:  -74 / 171 × 100 =   -43.2749%
+gray:      -67 / 118 × 100 =   -56.7797%
+```
+
+The 1714% value looks extraordinary mainly because the earlier liberated
+denominator is only 7 km². For a land-change report, the absolute transition
+area in km² is more interpretable than a percentage calculated from a small
+category total.
+
+The current calculation also applies `int()` separately to every status
+total. That truncates fractional square kilometres before the differences and
+percentages are calculated. Future calculations should retain floating-point
+areas internally and round only the displayed result.
+
+### Why `liberated + occupied + gray` is not net land reclaimed
+
+Adding the three values in one row gives the area covered by those three
+published layers, subject to possible overlaps and truncation. It does not
+give a direction of change:
+
+```text
+2026-08-10 covered total =   7 + 171 + 118 = 296 km²
+2026-08-12 covered total = 127 +  97 +  51 = 275 km²
+difference                                    -21 km²
+```
+
+If the three categories were mutually exclusive and completely covered a
+fixed rectangle, their total would remain constant. Here it falls by 21 km².
+That is evidence that the table is not a conserved land-accounting system.
+Possible causes include unclassified space, gaps or overlaps between source
+layers, boundary revisions, the larger reconstructed mask, and independent
+integer truncation.
+
+Nor can the absolute category changes simply be added:
+
+```text
++120 - 74 - 67 = -21 km²
+```
+
+That arithmetic measures the change in the combined area covered by the three
+layers. It does not measure Ukrainian gain or loss. The same square kilometre
+can disappear from one category and appear in another, so the transition of
+that square kilometre must be identified before it can be interpreted.
+
+### Gray must not automatically be counted as a Ukrainian gain
+
+The machine-readable gray status is `geoJSON.status.unknown`. It should be
+treated as contested or unknown for this analysis, not as a synonym for
+Ukrainian control. An increase in gray can indicate increased uncertainty or
+fighting, but its direction depends on the earlier classification:
+
+| Transition | Defensible interpretation |
+| --- | --- |
+| occupied → gray | Russian-occupied classification became contested/unknown; possible Ukrainian progress, but not confirmed reclamation |
+| gray → liberated | Contested/unknown classification became liberated; Ukrainian progress |
+| liberated → gray | Liberated classification became contested/unknown; deterioration or renewed fighting |
+| gray → occupied | Contested/unknown classification became occupied; Russian progress |
+| unclassified → gray | Newly mapped uncertainty/fighting; direction cannot be inferred from these layers alone |
+
+Therefore, `gray +10 km²` is not inherently a gain. It could be favorable if
+that land was previously occupied, unfavorable if it was previously
+liberated, or indeterminate if it was previously unclassified. The earlier
+status is essential.
+
+## Recommended calculation for land reclaimed and land lost
+
+A defensible calculation should compare the same coordinates at two dates and
+measure explicit transitions. It should not infer transitions from differences
+between three aggregate columns.
+
+For two snapshots, first create unioned status footprints:
+
+```python
+O0 = occupied_before
+G0 = gray_before
+L0 = liberated_before
+
+O1 = occupied_after
+G1 = gray_after
+L1 = liberated_after
+```
+
+Then calculate the transition geometries with spatial intersections. The most
+conservative confirmed measures are:
+
+```python
+confirmed_reclaimed = O0.intersection(L1)
+confirmed_re_lost = L0.intersection(O1)
+
+reclaimed_km2 = confirmed_reclaimed.area / 1_000_000
+lost_km2 = confirmed_re_lost.area / 1_000_000
+net_confirmed_km2 = reclaimed_km2 - lost_km2
+```
+
+The result can be reported as:
+
+```text
+confirmed land reclaimed = occupied → liberated
+confirmed land re-lost   = liberated → occupied
+net confirmed change     = reclaimed - re-lost
+```
+
+The name `confirmed_re_lost` is deliberate. Because the DeepState liberated
+layer does not represent every part of ordinary Ukrainian-controlled Ukraine,
+`L0 ∩ O1` can detect land lost after appearing in the liberated layer, but it
+cannot detect every Russian advance into previously Ukrainian-controlled land.
+
+A useful additional Russian-expansion measure is:
+
+```python
+newly_occupied = O1.difference(O0)
+newly_occupied_km2 = newly_occupied.area / 1_000_000
+```
+
+This reports additions to the published occupied footprint. Without a
+wall-to-wall baseline control layer, however, it cannot always determine
+whether that addition came from Ukrainian-controlled, gray, or previously
+unclassified territory. It should therefore be called "newly mapped
+occupied" rather than automatically called "Ukrainian land lost."
+
+### Keep gray transitions as separate evidence
+
+Instead of forcing gray into a net land-control number, report four directional
+indicators alongside the confirmed metric:
+
+```python
+occupied_to_gray = O0.intersection(G1)
+gray_to_liberated = G0.intersection(L1)
+liberated_to_gray = L0.intersection(G1)
+gray_to_occupied = G0.intersection(O1)
+```
+
+They can be grouped descriptively as:
+
+```text
+possible Ukrainian progress = occupied → gray
+additional Ukrainian progress = gray → liberated
+possible Ukrainian deterioration = liberated → gray
+additional Russian progress = gray → occupied
+```
+
+These should remain separate from confirmed reclaimed/lost land because gray
+means unknown/contested. If a single experimental "momentum" score is later
+desired, weights could be assigned to these intermediate transitions, but
+that would be an analytical assumption rather than a measured land area. Such
+a score should never be labeled square kilometres reclaimed.
+
+### Build a complete transition matrix
+
+The best diagnostic output is a matrix whose rows are baseline states and
+whose columns are latest states:
+
+| Baseline → latest | Liberated | Gray | Occupied | Unclassified |
+| --- | ---: | ---: | ---: | ---: |
+| Liberated | unchanged liberated | renewed uncertainty | re-lost | no longer in a status layer |
+| Gray | progress | unchanged gray | Russian progress | no longer in a status layer |
+| Occupied | confirmed reclaimed | possible progress | unchanged occupied | no longer in a status layer |
+| Unclassified | newly mapped liberated | newly mapped gray | newly mapped occupied | unchanged unclassified |
+
+Each cell is calculated as the area of the intersection between one baseline
+state and one latest state. The `Unclassified` state is the part of a fixed
+analysis mask not covered by any of the three status footprints. Including it
+explains area that otherwise appears or disappears from the three-column
+table.
+
+Before constructing this matrix, the code must also check whether liberated,
+gray, and occupied footprints overlap within a snapshot. If they overlap, it
+must either resolve them using a documented precedence rule or report the
+overlap separately. Every coordinate must belong to exactly one state for the
+matrix totals to conserve area.
+
+The row shown above cannot by itself justify saying that 120 km² was reclaimed.
+It establishes that the liberated layer total increased by approximately
+120 km² after integer truncation. The existing hotspot overlay separately
+establishes 39.72 km² of `occupied_before ∩ liberated_latest` inside the
+original winning search window. A transition matrix over one fixed mask and
+the same two dates is required to explain the rest and produce a sound net
+number.
+
+## Label displayed beside the hotspot boundary
+
+The interactive map places a white, yellow-bordered label immediately above
+the yellow analysis boundary. It uses the same baseline date, latest date, and
+winning search window as the hotspot calculation. Its content has this form:
+
+```text
+DeepState status change · 04 Aug 2026–13 Aug 2026
+UA confirmed reclaimed: 39.72 km²
+RU newly mapped occupied: <calculated value> km²
+Walker Rowe analysis · AI-enhanced
+```
+
+The Ukrainian number is labeled **confirmed reclaimed** only when its geometry
+is `occupied_before.intersection(liberated_latest)`. If the selector has to use
+the less-specific `liberated_latest.difference(liberated_before)` fallback,
+the map automatically changes the wording to **newly mapped liberated**.
+
+The Russian-side value is calculated in the same winning search window as:
+
+```python
+newly_occupied = occupied_latest.difference(occupied_before)
+```
+
+It is deliberately labeled **newly mapped occupied**, not "Russia captured,"
+because the DeepState layers do not provide a complete baseline polygon for
+all Ukrainian-controlled land. The label reports two separately measured
+directions and does not subtract them into a potentially misleading net value.
+
+The label also gives visible credit for the source and analysis: DeepState is
+named as the status-data source, and the footer identifies this as a Walker
+Rowe analysis enhanced with AI tools.
