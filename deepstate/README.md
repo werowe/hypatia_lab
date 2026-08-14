@@ -7,7 +7,8 @@ occupied, contested, and liberated areas change over time.
 ## Data source and authorship
 
 - **Data source:** Battlefield geometries, classifications, labels, and
-  snapshot times come from [DeepStateMap.Live](https://deepstatemap.live/).
+  snapshot times come from
+  [DeepStateMap.Live](https://deepstatemap.live/en#6/49.4383200/32.0526800).
   DeepState is the source of the underlying map data; this project does not
   create or independently verify those battlefield observations.
 - **Concepts and code:** The analytical concepts, project design, and most of
@@ -35,7 +36,8 @@ author and the underlying data source:
 ```text
 Rowe, Walker (2026). DeepState Battlefield Change Analysis.
 https://github.com/werowe/hypatia_lab/tree/main/deepstate
-Data source: DeepStateMap.Live, https://deepstatemap.live/
+Data source: DeepStateMap.Live,
+https://deepstatemap.live/en#6/49.4383200/32.0526800
 AI tools were used to enhance the code and documentation.
 ```
 

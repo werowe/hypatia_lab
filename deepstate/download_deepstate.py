@@ -1,7 +1,8 @@
 """Download and store a DeepState battlefield-map snapshot.
 
 Copyright (c) 2026 Walker Rowe. SPDX-License-Identifier: MIT.
-Data source: DeepStateMap.Live (https://deepstatemap.live/).
+Data source: DeepStateMap.Live
+(https://deepstatemap.live/en#6/49.4383200/32.0526800).
 Concepts, project design, and most code: Walker Rowe.
 AI tools were used to review, debug, document, and enhance the code.
 

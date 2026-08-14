@@ -1,6 +1,7 @@
 [project]
 name = "deepstate"
 version = "0.1.0"
+description = "Walker Rowe analysis using battlefield data from DeepStateMap.Live"
 requires-python = ">=3.14"
 dependencies = [
     "geopandas",
@@ -12,3 +13,6 @@ dependencies = [
     "python-dotenv",
     "shapely",
 ]
+
+[project.urls]
+"Data Source: DeepStateMap.Live" = "https://deepstatemap.live/en#6/49.4383200/32.0526800"
