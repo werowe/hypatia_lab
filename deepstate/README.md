@@ -343,3 +343,203 @@ interactive display. The historical time series comes from MongoDB.
 | `geodata/` | Ukraine administrative boundary data |
 | `add_missing_hash.py` | Legacy hash migration; review before use |
 
+## Detailed explanation: how polygon overlays and the sweeping window find change
+
+It is reasonable to ask how the notebook can locate a battlefield change when
+there is no table of changes inside a DeepState polygon. The short answer is
+that it does **not** infer a change by subdividing one polygon or by assuming
+that some unknown part of it changed. It compares the spatial footprints in
+two complete, dated map snapshots. The change is encoded by the difference
+between their boundaries and status layers.
+
+### What information a polygon actually contains
+
+A GeoJSON battlefield feature supplies two different kinds of information:
+
+1. Its `geometry.coordinates` define the exact footprint covered by the
+   feature. Every point inside that boundary belongs to the feature for the
+   purposes of the map.
+2. Its `properties.name` identifies the DeepState layer, such as occupied,
+   unknown, or liberated.
+
+The polygon does not need to contain a separate record for every square metre.
+In vector GIS, the boundary plus the layer classification is the information.
+For example, an occupied polygon in Monday's snapshot states that its entire
+mapped footprint was in the occupied layer on Monday. A liberated polygon in
+the following Monday's snapshot states that its entire mapped footprint was in
+the liberated layer on that later date.
+
+This is categorical map information, not evidence about events inside the
+polygon. It does not say when troops moved through each point, how the change
+happened, or whether every location was surveyed independently. The notebook
+can measure a change in DeepState's published classification; it cannot derive
+more detailed battlefield facts than the source geometry contains.
+
+### The source polygons are not the analysis units
+
+The original feature boundaries may be very large, may overlap, and may change
+from one download to another. The notebook first unions all features of a
+given status in each comparison snapshot:
+
+```python
+occupied_before = unary_union(all_baseline_occupied_polygons)
+liberated_latest = unary_union(all_latest_liberated_polygons)
+```
+
+After this union, the identity and size of each original feature no longer
+matter. The result is a single occupied footprint for the baseline and a
+single liberated footprint for the latest date. A source polygon is therefore
+not treated as one indivisible observation, and the code never assigns the
+area of a whole source polygon merely because a small part overlaps.
+
+Shapely's overlay operations can create new boundaries wherever two inputs
+cross. This is sometimes described as splitting or subdividing polygons, but
+it is a calculated geometric overlay, not a claim that the source supplied
+attributes for hidden sub-polygons. Each output piece inherits its meaning
+from the explicit spatial question used to construct it.
+
+### How the changed geometry is constructed
+
+The preferred calculation is:
+
+```python
+gain = occupied_before.intersection(liberated_latest)
+```
+
+For every coordinate in the result, both of these statements are true:
+
+- the coordinate lies inside the occupied footprint at the baseline date;
+- the same coordinate lies inside the liberated footprint at the latest date.
+
+The intersection is therefore the area whose published classification matches
+an occupied-to-liberated transition. This logical test can be written as:
+
+```text
+gain(x, y) = occupied_at_baseline(x, y)
+             AND liberated_at_latest(x, y)
+```
+
+No regular grid is used to estimate this shape. GEOS, the geometry engine used
+by Shapely, calculates the intersections of the polygon edges and constructs
+the exact vector pieces enclosed by the appropriate edges. Within normal
+floating-point and source-coordinate precision, the resulting area follows
+the input boundaries rather than a pixel or cell approximation.
+
+Imagine that the baseline occupied footprint is a 100 km² polygon. In the
+latest snapshot, a 2 km² liberated polygon overlaps one corner of it. The
+intersection is only that 2 km² corner. The other 98 km² is not counted. It
+does not matter whether the original occupied footprint was stored as one
+100 km² polygon, ten 10 km² polygons, or a MultiPolygon: union followed by
+intersection produces the same changed footprint when the covered geometry is
+the same.
+
+If the DeepState occupied and liberated layers do not overlap cleanly enough
+to produce a confirmed transition above `MIN_GAIN_KM2`, the notebook uses:
+
+```python
+gain = liberated_latest.difference(liberated_before)
+```
+
+This second expression means "inside the latest liberated footprint but not
+inside the earlier liberated footprint." It detects an addition to the
+liberated layer even when the earlier occupied layer does not geometrically
+cover it. This fallback is less specific: it proves a change in the published
+liberated layer, but not by itself an occupied-to-liberated transition.
+
+### The sweeping window does not create or detect the gain
+
+The `gain` geometry is completely calculated **before** the sweeping-window
+loop begins. The window's only job is to answer a different question:
+
+> Which compact 15 km by 15 km viewing area contains the largest amount of the
+> already calculated gain geometry?
+
+The code moves the center of a square candidate window in 5 km steps across
+the bounding box of `gain`. Because `AREA_CRS` is `EPSG:3035`, these distances
+are metres in an equal-area projected coordinate system, rather than degrees
+of longitude and latitude.
+
+For each candidate square, the notebook first performs a fast intersection
+test. Candidates that do not touch `gain` are skipped. For every candidate
+that does touch it, the score is:
+
+```python
+changed_m2 = gain.intersection(candidate).area
+```
+
+This operation clips the irregular gain geometry at the square boundary and
+measures only the clipped gain pieces. It does not count the 225 km² area of
+the whole 15 km by 15 km square. A window containing 1.7 km² of gain receives
+a score of 1.7 km², even though most of that window may contain unchanged
+territory or no DeepState battlefield layer at all.
+
+The window with the greatest score becomes `area`. Its rectangle is then used
+by later notebook cells to make a local historical time series and map. Thus
+there are two separate outputs that should not be confused:
+
+- `gain` is the irregular polygon or MultiPolygon representing change between
+  the two selected snapshots;
+- `area` is a convenient rectangular region around the strongest
+  concentration of that change.
+
+### Why the windows overlap
+
+If the analysis used non-overlapping 15 km grid cells, a single cluster of
+change could fall across a cell boundary. Each of two neighboring cells might
+then contain only half the cluster and lose to a smaller cluster elsewhere.
+Moving a 15 km window in 5 km strides creates overlapping candidates and gives
+the cluster several chances to lie near the middle of a candidate.
+
+The search is still discrete. A 5 km stride does not test every possible
+window center, so the returned square is the best of the tested candidates,
+not a mathematical guarantee of the globally optimal square. Reducing
+`HOTSPOT_STRIDE_KM` makes the location more precise but increases the number of
+intersections and runtime. It does not change the underlying `gain` geometry.
+
+### Worked conceptual example
+
+Suppose the overlay creates three disconnected gain pieces:
+
+```text
+western piece:  0.8 km²
+central piece:  1.1 km²
+eastern piece:  0.6 km²
+```
+
+A western candidate window might contain all 0.8 km² of the western piece and
+0.3 km² of the central piece, for a score of 1.1 km². A central candidate
+might contain all 1.1 km² of the central piece plus 0.5 km² of the western
+piece, for a score of 1.6 km². An eastern candidate might contain 1.4 km² in
+total. The central candidate wins with 1.6 km². The code has not declared all
+225 km² in that window liberated; it has only selected that window because it
+contains 1.6 km² of the separately computed gain.
+
+### What this method can and cannot establish
+
+The method is valid only to the resolution and semantics of the source
+snapshots. In particular:
+
+- It measures changes in DeepState's drawn and classified geometry, not direct
+  observations of troop positions.
+- A boundary correction, delayed map update, layer redesign, or geometry error
+  can appear as a calculated battlefield change.
+- The result has no meaningful spatial precision beyond that of DeepState's
+  coordinates and mapping process, even though Shapely returns a highly precise
+  floating-point number.
+- The comparison assumes that each database date is a complete snapshot with
+  consistent status meanings. Missing features can produce false differences.
+- The fallback `liberated_latest.difference(liberated_before)` identifies newly
+  published liberated geometry, but cannot prove the earlier status of that
+  geometry.
+- A single baseline-to-latest comparison does not reveal the exact time of the
+  transition within the interval.
+- The chosen rectangle identifies the strongest concentration according to
+  window size and stride. It is not a natural battlefield boundary, and other
+  gains outside it are still real parts of the calculated `gain` geometry.
+
+In summary, the polygons contain enough information to make a spatial overlay
+because they specify classified footprints at known snapshot times. The
+overlay derives the locations whose classifications meet the before-and-after
+test. The sweeping window then ranks compact rectangles by how much of that
+derived geometry they contain; it never invents finer battlefield information
+inside an otherwise unclassified polygon.
