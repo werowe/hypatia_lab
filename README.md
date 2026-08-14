@@ -21,6 +21,30 @@ for students ages 13–18.</strong>
 
 <br>
 
+<div align="center">
+
+<h2>📚 Archived Hypatia Academy Course Material</h2>
+
+<p>
+  Before this course moved to C, electronics, Arduino, and computer architecture,
+  Hypatia Academy taught Python, data science, machine learning, databases,
+  algorithms, statistics, and AI.
+</p>
+
+<p>
+  <strong>All of that earlier course material remains available free in the archived repository.</strong>
+</p>
+
+<p>
+  <a href="https://github.com/werowe/HypatiaAcademy">
+    <strong>➡️ Browse the Archived Hypatia Academy Courses</strong>
+  </a>
+</p>
+
+</div>
+
+<hr>
+
 <a href="https://hypatiaacademy.io/">
 <img src="https://img.shields.io/badge/%F0%9F%8C%90%20%20ENROLL%20AT%20HYPATIAACADEMY.IO%20%20%E2%86%92-fb923c?style=for-the-badge&labelColor=0A2540" alt="Enroll at hypatiaacademy.io">
 </a>
