@@ -4,6 +4,8 @@ This project downloads historical battlefield-map snapshots from DeepState,
 stores every snapshot in MongoDB, and uses GeoPandas to calculate how the
 occupied, contested, and liberated areas change over time.
 
+![](https://github.com/werowe/hypatia_lab/blob/main/deepstate/screen.png)
+
 ## Data source and authorship
 
 - **Data source:** Battlefield geometries, classifications, labels, and
