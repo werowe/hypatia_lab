@@ -314,25 +314,18 @@ gray Delta %
 The percentage columns compare consecutive stored snapshots, not necessarily
 consecutive calendar days.
 
-### Sub-kilometre precision warning
+### Sub-kilometre precision
 
 The hotspot detector retains floating-point area and can detect changes down to
 `MIN_GAIN_KM2`.
 
-The later time-series calculation currently applies `int()` to each total:
-
-```python
-int(area_sum / 1_000_000)
-```
-
-That truncates the displayed totals to whole square kilometres. To preserve
-small changes in the CSV and plot, use floating-point values instead:
-
-```python
-area_sum / 1_000_000
-```
-
-and round only when displaying the result.
+The local time-series calculation (`calculate_snapshot_areas`) previously
+applied `int()` to each total before it was stored, truncating whole square
+kilometres out of every value before `pct_change()` ran on it. That distorted
+percentages whenever a truncated baseline happened to be small (see the
+worked example in "Interpreting the status table" below). This has been
+fixed: totals are kept as floats throughout `final_df`, and only the printed
+table is rounded, with `final_df.round(4)`.
 
 ## Plot and map outputs
 
@@ -636,7 +629,7 @@ search starts across all available battlefield geometry. It does not mean
 that every square kilometre inside Ukraine's national boundary has been
 classified as liberated, occupied, or gray.
 
-### The search square and returned time-series rectangle are currently different sizes
+### The search square and the local time-series clip now match
 
 Every candidate constructed inside the sweeping loop is a true 15 km by 15 km
 square in `EPSG:3035`:
@@ -645,35 +638,42 @@ square in `EPSG:3035`:
 candidate search area = 15 km × 15 km = 225 km²
 ```
 
-There is, however, an important reprojection detail in the current code. It
-transforms the winning square to latitude and longitude, takes the transformed
-polygon's axis-aligned bounds, and returns only those four bounds. The next
-cell constructs a new latitude/longitude rectangle from the bounds. Because a
-projected square becomes slightly rotated relative to longitude and latitude,
-its bounding rectangle is larger than the original square.
+Earlier versions of this notebook transformed the winning square to
+latitude/longitude, kept only its axis-aligned bounding-box corners, and
+discarded the square itself. The clip cell then rebuilt a *box* from those
+corners. Because a projected square becomes slightly rotated relative to
+longitude and latitude, that rebuilt box was measurably larger than the
+original square -- about 373 km² instead of 225 km² for one observed window
+-- so the local table, plot, and `gain_km2_in_window` were silently being
+measured over two different footprints.
 
-For the currently printed coordinates:
+This has been fixed. `select_weekly_ukrainian_hotspot()` now returns the
+transformed winning polygon itself as `area["search_polygon"]`, alongside the
+bounding box:
 
 ```python
-{
-    "top_left": (48.091857248903636, 36.54101593838309),
-    "bottom_right": (47.91895293351347, 36.80103457484069),
+selected_area = {
+    "top_left": (max_lat, min_lon),      # bbox corner -- map rectangle and
+    "bottom_right": (min_lat, max_lon),  # the "NW ... SE ..." label only
+    "search_polygon": best_window_ll,    # exact square -- clip against this
 }
 ```
 
-the returned rectangle is approximately 19.4 km wide by 19.2 km high, or
-373 km². Thus:
+and the clip cell masks against `area["search_polygon"]` directly instead of
+reconstructing a box:
 
-- the hotspot ranking used a 225 km² candidate square;
-- the later local time series used an approximately 373 km² bounding
-  rectangle;
-- `gain_km2_in_window`, currently 39.72 km², measured only changed geometry
-  inside the original winning search square;
-- neither 225 km² nor 373 km² should be reported as the amount of land gained.
+```python
+mask = area["search_polygon"]
+gdf_area = gdf_historical.clip(mask)
+```
 
-If the intended time-series mask must remain exactly 225 km², the notebook
-should return the transformed winning polygon itself and clip with that
-polygon, rather than discard it and reconstruct a box from its bounds.
+The lat/lon bounding box (`top_left`/`bottom_right`) is still used for the
+map's yellow rectangle and the "NW ... SE ..." boundary label -- `ipyleaflet
+.Rectangle` can only draw an axis-aligned box, and the label is meant to be a
+simple readable bound -- but it no longer decides which historical features
+feed the table, plot, or category totals. Those now cover the same ~225 km²
+that the hotspot search scored, so `gain_km2_in_window` and the local table's
+totals are directly comparable.
 
 ## Interpreting the status table
 
@@ -692,75 +692,79 @@ The displayed heading currently says "Square Meters," but the code divides
 each value by `1_000_000`. The status totals are therefore square
 **kilometres**, not square metres.
 
-The row in question is:
+The row in question, captured 2026-08-14 after the float-precision and
+window-size fixes described above, is:
 
 ```text
-            liberated  liberated Δ %  occupied  occupied Δ %  gray  gray Δ %
-2026-08-12        127        1714.2857        97       -43.2749    51   -56.7797
+            liberated  liberated Δ %  occupied  occupied Δ %     gray  gray Δ %
+2026-08-12    92.2453      4791.2893   43.5409      -61.2241  28.7995  -59.4976
 ```
 
 Its preceding stored snapshot, 2026-08-10, contains:
 
 ```text
-liberated = 7 km², occupied = 171 km², gray = 118 km²
+liberated = 1.8859 km², occupied = 112.2887 km², gray = 71.1055 km²
 ```
 
 The absolute differences are therefore:
 
 ```text
-liberated: 127 -   7 = +120 km²
-occupied:   97 - 171 =  -74 km²
-gray:       51 - 118 =  -67 km²
+liberated: 92.2453 -   1.8859 = +90.3594 km²
+occupied:  43.5409 - 112.2887 = -68.7478 km²
+gray:      28.7995 -  71.1055 = -42.3060 km²
 ```
 
 The percentage calculations are mathematically consistent with those
-integer totals:
+floating-point totals:
 
 ```text
-liberated: 120 /   7 × 100 = +1714.2857%
-occupied:  -74 / 171 × 100 =   -43.2749%
-gray:      -67 / 118 × 100 =   -56.7797%
+liberated: 90.3594 /   1.8859 × 100 = +4791.2893%
+occupied: -68.7478 / 112.2887 × 100 =   -61.2241%
+gray:     -42.3060 /  71.1055 × 100 =   -59.4976%
 ```
 
-The 1714% value looks extraordinary mainly because the earlier liberated
-denominator is only 7 km². For a land-change report, the absolute transition
-area in km² is more interpretable than a percentage calculated from a small
-category total.
+The 4791% value looks extraordinary mainly because the earlier liberated
+denominator, 1.8859 km², is small relative to the change. For a land-change
+report, the absolute transition area in km² is more interpretable than a
+percentage calculated from a small category total.
 
-The current calculation also applies `int()` separately to every status
-total. That truncates fractional square kilometres before the differences and
-percentages are calculated. Future calculations should retain floating-point
-areas internally and round only the displayed result.
+Category totals are now kept as floats throughout (see "Sub-kilometre
+precision" above), so these percentages are the true ratios, not the result
+of rounding each total to a whole square kilometre before the difference was
+taken.
 
 ### Why `liberated + occupied + gray` is not net land reclaimed
 
 Adding the three values in one row gives the area covered by those three
-published layers, subject to possible overlaps and truncation. It does not
-give a direction of change:
+published layers, subject to possible overlaps. It does not give a direction
+of change:
 
 ```text
-2026-08-10 covered total =   7 + 171 + 118 = 296 km²
-2026-08-12 covered total = 127 +  97 +  51 = 275 km²
-difference                                    -21 km²
+2026-08-10 covered total =   1.8859 + 112.2887 +  71.1055 = 185.2801 km²
+2026-08-12 covered total =  92.2453 +  43.5409 +  28.7995 = 164.5857 km²
+difference                                                  -20.6944 km²
 ```
 
 If the three categories were mutually exclusive and completely covered a
-fixed rectangle, their total would remain constant. Here it falls by 21 km².
-That is evidence that the table is not a conserved land-accounting system.
-Possible causes include unclassified space, gaps or overlaps between source
-layers, boundary revisions, the larger reconstructed mask, and independent
-integer truncation.
+fixed rectangle, their total would remain constant. Here it falls by about
+20.7 km². That is evidence that the table is not a conserved land-accounting
+system. Possible causes include unclassified space and gaps or overlaps
+between source layers -- not truncation, which has been eliminated.
 
 Nor can the absolute category changes simply be added:
 
 ```text
-+120 - 74 - 67 = -21 km²
++90.3594 - 68.7478 - 42.3060 = -20.6944 km²
 ```
 
 That arithmetic measures the change in the combined area covered by the three
 layers. It does not measure Ukrainian gain or loss. The same square kilometre
 can disappear from one category and appear in another, so the transition of
-that square kilometre must be identified before it can be interpreted.
+that square kilometre must be identified before it can be interpreted -- which
+is exactly what `occupied_to_gray_km2_in_window` and
+`russian_control_rollback_km2_in_window` now do for the occupied→gray and
+occupied→(gray or liberated) transitions (see "What is implemented today"
+below).
 
 ### Gray must not automatically be counted as a Ukrainian gain
 
@@ -889,13 +893,52 @@ must either resolve them using a documented precedence rule or report the
 overlap separately. Every coordinate must belong to exactly one state for the
 matrix totals to conserve area.
 
-The row shown above cannot by itself justify saying that 120 km² was reclaimed.
-It establishes that the liberated layer total increased by approximately
-120 km² after integer truncation. The existing hotspot overlay separately
-establishes 39.72 km² of `occupied_before ∩ liberated_latest` inside the
-original winning search window. A transition matrix over one fixed mask and
-the same two dates is required to explain the rest and produce a sound net
-number.
+The row shown above cannot by itself justify saying that 90.36 km² was
+reclaimed. It establishes that the liberated layer total increased by about
+90.36 km² inside the ~225 km² search window. The hotspot overlay separately
+establishes 39.72 km² of `occupied_before ∩ liberated_latest`, and
+`occupied_to_gray_km2_in_window` accounts for another 28.77 km² of confirmed
+occupied-outflow into the gray layer -- together 68.49 km²
+(`russian_control_rollback_km2_in_window`) of land that stopped being
+classified occupied. That is still short of the raw 90.36 km² liberated
+increase; the remaining gap is consistent with land entering the liberated
+layer from outside this window's occupied-before footprint (for example
+gray→liberated, or liberated geometry redrawn or expanded by DeepState) --
+exactly what a full transition matrix over one fixed mask and the same two
+dates would resolve.
+
+### What is implemented today
+
+`select_weekly_ukrainian_hotspot()` calculates three of the metrics described
+above, all restricted to the same winning search window and the same
+baseline/latest snapshot pair as `gain`:
+
+| Metric | Formula | Meaning |
+| --- | --- | --- |
+| `gain_km2_in_window` | `O0.intersection(L1)` (or the newly-liberated fallback) | Confirmed reclaimed: occupied → liberated |
+| `occupied_to_gray_km2_in_window` | `O0.intersection(G1)` | Possible Ukrainian progress: occupied → contested/unknown. Never labeled liberated. |
+| `russian_control_rollback_km2_in_window` | `O0.intersection(L1.union(G1))` | Combined occupied-outflow: land that stopped being classified occupied, for any reason |
+
+The rollback figure is deliberately computed as one intersection against the
+*union* of the liberated and gray layers, not as `gain_km2_in_window +
+occupied_to_gray_km2_in_window` added together. Those two totals are only
+guaranteed equal if the liberated and gray source layers never overlap within
+a snapshot; DeepState's polygons are hand-drawn and occasionally do overlap.
+The selector checks this directly:
+
+```python
+additive_check_m2 = best_gain_m2 + occupied_to_gray_m2
+overlap_m2 = additive_check_m2 - russian_control_rollback_m2
+```
+
+and prints a note if the two totals disagree by more than 1 m², so an overlap
+in the source data is surfaced instead of silently absorbed into the number.
+
+The reverse-direction transitions -- `gray → occupied` ("Russian progress")
+and `liberated → occupied` ("re-lost") -- and the full baseline-vs-latest
+transition matrix described above are not implemented yet. They would follow
+the same pattern (intersect the appropriate `_before`/`_latest` unions,
+restrict to `best_window`) and are the natural next step.
 
 ## Label displayed beside the hotspot boundary
 
@@ -906,14 +949,37 @@ winning search window as the hotspot calculation. Its content has this form:
 ```text
 DeepState status change · 04 Aug 2026–13 Aug 2026
 UA confirmed reclaimed: 39.72 km²
-RU newly mapped occupied: <calculated value> km²
+RU control -> contested: 28.77 km²
+Total RU control rollback: 68.49 km²
+RU newly mapped occupied: 0.00 km²
+Boundary: NW 48.09186, 36.54102 · SE 47.91895, 36.80103
 Walker Rowe analysis · AI-enhanced
 ```
+
+The boundary coordinates are generated dynamically from the selected area and
+shown as latitude, longitude rounded to five decimal places. `NW` is the
+northwest/top-left corner of the yellow rectangle, and `SE` is its
+southeast/bottom-right corner. The displayed rounding is for readability; the
+full-precision coordinates remain in the `area` dictionary used by the code.
 
 The Ukrainian number is labeled **confirmed reclaimed** only when its geometry
 is `occupied_before.intersection(liberated_latest)`. If the selector has to use
 the less-specific `liberated_latest.difference(liberated_before)` fallback,
 the map automatically changes the wording to **newly mapped liberated**.
+
+Two lines sit between the Ukrainian and Russian figures, sourced from the
+metrics described in "What is implemented today" above:
+
+- **RU control → contested** (`occupied_to_gray_km2_in_window`) reports
+  occupied land DeepState now classifies as contested/unknown. This is real
+  evidence that Russian control ended there, but it is deliberately not
+  called liberated -- gray means contested/unknown, not confirmed Ukrainian
+  control.
+- **Total RU control rollback** (`russian_control_rollback_km2_in_window`) is
+  the combined occupied-outflow figure (occupied → liberated or gray),
+  computed as `occupied_before.intersection(liberated_latest.union(
+  gray_latest))`, not as the two lines above added together (see the overlap
+  check described above).
 
 The Russian-side value is calculated in the same winning search window as:
 
