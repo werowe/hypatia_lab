@@ -208,6 +208,9 @@ to the final project.
 - [Projects](projects/PROJECTS.md)
 - [Snippets](snippets/SNIPPETS.md)
 
+### Other
+- [DeepState Data Ukraine War Geospatial Analysis](deepstate/README.md)
+
 ---
 
 <div align="center">
