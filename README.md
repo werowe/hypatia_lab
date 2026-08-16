@@ -10,6 +10,14 @@
 
 <h3>CODE. CIRCUITS. CREATE.</h3>
 
+<div class="contact-links">
+  <a href="mailto:werowe@walkerrowe.com">
+    📧 werowe@walkerrowe.com
+  </a>
+  <br>
+</div>
+
+
 <p>
 <strong>Free live classes in C programming and Arduino electronics<br>
 for students ages 13–18.</strong>
