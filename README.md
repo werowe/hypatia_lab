@@ -164,6 +164,7 @@ to the final project.
 * [Logical Or](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or)
 * [Logical AND gate](https://www.tinkercad.com/things/car8xmCvPKY-logical-and)
 * [Shift Register](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led)
+* [How does Arduino turn Voltage into a Number](https://www.tinkercad.com/things/bqHnsq0DNjH-convert-voltage-to-number)
 
 ---
 
