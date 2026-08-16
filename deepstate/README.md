@@ -104,7 +104,7 @@ when constructing occupied geometry.
 
 ## Method development
 
-> Method development: I developed the overall approach for storing DeepState snapshots, measuring territorial changes, and interpreting changes between occupied, gray-zone, and liberated territory. I initially identified areas manually using coordinates. After I asked Claude how to automate searching the battlefield for changes, it suggested scanning the data with a fixed 15 × 15 km sliding window. AI tools were also used to help implement, debug, and document parts of the code.
+> Method development: I developed the overall approach for storing DeepState snapshots, measuring territorial changes, and interpreting changes between occupied, gray-zone, and liberated territory. I initially identified areas manually using coordinates. After I asked Claude how to automate searching the battlefield for changes, it suggested scanning the data with a fixed 15 × 15 km sliding window. Method development: I developed the overall approach for storing DeepState snapshots, measuring territorial changes, and interpreting changes between occupied, gray-zone, and liberated territory. I initially identified areas manually using coordinates. After I asked Claude how to automate searching the battlefield for changes, it suggested scanning the data with a fixed 15 × 15 km sliding window. That was the biggest step forward.  It meant I no longer had to guess at which areas had changed the most over time.  I would walk them.
 
 ## Project workflow
 
