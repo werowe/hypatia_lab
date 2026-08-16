@@ -4,7 +4,7 @@ This document describes an algorithm and approach to automatically find the larg
 
 It downloads historical battlefield map snapshots from DeepState, stores every snapshot in MongoDB, and uses GeoPandas to calculate how occupied, contested, and liberated areas change over time.
 
-The approach is not limited to oblast boundaries but instead works by sliding a 15 km square across Ukraine. It also classifies changes in active battle areas (coded gray) as gains in favor of Ukraine based on the area's previous state.
+The method searches the battlefield using overlapping 15 × 15 km windows, allowing it to detect concentrated changes even when they cross oblast boundaries. It also classifies changes in active battle areas (coded gray) as gains in favor of Ukraine based on the area's previous state.
 
 ## Contact
 
