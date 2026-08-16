@@ -412,6 +412,11 @@ that some unknown part of it changed. It compares the spatial footprints in
 two complete, dated map snapshots. The change is encoded by the difference
 between their boundaries and status layers.
 
+- [Slide Deck](https://canva.link/y4rmgpt985pykvv)
+- [Video Explanation](https://www.youtube.com/watch?v=TqFHMRnLgIk)
+
+
+
 ### What information a polygon actually contains
 
 A GeoJSON battlefield feature supplies two different kinds of information:
