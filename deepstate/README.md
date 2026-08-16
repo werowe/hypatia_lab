@@ -4,6 +4,17 @@ This project downloads historical battlefield-map snapshots from DeepState,
 stores every snapshot in MongoDB, and uses GeoPandas to calculate how the
 occupied, contested, and liberated areas change over time.
 
+<div class="contact-links">
+  <a href="mailto:werowe@walkerrowe.com">
+    📧 werowe@walkerrowe.com
+  </a>
+  <br>
+  <a href="[https://github.com/werowe](https://www.youtube.com/watch?v=TqFHMRnLgIk)" target="_blank" rel="noopener noreferrer">
+    YouTube Video Explained
+  </a>
+</div>
+
+
 ![](https://github.com/werowe/hypatia_lab/blob/main/deepstate/screen.png)
 
 ## Data source and authorship
