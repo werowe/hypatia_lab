@@ -7,7 +7,7 @@ occupied, contested, and liberated areas change over time.
 ## Contact
 
 - 📧 [werowe@walkerrowe.com](mailto:werowe@walkerrowe.com)  
-- 💻 [Analysis on Youtube ](https://github.com/werowe)
+- 💻 [Analysis on Youtube ](https://www.youtube.com/watch?v=TqFHMRnLgIk)
 
 
 ![](https://github.com/werowe/hypatia_lab/blob/main/deepstate/screen.png)
