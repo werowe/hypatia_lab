@@ -1,8 +1,10 @@
 # DeepState Battlefield Change Analysis
 
-This project downloads historical battlefield-map snapshots from DeepState,
-stores every snapshot in MongoDB, and uses GeoPandas to calculate how the
-occupied, contested, and liberated areas change over time.
+This document describes an algorithm and approach to automatically find the largest, most recent changes in the battle lines in the war in Ukraine and plot them on a map.
+
+It downloads historical battlefield map snapshots from DeepState, stores every snapshot in MongoDB, and uses GeoPandas to calculate how occupied, contested, and liberated areas change over time.
+
+The approach is not limited to oblast boundaries but instead works by sliding a 15 km square across Ukraine. It also classifies changes in active battle areas (coded gray) as gains in favor of Ukraine based on the area's previous state.
 
 ## Contact
 
