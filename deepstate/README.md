@@ -13,7 +13,7 @@ The method searches the battlefield using overlapping 15 × 15 km windows, allow
 - 🏫 [Hypatia Academy School](https://hypatiaacademy.io/)
 
 
-![](https://github.com/werowe/hypatia_lab/blob/main/deepstate/screen.png)
+![](https://raw.githubusercontent.com/werowe/hypatia_lab/main/deepstate/screen.png)
 
 ## Data source and authorship
 
