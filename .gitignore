@@ -26,6 +26,7 @@ obj/
 .vscode/
 
 # DeepState local credentials and development artifacts
+deepstate/add_save_data_feature.ipynb
 deepstate/.env
 deepstate/.env.*
 !deepstate/.env.example

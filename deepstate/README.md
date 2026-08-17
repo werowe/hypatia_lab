@@ -206,6 +206,54 @@ area_name = "Oleksandrivka"
 
 Instead, `select_weekly_ukrainian_hotspot()` searches the stored snapshots.
 
+### Plain-language summary
+
+The function answers one question: **where on the map did Ukraine gain the most
+ground this week, and where exactly is that?**
+
+It works in two distinct phases.
+
+**Phase 1 — compute the gain geometry.**  
+The function takes two complete battlefield snapshots: the *latest* one in the
+database and a *baseline* one at least seven days earlier. It merges all occupied
+polygons from the baseline into a single shape and all liberated polygons from
+the latest snapshot into another. The gain is then the area that satisfies both
+conditions at once — occupied before *and* liberated now:
+
+```python
+gain = occupied_before.intersection(liberated_latest)
+```
+
+If those two layers do not overlap cleanly (the intersection is below
+0.01 km²), it falls back to "anything newly classified as liberated since the
+baseline." Either way, `gain` is a single (possibly multi-part) polygon covering
+every location where Ukraine gained ground anywhere in the country.
+
+**Phase 2 — find the densest pocket with a sliding window.**  
+Rather than simply reporting the total gain, the function locates the single
+*compact* place where the gain is most concentrated. It builds a grid of
+candidate window centres spaced **5 km apart** across the entire bounding box of
+`gain`. For each centre it draws a **15 × 15 km square** and scores it by
+computing the exact area of `gain` that falls inside that square:
+
+```python
+changed_m2 = gain.intersection(candidate).area
+```
+
+The square with the highest score wins and becomes the analysis region returned
+to the notebook.
+
+**Why the windows overlap.**  
+The stride (5 km) is smaller than the window (15 km), so adjacent candidates
+share 10 km of overlap. This prevents a tight cluster of gains from being split
+across two grid cells and losing to a smaller cluster elsewhere. Every cluster
+gets several chances to sit near the centre of a candidate window.
+
+The loop is the "walking" you see in the code: it is simply two nested
+`for` loops stepping left-to-right and bottom-to-top across the bounding box of
+`gain`. There is no explicit "next hotspot" step — the function returns exactly
+one winner, the square that captured the most gained area.
+
 ### 1. Choose comparison dates
 
 The newest available snapshot is selected as `latest_date`. The baseline is the
@@ -712,10 +760,6 @@ The table headers mean:
 | **gray** | Total km² covered by unknown/gray features in that snapshot and rectangle |
 | **gray Δ %** | Percentage change in that total from the preceding stored snapshot |
 
-The displayed heading currently says "Square Meters," but the code divides
-each value by `1_000_000`. The status totals are therefore square
-**kilometres**, not square metres.
-
 The row in question is:
 
 ```text
@@ -786,25 +830,43 @@ layers. It does not measure Ukrainian gain or loss. The same square kilometre
 can disappear from one category and appear in another, so the transition of
 that square kilometre must be identified before it can be interpreted.
 
-### Gray must not automatically be counted as a Ukrainian gain
+### Using occupied → gray as a Ukrainian pressure indicator
 
-The machine-readable gray status is `geoJSON.status.unknown`. It should be
-treated as contested or unknown for this analysis, not as a synonym for
-Ukrainian control. An increase in gray can indicate increased uncertainty or
-fighting, but its direction depends on the earlier classification:
+Not all gray transitions carry the same meaning. The direction of a gray
+change depends entirely on what the area was classified as before:
 
 | Transition | Defensible interpretation |
 | --- | --- |
-| occupied → gray | Russian-occupied classification became contested/unknown; possible Ukrainian progress, but not confirmed reclamation |
+| occupied → gray | Russian-occupied classification became contested/unknown; possible Ukrainian progress |
 | gray → liberated | Contested/unknown classification became liberated; Ukrainian progress |
 | liberated → gray | Liberated classification became contested/unknown; deterioration or renewed fighting |
 | gray → occupied | Contested/unknown classification became occupied; Russian progress |
 | unclassified → gray | Newly mapped uncertainty/fighting; direction cannot be inferred from these layers alone |
 
-Therefore, `gray +10 km²` is not inherently a gain. It could be favorable if
-that land was previously occupied, unfavorable if it was previously
-liberated, or indeterminate if it was previously unclassified. The earlier
-status is essential.
+The chart in this notebook replaces the simple "change in Russian-occupied
+area" metric with `occupied → gray`: the area that was classified as
+Russian-occupied in the baseline but has since become contested or unknown.
+The reasoning is that when DeepState reclassifies a previously occupied area
+as gray, it typically means fighting has reached that area and Russian control
+is no longer clear-cut. This is the earliest measurable signal that Ukraine
+may be contesting ground that was firmly in Russian hands.
+
+```python
+occupied_to_gray = occupied_before.intersection(gray_latest)
+```
+
+This is deliberately labeled a **pressure indicator** rather than confirmed
+reclamation. The area has not yet appeared in the liberated layer. It could
+still return to occupied status. But as a leading signal — land Russia held
+that is now contested — it is more informative than a raw decrease in the
+occupied total, which can also shrink due to map corrections or features
+moving to the liberated layer directly.
+
+A raw `gray +10 km²` aggregate is still not inherently a gain: it could be
+favorable (formerly occupied), unfavorable (formerly liberated), or
+indeterminate (previously unclassified). The `occupied → gray` intersection
+isolates only the favorable direction and is therefore the metric shown on
+the chart.
 
 ## Recommended calculation for land reclaimed and land lost
 
