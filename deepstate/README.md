@@ -102,7 +102,7 @@ The important DeepState status keys are:
 | Liberated layer | Territory marked liberated | `geoJSON.status.dismissed` |
 
 The analysis also recognizes the static Crimea and CADR/CALR territory layers
-when constructing occupied geometry.
+when constructing occupied geometry/
 
 ## Method development
 
