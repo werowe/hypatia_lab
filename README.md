@@ -173,6 +173,7 @@ to the final project.
 * [Logical AND gate](https://www.tinkercad.com/things/car8xmCvPKY-logical-and)
 * [Shift Register](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led)
 * [How does Arduino turn Voltage into a Number](https://www.tinkercad.com/things/bqHnsq0DNjH-convert-voltage-to-number)
+* [Two-Transistor Resistor-Transistor Logic RTL NAND Gate](https://everycircuit.com/circuit/4612312401051648/two-transistor-resistor-transistor-logic-rtl-nand-gate)
 
 ---
 
