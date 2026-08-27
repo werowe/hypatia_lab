@@ -72,6 +72,10 @@ name, the notebook first searches the whole battlefield for the strongest
 recent Ukrainian gain and then creates a compact local time series around that
 hotspot.
 
+See [`deepstatemap_polygons.md`](deepstatemap_polygons.md) for details about
+the DeepState polygon layers used by the analysis. See the
+[DeepState polygon map notebook](deepstatemap_map.ipynb) for a plot.
+
 ## What the DeepState download contains
 
 The downloader requests:
@@ -417,14 +421,40 @@ interactive display. The historical time series comes from MongoDB.
 
 ## Running the analysis
 
+Open `time_series_whole_country.ipynb` in your IDE, click **Select Kernel**, and
+choose **Python Environments** → `.venv/bin/python` (Python 3.14). Then click
+**Run All** to execute the cells from top to bottom.
+
+You can also launch the notebook in JupyterLab from a terminal:
+
+```bash
+cd /Users/walkerrowe/Documents/hypatia_lab/deepstate
+.venv/bin/python -m jupyter lab time_series_whole_country.ipynb
+```
+
+Run this command from the `deepstate` directory so `python-dotenv` can find the
+project's `.env` file. The notebook requires network access and valid MongoDB
+credentials:
+
+```text
+MONGODB_USER=...
+MONGODB_PWD=...
+CLUSTER=...
+```
+
+Use `.venv/bin/python -m jupyter` rather than `.venv/bin/jupyter` if the latter
+contains a stale interpreter path after the project directory has been moved.
+
+To run the complete workflow:
+
 1. Download a new snapshot:
 
    ```bash
-   cd /home/werowe/Documents/deepstate
-   bash deepstate_download.sh
+   cd /Users/walkerrowe/Documents/hypatia_lab/deepstate
+   .venv/bin/python download_deepstate.py
    ```
 
-2. Open `time_series_whole_country.ipynb` with the `Python (tf)` kernel.
+2. Open `time_series_whole_country.ipynb` with the project's `.venv` kernel.
 
 3. Run the cells from top to bottom.
 
