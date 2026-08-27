@@ -167,7 +167,7 @@ to the final project.
 
 </div>
 
-* [Spreadsheet of Tools and Links](https://docs.google.com/spreadsheets/d/1TU4p7gSJvxujIUDVzQ0pBJUKtsb8-6vvyL58jbAokKI/edit?usp=sharing)
+* [Getting Started:  What Tools we Will Use](TOOLS.md)
 * [Turn on Led](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led)
 * [Using a Transistor as a Switch](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch)
 * [Logical Or](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or)
