@@ -19,7 +19,7 @@ from pymongo import MongoClient
 import hashlib
 from dotenv import load_dotenv
 import os
-
+import certifi
 
 url = "https://deepstatemap.live/api/history/last"
 
@@ -45,8 +45,12 @@ cluster = os.getenv("CLUSTER")
 
 connection_string = f"mongodb+srv://{user}:{pwd}@{cluster}"
 
-client = MongoClient(connection_string)
+#client = MongoClient(connection_string)
 
+client = MongoClient(
+    connection_string,
+    tlsCAFile=certifi.where()
+)
 
 db = client['geodb']
 collection = db['geodata']
