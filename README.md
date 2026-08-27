@@ -176,7 +176,7 @@ to the final project.
 * [How does Arduino turn Voltage into a Number](https://www.tinkercad.com/things/bqHnsq0DNjH-convert-voltage-to-number)
 * [Two-Transistor Resistor-Transistor Logic RTL NAND Gate](https://everycircuit.com/circuit/4612312401051648/two-transistor-resistor-transistor-logic-rtl-nand-gate)
 * [1-Bit Memory Cell with NAND Gates](https://everycircuit.com/circuit/6258825694937088)
-* 
+  
 ---
 
 <div align="center">
