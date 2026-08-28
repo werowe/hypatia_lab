@@ -165,7 +165,7 @@ to the final project.
 
 [Arduino Circuits, Tools, Getting Started](arduino/TOC.md)
 
-
+</div>
 ---
 
 <div align="center">
