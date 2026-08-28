@@ -120,8 +120,7 @@ they are the whole point.
 ### 🔌 Real components
 
 Breadboards, resistors, 2N2222 transistors, 74HC00 NAND
-chips, shift registers. Real parts that get warm and
-occasionally let out smoke.
+chips, shift registers.
 
 </td>
 <td width="50%" valign="top">
