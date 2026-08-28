@@ -106,7 +106,7 @@ electrons did what they did.
 </td>
 <td width="50%" valign="top">
 
-### ⚙️ C, not Python
+### ⚙️ C 
 
 C is the language the hardware actually speaks. Pointers,
 memory, and raw bits are not "advanced topics" here —
@@ -138,25 +138,7 @@ emulator built from nothing but NAND gates.
 
 <br>
 
-### 🎯 The NAND Rule
 
-<table>
-<tr><td align="center">
-
-**Every logic gate in this course is built from NAND gates.**
-
-AND, OR, NOT, XOR — all of them. One primitive, assembled over and over,
-until it becomes a computer. That is the thread that runs from week 1
-to the final project.
-
-</td></tr>
-</table>
-
-<br>
-
-</div>
-
----
 
 <div align="center">
 
