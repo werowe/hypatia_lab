@@ -74,16 +74,11 @@ https://www.youtube.com/watch?v=8W7YjA8kFIY
 
 You can skip the GitHub sections of the video for now if you are not yet using GitHub.
 
-### Windsurf
+### Devin.AI
 
-**Windsurf** can provide AI assistance while you work in VS Code.
+**Devin.AI** can provide AI assistance while you work in VS Code.  Plus it is an LLM chat.  There is a free layer.  
 
-If Windsurf repeatedly asks you to authenticate, install or use the extension command:
-
-`Windsurf: Provide Authentication Token`
-
-You can obtain an authentication token here:  
-https://windsurf.com/show-auth-token
+ 
 
 ---
 
@@ -106,7 +101,7 @@ Possible choices include:
 | **Claude** | Strong programming assistant. Paid plans are available. |
 | **DeepSeek** | Lower-cost AI option. |
 | **Ollama** | Free. Runs AI models locally on your own computer. |
-| **Windsurf** | AI assistance integrated into the coding environment. |
+| **Devin** | AI assistance integrated into the coding environment. |
 
 You do not need all of these. Choose one that works well on your computer and internet connection.
 
