@@ -34,9 +34,11 @@ This is the easiest way to get started.
 **OneCompiler**  
 https://onecompiler.com/c
 
-Use this to write and run small C programs directly in your browser. Nothing needs to be installed.
+Use this to write and run small C programs directly in your browser. Nothing needs to be installed. This is useful when we are learning C concepts that do not require an Arduino board.
 
-This is useful when we are learning C concepts that do not require an Arduino board.
+Only use this if you cannot get Visual Studio installed.  Because this offers no AI support.  Of course you could copy and paste your code into ChatGPT or Claude to help you.
+
+
 
 ### Arduino IDE
 
