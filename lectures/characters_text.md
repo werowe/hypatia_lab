@@ -1,8 +1,8 @@
-# Class 2: Characters and Text
+# Class 2: Characters and Strings in C
 
 In the previous class, we used `int` to store whole numbers.
 
-```cpp
+```c
 int age = 15;
 ```
 
@@ -14,9 +14,9 @@ In this class, we will learn how C stores characters and text.
 
 ## One character
 
-A character is one letter, number, punctuation mark, or symbol.
+A character is one letter, digit, punctuation mark, or symbol.
 
-Examples of characters include:
+Examples include:
 
 ```text
 A
@@ -28,7 +28,7 @@ b
 
 In C, we use the `char` data type to store one character.
 
-```cpp
+```c
 char grade = 'A';
 ```
 
@@ -40,7 +40,7 @@ This creates a variable with:
 
 A single character uses **single quotation marks**:
 
-```cpp
+```c
 'A'
 ```
 
@@ -48,18 +48,24 @@ A single character uses **single quotation marks**:
 
 ## Printing a character
 
-```cpp
-void setup()
-{
-    Serial.begin(9600);
+Create a file named:
 
+```text
+characters.c
+```
+
+Enter this program:
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
     char grade = 'A';
 
-    Serial.println(grade);
-}
+    printf("%c\n", grade);
 
-void loop()
-{
+    return 0;
 }
 ```
 
@@ -69,11 +75,38 @@ The output is:
 A
 ```
 
+The `%c` tells `printf()` to print one character.
+
+---
+
+## Printing text and a character
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char grade = 'A';
+
+    printf("Grade: %c\n", grade);
+
+    return 0;
+}
+```
+
+The output is:
+
+```text
+Grade: A
+```
+
+The `%c` is replaced by the value of `grade`.
+
 ---
 
 ## More character examples
 
-```cpp
+```c
 char firstLetter = 'H';
 char answer = 'Y';
 char symbol = '?';
@@ -82,86 +115,86 @@ char digit = '7';
 
 Each variable stores exactly one character.
 
-Notice that this:
+Notice this example:
 
-```cpp
+```c
 char digit = '7';
 ```
 
-stores the character `'7'`.
+It stores the character `'7'`.
 
 It does not store the integer `7`.
 
-Compare these two variables:
+Compare these variables:
 
-```cpp
+```c
 int number = 7;
 char digit = '7';
 ```
 
-They may look similar when printed, but they contain different types of information.
+The first variable stores a number.
+
+The second variable stores a character.
 
 ---
 
 ## Changing a character
 
-A character variable can change.
+The value of a character variable can change.
 
-```cpp
-void setup()
+```c
+#include <stdio.h>
+
+int main(void)
 {
-    Serial.begin(9600);
-
     char answer = 'N';
 
-    Serial.println(answer);
+    printf("First answer: %c\n", answer);
 
     answer = 'Y';
 
-    Serial.println(answer);
-}
+    printf("Second answer: %c\n", answer);
 
-void loop()
-{
+    return 0;
 }
 ```
 
 The output is:
 
 ```text
-N
-Y
+First answer: N
+Second answer: Y
 ```
 
 ---
 
 ## Words and sentences
 
-A `char` stores only one character.
+A `char` variable stores only one character.
 
 This is correct:
 
-```cpp
+```c
 char letter = 'A';
 ```
 
 This is not correct:
 
-```cpp
+```c
 char name = 'Anna';
 ```
 
 `Anna` contains four characters, not one.
 
-To store several characters, we write:
+To store text, we can write:
 
-```cpp
+```c
 char name[] = "Anna";
 ```
 
-For text, we use **double quotation marks**:
+Text uses **double quotation marks**:
 
-```cpp
+```c
 "Anna"
 ```
 
@@ -171,7 +204,7 @@ For text, we use **double quotation marks**:
 
 This is an important rule:
 
-```cpp
+```c
 char letter = 'A';
 char name[] = "Anna";
 ```
@@ -183,27 +216,35 @@ Use:
 
 Another example:
 
-```cpp
+```c
 char answer = 'Y';
 char message[] = "Yes";
 ```
 
 ---
 
-## Printing text
+## Printing a string
 
-```cpp
-void setup()
+Text stored in C is called a **string**.
+
+Create a file named:
+
+```text
+strings.c
+```
+
+Enter this program:
+
+```c
+#include <stdio.h>
+
+int main(void)
 {
-    Serial.begin(9600);
-
     char name[] = "Anna";
 
-    Serial.println(name);
-}
+    printf("%s\n", name);
 
-void loop()
-{
+    return 0;
 }
 ```
 
@@ -213,33 +254,53 @@ The output is:
 Anna
 ```
 
+The `%s` tells `printf()` to print a string.
+
 ---
 
-## Combining integers and text
+## Printing text before a string
 
-A program can use different data types.
+```c
+#include <stdio.h>
 
-```cpp
-void setup()
+int main(void)
 {
-    Serial.begin(9600);
+    char name[] = "Anna";
 
+    printf("Name: %s\n", name);
+
+    return 0;
+}
+```
+
+The output is:
+
+```text
+Name: Anna
+```
+
+The `%s` is replaced by the text stored in `name`.
+
+---
+
+## Three data types
+
+This program uses integers, characters, and strings:
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
     char studentName[] = "Anna";
     int studentAge = 14;
-    char studentGrade = 'A';
+    char studentGroup = 'A';
 
-    Serial.print("Name: ");
-    Serial.println(studentName);
+    printf("Name: %s\n", studentName);
+    printf("Age: %d\n", studentAge);
+    printf("Group: %c\n", studentGroup);
 
-    Serial.print("Age: ");
-    Serial.println(studentAge);
-
-    Serial.print("Grade: ");
-    Serial.println(studentGrade);
-}
-
-void loop()
-{
+    return 0;
 }
 ```
 
@@ -248,69 +309,70 @@ The output is:
 ```text
 Name: Anna
 Age: 14
-Grade: A
+Group: A
 ```
 
 The program uses three kinds of information:
 
-| Information | Code |
+| Information | Example |
 |---|---|
 | Whole number | `int studentAge = 14;` |
-| One character | `char studentGrade = 'A';` |
+| One character | `char studentGroup = 'A';` |
 | Text | `char studentName[] = "Anna";` |
+
+It also uses three different `printf()` markers:
+
+| Marker | Prints |
+|---|---|
+| `%d` | An integer |
+| `%c` | One character |
+| `%s` | A string |
 
 ---
 
-## Text does not perform arithmetic
+## Numbers and text are different
 
-This stores a number:
+This stores an integer:
 
-```cpp
+```c
 int value = 10;
 ```
 
-We can use it in a calculation:
+It can be used in a calculation:
 
-```cpp
+```c
 value = value + 5;
 ```
 
 This stores text:
 
-```cpp
+```c
 char word[] = "10";
 ```
 
-The characters `"10"` are text. They are not being used as a number.
+The characters `"10"` look like a number, but C treats them as text.
 
 ---
 
 ## Example: Student information
 
-```cpp
-void setup()
-{
-    Serial.begin(9600);
+```c
+#include <stdio.h>
 
+int main(void)
+{
     char name[] = "Danylo";
     int age = 15;
     char group = 'B';
 
-    Serial.println("Student information");
-    Serial.println("-------------------");
+    printf("Student information\n");
+    printf("-------------------\n");
 
-    Serial.print("Name: ");
-    Serial.println(name);
+    printf("Name: %s\n", name);
+    printf("Age: %d\n", age);
+    printf("Group: %c\n", group);
 
-    Serial.print("Age: ");
-    Serial.println(age);
-
-    Serial.print("Group: ");
-    Serial.println(group);
-}
-
-void loop()
-{
+    return 0;
 }
 ```
 
@@ -322,13 +384,15 @@ Change the values so the program prints your information.
 
 Create a character variable named `firstLetter`.
 
-Store the first letter of your name in it and print it.
+Store the first letter of your name and print it.
 
 Example:
 
-```cpp
+```c
 char firstLetter = 'A';
 ```
+
+Use `%c` to print it.
 
 ---
 
@@ -336,13 +400,13 @@ char firstLetter = 'A';
 
 Create a variable named `name` that stores your name.
 
-Print it in the Serial Monitor.
-
 Example:
 
-```cpp
+```c
 char name[] = "Anna";
 ```
+
+Use `%s` to print it.
 
 ---
 
@@ -358,7 +422,7 @@ group
 
 Use:
 
-- Text for the name
+- A string for the name
 - An integer for the age
 - One character for the group
 
@@ -370,7 +434,7 @@ Print all three values.
 
 Which lines are correct?
 
-```cpp
+```c
 char letter = 'B';
 char letter = "B";
 char name[] = "Bohdan";
@@ -384,13 +448,38 @@ Explain why each incorrect line is wrong.
 
 ## Exercise 5
 
-Correct the mistakes in this code:
+Correct the mistakes:
 
-```cpp
+```c
 char grade = "A";
 char studentName = 'Olena';
 int age = "14";
 ```
+
+---
+
+## Exercise 6
+
+Complete the `printf()` instructions:
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char name[] = "Olena";
+    int age = 14;
+    char group = 'B';
+
+    printf("Name: ___\n", name);
+    printf("Age: ___\n", age);
+    printf("Group: ___\n", group);
+
+    return 0;
+}
+```
+
+Replace each blank with `%s`, `%d`, or `%c`.
 
 ---
 
@@ -401,15 +490,18 @@ In this class, we learned:
 - `int` stores a whole number.
 - `char` stores one character.
 - One character uses single quotation marks.
-- Text uses double quotation marks.
-- Several characters can be stored together using `char name[]`.
+- A string stores text.
+- A string uses double quotation marks.
+- `%d` prints an integer.
+- `%c` prints one character.
+- `%s` prints a string.
 
 Examples:
 
-```cpp
+```c
 int age = 15;
 char grade = 'A';
 char name[] = "Anna";
 ```
 
-In the next class, we will look more closely at how C stores text.
+In the next class, we will look inside a string and see how its characters are stored.
