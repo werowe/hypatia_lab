@@ -1,4 +1,4 @@
-# Class 2: Characters and Strings in C
+# Class 2: Characters and Strings 
 
 In the previous class, we used `int` to store whole numbers.
 
