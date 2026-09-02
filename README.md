@@ -111,17 +111,13 @@ for students ages 13–18.</strong>
 
  
 
-## 💻 The C Course
+## 💻 C Classes Lectures
 
-<em>Work through these in order, or jump to what you need.</em>
 
+
+## 💻 C Reference
  
 
-### Getting started
-
-- [Electronics](electronics/ELECTRONICS.md)
-- [Arduino](arduino/ARDUINO.md)
-- [Printing](printing/PRINTING.md)
 
 ### The language
 - [Data Types](misc/DATATYPES.md)
