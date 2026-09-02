@@ -1,0 +1,63 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "C: Create output directory",
+      "type": "shell",
+      "command": "mkdir",
+      "args": [
+        "-p",
+        "${workspaceFolder}/build/${relativeFileDirname}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "C: Build active file",
+      "type": "shell",
+      "command": "/usr/bin/clang",
+      "args": [
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-g",
+        "${file}",
+        "-o",
+        "${workspaceFolder}/build/${relativeFileDirname}/${fileBasenameNoExtension}"
+      ],
+      "dependsOrder": "sequence",
+      "dependsOn": "C: Create output directory",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "clear": true,
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "C: Build and run active file",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/${relativeFileDirname}/${fileBasenameNoExtension}",
+      "dependsOrder": "sequence",
+      "dependsOn": "C: Build active file",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "focus": true,
+        "reveal": "always"
+      }
+    }
+  ]
+}

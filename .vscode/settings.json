@@ -1,0 +1,17 @@
+{
+  "[c]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": true
+  },
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed"
+  ],
+  "files.associations": {
+    "*.h": "c"
+  },
+  "files.exclude": {
+    "**/.DS_Store": true
+  }
+}

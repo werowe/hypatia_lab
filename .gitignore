@@ -22,8 +22,12 @@ obj/
 # macOS
 .DS_Store
 
-# VS Code
-.vscode/
+# VS Code (keep the shared C workspace configuration)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 
 # DeepState local credentials and development artifacts
 deepstate/add_save_data_feature.ipynb
