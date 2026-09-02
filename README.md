@@ -113,7 +113,7 @@ for students ages 13–18.</strong>
 
 ## 💻 C Classes Lectures
 
-- [Integers](integers.md)
+- [Integers](lecture/integers.md)
 
 
 ## 💻 C Reference
