@@ -98,22 +98,13 @@ for students ages 13–18.</strong>
 
  
 
-## 🔌 Ukrainian Language Course Material
-
-<em>All the videos have Ukrainian subtitles and English.  Most of my students are Ukrainian.  Here are some additional docs.</em>
-
- 
-
-* [Wokwi + VS Code + PlatformIO — інструкція українською](https://docs.google.com/document/d/1Mlqmfn-aaX_3CZSn_uE9tV27MHD0D1VcbDzoJqYEsgU/edit?usp=sharing)
-  
-
----
-
  
 
 ## 💻 C Classes Lectures
 
 - [Integers](lecture/integers.md)
+- [Character Arrays](lectures/character_arrays.md)
+- [Characters Text](characters_text.md)
 
 
 ## 💻 C Reference
