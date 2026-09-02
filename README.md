@@ -88,8 +88,9 @@ for students ages 13–18.</strong>
 
 ## 🔌 Arduino Circuits
 
-[Arduino Circuits, Tools, Getting Started](arduino/TOC.md)
-
+[Programing Tools](arduino/TOC.md)
+[Circuits we have Built](arduino/CIRCUITS.md)
+[Arduino Basic Info](arduino/ARDUINO.md)
  
 ---
 
