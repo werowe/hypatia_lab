@@ -99,7 +99,7 @@ for students ages 13–18.</strong>
 
 ## 💻 C Classes Lectures
 
-- [Integers](lecture/integers.md)
+- [Integers](lectures/integers.md)
 - [Characters and Strings](lectures/characters_text.md)
 - [Character Arrays](lectures/character_arrays.md)
 
