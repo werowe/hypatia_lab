@@ -29,14 +29,7 @@ See this spreadsheet for:
 
 This is the easiest way to get started.
 
-### Online C Compiler
 
-**OneCompiler**  
-https://onecompiler.com/c
-
-Use this to write and run small C programs directly in your browser. Nothing needs to be installed. This is useful when we are learning C concepts that do not require an Arduino board.
-
-Only use this if you cannot get Visual Studio installed.  Because this offers no AI support.  Of course you could copy and paste your code into ChatGPT or Claude to help you.
 
 
 
@@ -76,15 +69,12 @@ https://www.youtube.com/watch?v=8W7YjA8kFIY
 
 You can skip the GitHub sections of the video for now if you are not yet using GitHub.
 
-### Devin.AI
-
-**Devin.AI** can provide AI assistance while you work in VS Code.  Plus it is an LLM chat.  There is a free layer.  
-
  
 
 ---
 
 ## AI Tools
+The AI market is changing so rapidly that tools we have recommended have changed their name of pricing often more than once.  If you have ChatGPT or Anthropic Claude paid subscriptions you can use those.  If not use Github Copilot.  It has a free-tier with some limits.  
 
 You should have access to some kind of AI assistant because it can help you:
 
@@ -139,7 +129,7 @@ It is particularly useful when physical hardware is unavailable.
 
 ## GitHub
 
-We may use **GitHub** to store and share code during the course.
+We use **GitHub** to store and share code during the course.
 
 GitHub is useful for:
 
@@ -169,7 +159,7 @@ Use:
 
 - VS Code;
 - PlatformIO;
-- Windsurf or another AI assistant;
+- AI assistant;
 - Wokwi and/or Tinkercad; and
 - GitHub when available.
 
