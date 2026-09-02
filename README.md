@@ -6,9 +6,6 @@
 &nbsp;&nbsp;&nbsp;
 <img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia_lab_logo.jpg" alt="Hypatia Arduino Lab" height="140">
 
-<h1>⚡ HYPATIA ARDUINO LAB ⚡</h1>
-
-<h3>CODE. CIRCUITS. CREATE.</h3>
 
 <div class="contact-links">
   <a href="mailto:werowe@walkerrowe.com">
@@ -104,7 +101,7 @@ for students ages 13–18.</strong>
 
 - [Integers](lecture/integers.md)
 - [Character Arrays](lectures/character_arrays.md)
-- [Characters Text](lectures/characters_text.md)
+- [Characters and Strings](lectures/characters_text.md)
 
 
 ## 💻 C Reference
