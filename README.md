@@ -87,88 +87,35 @@ for students ages 13–18.</strong>
 
 ---
 
-<div align="center">
-
-## 🔬 What This Course Is
-
-</div>
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🧠 Not a tutorial course
-
-You will not copy code off a screen. You build a circuit,
-you break it, you measure it, and you find out **why**
-electrons did what they did.
-
-</td>
-<td width="50%" valign="top">
-
-### ⚙️ C 
-
-C is the language the hardware actually speaks. Pointers,
-memory, and raw bits are not "advanced topics" here —
-they are the whole point.
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🔌 Real components
-
-Breadboards, resistors, 2N2222 transistors, 74HC00 NAND
-chips, shift registers.
-
-</td>
-<td width="50%" valign="top">
-
-### 🏆 One big finish
-
-Everything converges on **NANDINO-4** — a working 4-bit CPU
-emulator built from nothing but NAND gates.
-
-</td>
-</tr>
-</table>
-
-<div align="center">
-
-<br>
-
-
-
-<div align="center">
+ 
 
 ## 🔌 Arduino Circuits
 
 [Arduino Circuits, Tools, Getting Started](arduino/TOC.md)
 
-</div>
+ 
 ---
 
-<div align="center">
+ 
 
 ## 🔌 Ukrainian Language Course Material
 
 <em>All the videos have Ukrainian subtitles and English.  Most of my students are Ukrainian.  Here are some additional docs.</em>
 
-</div>
+ 
 
 * [Wokwi + VS Code + PlatformIO — інструкція українською](https://docs.google.com/document/d/1Mlqmfn-aaX_3CZSn_uE9tV27MHD0D1VcbDzoJqYEsgU/edit?usp=sharing)
   
 
 ---
 
-<div align="center">
+ 
 
 ## 💻 The C Course
 
 <em>Work through these in order, or jump to what you need.</em>
 
-</div>
+ 
 
 ### Getting started
 
