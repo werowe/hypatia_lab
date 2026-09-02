@@ -104,7 +104,7 @@ for students ages 13–18.</strong>
 
 - [Integers](lecture/integers.md)
 - [Character Arrays](lectures/character_arrays.md)
-- [Characters Text](characters_text.md)
+- [Characters Text](lectures/characters_text.md)
 
 
 ## 💻 C Reference
