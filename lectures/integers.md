@@ -1,148 +1,75 @@
-# Class 1: Integers
+# Class 3: Character Arrays
 
-## What is a data type?
-
-A variable stores information.
-
-Every variable has:
-
-1. A name
-2. A value
-3. A data type
-
-The **data type** tells the computer what kind of information the variable stores.
-
-In this class, we will use the `int` data type.
-
----
-
-## Integers
-
-An integer is a whole number.
-
-These are integers:
-
-```text
-0
-4
-17
--3
-100
-```
-
-These are not integers:
-
-```text
-3.5
-7.25
-```
-
-In C, we use `int` to create an integer variable.
+In the previous class, we stored text like this:
 
 ```cpp
-int age = 15;
+char name[] = "Anna";
 ```
 
-This creates a variable with:
-
-- Data type: `int`
-- Name: `age`
-- Value: `15`
+In this class, we will look inside the text and see how the computer stores each character.
 
 ---
 
-## Printing an integer
+## An array stores several values
 
-Upload this program to the Arduino:
+An array is a group of values stored together.
+
+This is a character array:
+
+```cpp
+char name[] = "Anna";
+```
+
+The variable `name` contains several characters.
+
+We can imagine it like this:
+
+| Position | Character |
+|---:|:---:|
+| 0 | A |
+| 1 | n |
+| 2 | n |
+| 3 | a |
+
+Each character has a position.
+
+The first position is `0`, not `1`.
+
+---
+
+## Reading one character
+
+We can use square brackets to select one character.
+
+```cpp
+char name[] = "Anna";
+
+Serial.println(name[0]);
+```
+
+The output is:
+
+```text
+A
+```
+
+This prints the character at position `0`.
+
+---
+
+## Reading every character
 
 ```cpp
 void setup()
 {
     Serial.begin(9600);
 
-    int age = 15;
+    char name[] = "Anna";
 
-    Serial.println(age);
-}
-
-void loop()
-{
-}
-```
-
-Open the Serial Monitor.
-
-You should see:
-
-```text
-15
-```
-
-Notice that we write:
-
-```cpp
-Serial.println(age);
-```
-
-We do not write quotation marks around `age`.
-
-If we wrote:
-
-```cpp
-Serial.println("age");
-```
-
-the Arduino would print the word:
-
-```text
-age
-```
-
----
-
-## Creating several integer variables
-
-A program can contain many variables.
-
-```cpp
-void setup()
-{
-    Serial.begin(9600);
-
-    int students = 16;
-    int computers = 10;
-    int LEDs = 8;
-
-    Serial.println(students);
-    Serial.println(computers);
-    Serial.println(LEDs);
-}
-
-void loop()
-{
-}
-```
-
-Each variable has its own name and value.
-
----
-
-## Changing an integer
-
-The value stored in a variable can change.
-
-```cpp
-void setup()
-{
-    Serial.begin(9600);
-
-    int score = 10;
-
-    Serial.println(score);
-
-    score = 15;
-
-    Serial.println(score);
+    Serial.println(name[0]);
+    Serial.println(name[1]);
+    Serial.println(name[2]);
+    Serial.println(name[3]);
 }
 
 void loop()
@@ -153,36 +80,60 @@ void loop()
 The output is:
 
 ```text
-10
-15
+A
+n
+n
+a
 ```
-
-The line:
-
-```cpp
-score = 15;
-```
-
-replaces the old value with a new value.
-
-We do not write `int` again because the variable already exists.
 
 ---
 
-## Calculations with integers
+## Array positions
 
-The Arduino can calculate using integer variables.
+For the word `"Arduino"`:
+
+```cpp
+char word[] = "Arduino";
+```
+
+the positions are:
+
+| Position | Character |
+|---:|:---:|
+| 0 | A |
+| 1 | r |
+| 2 | d |
+| 3 | u |
+| 4 | i |
+| 5 | n |
+| 6 | o |
+
+Examples:
+
+```cpp
+Serial.println(word[0]);  // A
+Serial.println(word[3]);  // u
+Serial.println(word[6]);  // o
+```
+
+---
+
+## Changing one character
+
+We can change a character stored at a particular position.
 
 ```cpp
 void setup()
 {
     Serial.begin(9600);
 
-    int redLEDs = 3;
-    int greenLEDs = 4;
-    int totalLEDs = redLEDs + greenLEDs;
+    char word[] = "cat";
 
-    Serial.println(totalLEDs);
+    Serial.println(word);
+
+    word[0] = 'h';
+
+    Serial.println(word);
 }
 
 void loop()
@@ -193,71 +144,153 @@ void loop()
 The output is:
 
 ```text
-7
+cat
+hat
 ```
 
-We can use the normal arithmetic operators:
-
-| Operator | Meaning |
-|---|---|
-| `+` | Addition |
-| `-` | Subtraction |
-| `*` | Multiplication |
-| `/` | Division |
-
-Example:
+This line:
 
 ```cpp
-int answer = 6 * 4;
+word[0] = 'h';
 ```
 
-The value of `answer` is `24`.
+changes the character in position `0`.
+
+It does not replace the entire array. It changes only one character.
 
 ---
 
-## Adding to a variable
-
-We can use the old value to calculate a new value.
+## Another example
 
 ```cpp
-int score = 10;
+char word[] = "car";
 
-score = score + 5;
+word[2] = 't';
+
+Serial.println(word);
 ```
 
-The new value of `score` is `15`.
+The output is:
 
-For adding one, we can write:
-
-```cpp
-score = score + 1;
+```text
+cat
 ```
 
-We can also write:
+The original characters were:
 
-```cpp
-score++;
-```
+| Position | Character |
+|---:|:---:|
+| 0 | c |
+| 1 | a |
+| 2 | r |
 
-Both instructions add one.
+We replaced the character at position `2`.
 
 ---
 
-## Example: Counting
+## Why text is called a character array
+
+Look at this code:
+
+```cpp
+char name[] = "Anna";
+```
+
+It is called a **character array** because it contains an array of `char` values.
+
+The computer stores:
+
+```text
+A
+n
+n
+a
+```
+
+Together, these characters form the text `"Anna"`.
+
+In C, text like this is also called a **string**.
+
+Therefore:
+
+> A string in C is text stored in a character array.
+
+---
+
+## The invisible ending character
+
+The computer needs to know where the text ends.
+
+C places a special invisible character after the final visible character.
+
+It is written:
+
+```cpp
+'\0'
+```
+
+This character tells the computer:
+
+> The text ends here.
+
+The word `"cat"` is stored like this:
+
+| Position | Character |
+|---:|:---:|
+| 0 | c |
+| 1 | a |
+| 2 | t |
+| 3 | `'\0'` |
+
+The final character is not the number zero.
+
+It is a special character that marks the end of the text.
+
+---
+
+## Two ways to create the same string
+
+This is the easiest way:
+
+```cpp
+char word[] = "cat";
+```
+
+The computer automatically adds the invisible ending character.
+
+We could also write every character ourselves:
+
+```cpp
+char word[] = {'c', 'a', 't', '\0'};
+```
+
+Both lines create the same text.
+
+Normally, we use the easier version:
+
+```cpp
+char word[] = "cat";
+```
+
+---
+
+## Printing characters with a loop
+
+A loop can print one character at a time.
 
 ```cpp
 void setup()
 {
     Serial.begin(9600);
 
-    int count = 1;
-    Serial.println(count);
+    char word[] = "Arduino";
+    int position = 0;
 
-    count++;
-    Serial.println(count);
-
-    count++;
-    Serial.println(count);
+    while (word[position] != '\0')
+    {
+        Serial.println(word[position]);
+        position++;
+    }
 }
 
 void loop()
@@ -265,59 +298,119 @@ void loop()
 }
 ```
 
+The program starts at position `0`.
+
+It continues until it finds:
+
+```cpp
+'\0'
+```
+
 The output is:
 
 ```text
-1
-2
-3
+A
+r
+d
+u
+i
+n
+o
+```
+
+---
+
+## Understanding the loop
+
+This is the condition:
+
+```cpp
+word[position] != '\0'
+```
+
+It means:
+
+> Continue while the current character is not the end of the text.
+
+This line moves to the next position:
+
+```cpp
+position++;
+```
+
+The positions are:
+
+```text
+0, 1, 2, 3, 4, 5, 6
+```
+
+When the program reaches `'\0'`, the loop stops.
+
+---
+
+## Complete example
+
+```cpp
+void setup()
+{
+    Serial.begin(9600);
+
+    char studentName[] = "Olena";
+    int studentAge = 15;
+
+    Serial.print("Student: ");
+    Serial.println(studentName);
+
+    Serial.print("First character: ");
+    Serial.println(studentName[0]);
+
+    Serial.print("Age: ");
+    Serial.println(studentAge);
+}
+
+void loop()
+{
+}
 ```
 
 ---
 
 ## Exercise 1
 
-Create an integer variable named `temperature`.
-
-Give it the value `25` and print it.
-
-Complete this program:
+Create this character array:
 
 ```cpp
-void setup()
-{
-    Serial.begin(9600);
+char city[] = "Kyiv";
+```
 
-    // Create the variable here
+Print the entire word.
 
-    // Print the variable here
-}
+Then print each character separately using:
 
-void loop()
-{
-}
+```cpp
+city[0]
+city[1]
+city[2]
+city[3]
 ```
 
 ---
 
 ## Exercise 2
 
-Create these variables:
+Create this word:
 
-```text
-boys = 7
-girls = 9
+```cpp
+char word[] = "dog";
 ```
 
-Create another variable named `totalStudents`.
-
-Calculate and print the total number of students.
-
-The output should be:
+Change one character so that the program prints:
 
 ```text
-16
+dig
 ```
+
+Which position must you change?
 
 ---
 
@@ -326,30 +419,52 @@ The output should be:
 Start with:
 
 ```cpp
-int points = 5;
+char word[] = "hat";
 ```
 
-Add 10 to `points` and print the result.
-
-The output should be:
+Change it to:
 
 ```text
-15
+hot
 ```
+
+Change only one character in the array.
 
 ---
 
 ## Exercise 4
 
-What will this program print?
+Consider this array:
 
 ```cpp
-int boxes = 4;
-boxes = boxes + 3;
-Serial.println(boxes);
+char board[] = "Arduino";
 ```
 
-Write your answer before running the program.
+Answer these questions before running the program:
+
+1. What is stored at `board[0]`?
+2. What is stored at `board[2]`?
+3. What is stored at `board[6]`?
+4. At which position is the invisible `'\0'`?
+
+---
+
+## Exercise 5
+
+Write a loop that prints every character in your name on a separate line.
+
+Start with:
+
+```cpp
+char name[] = "YourName";
+int position = 0;
+```
+
+Stop the loop when it reaches:
+
+```cpp
+'\0'
+```
 
 ---
 
@@ -357,21 +472,28 @@ Write your answer before running the program.
 
 In this class, we learned:
 
-- A variable stores information.
-- A data type tells the computer what kind of information is stored.
-- `int` stores a whole number.
-- An integer variable has a name and a value.
-- The value of a variable can change.
-- We can use integers in calculations.
+- An array stores several values together.
+- A character array stores several characters.
+- Array positions begin at `0`.
+- We use square brackets to access one character.
+- We can change an individual character.
+- A string in C is text stored in a character array.
+- C adds `'\0'` to mark the end of the text.
 
 Example:
 
 ```cpp
-int students = 16;
+char name[] = "Anna";
 ```
 
-Here:
+The computer stores:
 
-- `int` is the data type.
-- `students` is the variable name.
-- `16` is the value.
+```text
+Position 0: A
+Position 1: n
+Position 2: n
+Position 3: a
+Position 4: '\0'
+```
+
+The invisible `'\0'` tells the computer where the text ends.
