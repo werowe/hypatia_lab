@@ -1,416 +1,490 @@
-# Class 3: Character Arrays
+# Class 1: Numbers and Variables in C
 
-In the previous class, we stored text like this:
+C programs can store information and use it later.
 
-```cpp
-char name[] = "Anna";
-```
+In this class, we will learn how to:
 
-In this class, we will look inside the text and see how the computer stores each character.
+- write a simple C program;
+- store a whole number;
+- print a number;
+- change a number; and
+- do simple calculations.
 
 ---
 
-## An array stores several values
+## Your first C program
 
-An array is a group of values stored together.
+Create a file named:
 
-This is a character array:
-
-```cpp
-char name[] = "Anna";
+```text
+numbers.c
 ```
 
-The variable `name` contains several characters.
+Enter this program:
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hello!\n");
+
+    return 0;
+}
+```
+
+Run the program.
+
+The output is:
+
+```text
+Hello!
+```
+
+---
+
+## Understanding the program
+
+This line gives the program access to `printf()`:
+
+```c
+#include <stdio.h>
+```
+
+This line begins the main part of the program:
+
+```c
+int main(void)
+```
+
+The program starts running here.
+
+The opening and closing braces contain the instructions:
+
+```c
+{
+    // Instructions go here.
+}
+```
+
+This instruction prints text:
+
+```c
+printf("Hello!\n");
+```
+
+The `\n` moves the cursor to a new line.
+
+This instruction ends the program:
+
+```c
+return 0;
+```
+
+---
+
+## Instructions end with a semicolon
+
+Most C instructions end with a semicolon:
+
+```c
+;
+```
+
+For example:
+
+```c
+printf("Hello!\n");
+return 0;
+```
+
+If you forget a semicolon, the compiler will report an error.
+
+---
+
+## Storing a whole number
+
+A program can store a whole number in a variable.
+
+```c
+int age = 15;
+```
+
+This creates a variable with:
+
+- Data type: `int`
+- Name: `age`
+- Value: `15`
+
+The word `int` means integer.
+
+An integer is a whole number.
+
+Examples include:
+
+```text
+0
+7
+15
+100
+-3
+```
+
+---
+
+## What is a variable?
+
+A variable is a named place where a program stores a value.
+
+Look at this instruction:
+
+```c
+int age = 15;
+```
 
 We can imagine it like this:
 
-| Position | Character |
-|---:|:---:|
-| 0 | A |
-| 1 | n |
-| 2 | n |
-| 3 | a |
+| Variable name | Stored value |
+|---|---:|
+| `age` | 15 |
 
-Each character has a position.
-
-The first position is `0`, not `1`.
+The name `age` helps us remember what the number means.
 
 ---
 
-## Reading one character
+## Printing a whole number
 
-We can use square brackets to select one character.
+Enter this program:
 
-```cpp
-char name[] = "Anna";
+```c
+#include <stdio.h>
 
-Serial.println(name[0]);
-```
-
-The output is:
-
-```text
-A
-```
-
-This prints the character at position `0`.
-
----
-
-## Reading every character
-
-```cpp
-void setup()
+int main(void)
 {
-    Serial.begin(9600);
+    int age = 15;
 
-    char name[] = "Anna";
+    printf("%d\n", age);
 
-    Serial.println(name[0]);
-    Serial.println(name[1]);
-    Serial.println(name[2]);
-    Serial.println(name[3]);
-}
-
-void loop()
-{
+    return 0;
 }
 ```
 
 The output is:
 
 ```text
-A
-n
-n
-a
+15
+```
+
+The `%d` tells `printf()` to print an integer.
+
+The value of `age` replaces `%d`.
+
+---
+
+## Printing text and a number
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int age = 15;
+
+    printf("Age: %d\n", age);
+
+    return 0;
+}
+```
+
+The output is:
+
+```text
+Age: 15
+```
+
+The text `Age:` is printed normally.
+
+The `%d` is replaced by the value of `age`.
+
+---
+
+## More integer variables
+
+A program can contain several variables.
+
+```c
+int age = 15;
+int students = 12;
+int score = 90;
+```
+
+Each variable has its own name and value.
+
+| Variable name | Stored value |
+|---|---:|
+| `age` | 15 |
+| `students` | 12 |
+| `score` | 90 |
+
+---
+
+## Printing several variables
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int age = 15;
+    int score = 90;
+
+    printf("Age: %d\n", age);
+    printf("Score: %d\n", score);
+
+    return 0;
+}
+```
+
+The output is:
+
+```text
+Age: 15
+Score: 90
 ```
 
 ---
 
-## Array positions
+## Changing a variable
 
-For the word `"Arduino"`:
+The value stored in a variable can change.
 
-```cpp
-char word[] = "Arduino";
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int score = 10;
+
+    printf("First score: %d\n", score);
+
+    score = 20;
+
+    printf("Second score: %d\n", score);
+
+    return 0;
+}
 ```
 
-the positions are:
+The output is:
 
-| Position | Character |
-|---:|:---:|
-| 0 | A |
-| 1 | r |
-| 2 | d |
-| 3 | u |
-| 4 | i |
-| 5 | n |
-| 6 | o |
+```text
+First score: 10
+Second score: 20
+```
+
+This instruction creates the variable:
+
+```c
+int score = 10;
+```
+
+This instruction gives it a new value:
+
+```c
+score = 20;
+```
+
+We write `int` when we create the variable.
+
+We do not write `int` again when we change its value.
+
+---
+
+## The equals sign
+
+In this instruction:
+
+```c
+int age = 15;
+```
+
+The equals sign places the value `15` into the variable `age`.
+
+We can read the instruction like this:
+
+> Store 15 in age.
+
+---
+
+## Adding numbers
+
+C can perform calculations.
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int firstNumber = 5;
+    int secondNumber = 3;
+    int answer = firstNumber + secondNumber;
+
+    printf("Answer: %d\n", answer);
+
+    return 0;
+}
+```
+
+The output is:
+
+```text
+Answer: 8
+```
+
+This instruction adds the two numbers:
+
+```c
+int answer = firstNumber + secondNumber;
+```
+
+The result is stored in `answer`.
+
+---
+
+## Other calculations
+
+C uses these symbols:
+
+| Calculation | Symbol | Example | Result |
+|---|:---:|---|---:|
+| Addition | `+` | `5 + 3` | 8 |
+| Subtraction | `-` | `5 - 3` | 2 |
+| Multiplication | `*` | `5 * 3` | 15 |
 
 Examples:
 
-```cpp
-Serial.println(word[0]);  // A
-Serial.println(word[3]);  // u
-Serial.println(word[6]);  // o
+```c
+int answer1 = 5 + 3;
+int answer2 = 5 - 3;
+int answer3 = 5 * 3;
 ```
 
 ---
 
-## Changing one character
+## Printing a calculation
 
-We can change a character stored at a particular position.
+```c
+#include <stdio.h>
 
-```cpp
-void setup()
+int main(void)
 {
-    Serial.begin(9600);
+    int apples = 4;
+    int oranges = 3;
+    int totalFruit = apples + oranges;
 
-    char word[] = "cat";
+    printf("Apples: %d\n", apples);
+    printf("Oranges: %d\n", oranges);
+    printf("Total fruit: %d\n", totalFruit);
 
-    Serial.println(word);
-
-    word[0] = 'h';
-
-    Serial.println(word);
-}
-
-void loop()
-{
+    return 0;
 }
 ```
 
 The output is:
 
 ```text
-cat
-hat
-```
-
-This line:
-
-```cpp
-word[0] = 'h';
-```
-
-changes the character in position `0`.
-
-It does not replace the entire array. It changes only one character.
-
----
-
-## Another example
-
-```cpp
-char word[] = "car";
-
-word[2] = 't';
-
-Serial.println(word);
-```
-
-The output is:
-
-```text
-cat
-```
-
-The original characters were:
-
-| Position | Character |
-|---:|:---:|
-| 0 | c |
-| 1 | a |
-| 2 | r |
-
-We replaced the character at position `2`.
-
----
-
-## Why text is called a character array
-
-Look at this code:
-
-```cpp
-char name[] = "Anna";
-```
-
-It is called a **character array** because it contains an array of `char` values.
-
-The computer stores:
-
-```text
-A
-n
-n
-a
-```
-
-Together, these characters form the text `"Anna"`.
-
-In C, text like this is also called a **string**.
-
-Therefore:
-
-> A string in C is text stored in a character array.
-
----
-
-## The invisible ending character
-
-The computer needs to know where the text ends.
-
-C places a special invisible character after the final visible character.
-
-It is written:
-
-```cpp
-'\0'
-```
-
-This character tells the computer:
-
-> The text ends here.
-
-The word `"cat"` is stored like this:
-
-| Position | Character |
-|---:|:---:|
-| 0 | c |
-| 1 | a |
-| 2 | t |
-| 3 | `'\0'` |
-
-The final character is not the number zero.
-
-It is a special character that marks the end of the text.
-
----
-
-## Two ways to create the same string
-
-This is the easiest way:
-
-```cpp
-char word[] = "cat";
-```
-
-The computer automatically adds the invisible ending character.
-
-We could also write every character ourselves:
-
-```cpp
-char word[] = {'c', 'a', 't', '\0'};
-```
-
-Both lines create the same text.
-
-Normally, we use the easier version:
-
-```cpp
-char word[] = "cat";
+Apples: 4
+Oranges: 3
+Total fruit: 7
 ```
 
 ---
 
-## Printing characters with a loop
+## Variable names
 
-A loop can print one character at a time.
+Use names that explain what the values mean.
 
-```cpp
-void setup()
-{
-    Serial.begin(9600);
+These names are clear:
 
-    char word[] = "Arduino";
-    int position = 0;
-
-    while (word[position] != '\0')
-    {
-        Serial.println(word[position]);
-        position++;
-    }
-}
-
-void loop()
-{
-}
+```c
+int age = 15;
+int score = 90;
+int numberOfStudents = 12;
 ```
 
-The program starts at position `0`.
+These names are not clear:
 
-It continues until it finds:
-
-```cpp
-'\0'
+```c
+int x = 15;
+int a = 90;
+int n = 12;
 ```
 
-The output is:
+A variable name cannot contain a space.
 
-```text
-A
-r
-d
-u
-i
-n
-o
+We can write several words like this:
+
+```c
+numberOfStudents
 ```
-
----
-
-## Understanding the loop
-
-This is the condition:
-
-```cpp
-word[position] != '\0'
-```
-
-It means:
-
-> Continue while the current character is not the end of the text.
-
-This line moves to the next position:
-
-```cpp
-position++;
-```
-
-The positions are:
-
-```text
-0, 1, 2, 3, 4, 5, 6
-```
-
-When the program reaches `'\0'`, the loop stops.
 
 ---
 
 ## Complete example
 
-```cpp
-void setup()
-{
-    Serial.begin(9600);
+```c
+#include <stdio.h>
 
-    char studentName[] = "Olena";
+int main(void)
+{
     int studentAge = 15;
+    int firstScore = 8;
+    int secondScore = 7;
+    int totalScore = firstScore + secondScore;
 
-    Serial.print("Student: ");
-    Serial.println(studentName);
+    printf("Student age: %d\n", studentAge);
+    printf("First score: %d\n", firstScore);
+    printf("Second score: %d\n", secondScore);
+    printf("Total score: %d\n", totalScore);
 
-    Serial.print("First character: ");
-    Serial.println(studentName[0]);
-
-    Serial.print("Age: ");
-    Serial.println(studentAge);
+    return 0;
 }
+```
 
-void loop()
-{
-}
+The output is:
+
+```text
+Student age: 15
+First score: 8
+Second score: 7
+Total score: 15
 ```
 
 ---
 
 ## Exercise 1
 
-Create this character array:
+Create this variable:
 
-```cpp
-char city[] = "Kyiv";
+```c
+int age = 14;
 ```
 
-Print the entire word.
+Print:
 
-Then print each character separately using:
-
-```cpp
-city[0]
-city[1]
-city[2]
-city[3]
+```text
+Age: 14
 ```
+
+Use `%d` to print the value.
 
 ---
 
 ## Exercise 2
 
-Create this word:
+Create a variable named `score` and store the value `25` in it.
 
-```cpp
-char word[] = "dog";
-```
-
-Change one character so that the program prints:
-
-```text
-dig
-```
-
-Which position must you change?
+Print the score.
 
 ---
 
@@ -418,53 +492,66 @@ Which position must you change?
 
 Start with:
 
-```cpp
-char word[] = "hat";
+```c
+int number = 10;
 ```
 
-Change it to:
+Print the number.
+
+Then change it to `20` and print it again.
+
+The output should be:
 
 ```text
-hot
+10
+20
 ```
-
-Change only one character in the array.
 
 ---
 
 ## Exercise 4
 
-Consider this array:
+Create two variables:
 
-```cpp
-char board[] = "Arduino";
+```c
+int firstNumber = 6;
+int secondNumber = 4;
 ```
 
-Answer these questions before running the program:
+Add them and store the result in a variable named `answer`.
 
-1. What is stored at `board[0]`?
-2. What is stored at `board[2]`?
-3. What is stored at `board[6]`?
-4. At which position is the invisible `'\0'`?
+Print the answer.
 
 ---
 
 ## Exercise 5
 
-Write a loop that prints every character in your name on a separate line.
+Create these variables:
 
-Start with:
-
-```cpp
-char name[] = "YourName";
-int position = 0;
+```c
+int cats = 3;
+int dogs = 2;
 ```
 
-Stop the loop when it reaches:
+Create a variable named `animals` that stores the total.
 
-```cpp
-'\0'
+Print:
+
+```text
+Total animals: 5
 ```
+
+---
+
+## Exercise 6
+
+Write a program that stores:
+
+- your age;
+- your favourite number; and
+- the number of students in the class.
+
+Print each value on a separate line.
 
 ---
 
@@ -472,28 +559,23 @@ Stop the loop when it reaches:
 
 In this class, we learned:
 
-- An array stores several values together.
-- A character array stores several characters.
-- Array positions begin at `0`.
-- We use square brackets to access one character.
-- We can change an individual character.
-- A string in C is text stored in a character array.
-- C adds `'\0'` to mark the end of the text.
+- A C program starts running in `main()`.
+- `printf()` prints information.
+- Most C instructions end with a semicolon.
+- A variable is a named place that stores a value.
+- `int` stores a whole number.
+- `%d` prints an integer.
+- A variable's value can change.
+- C can perform calculations with numbers.
 
 Example:
 
-```cpp
-char name[] = "Anna";
+```c
+int age = 15;
+printf("Age: %d\n", age);
 ```
 
-The computer stores:
+The variable is named `age`.
 
-```text
-Position 0: A
-Position 1: n
-Position 2: n
-Position 3: a
-Position 4: '\0'
-```
+It stores the whole number `15`.
 
-The invisible `'\0'` tells the computer where the text ends.
