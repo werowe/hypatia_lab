@@ -104,6 +104,7 @@ for students ages 13–18.</strong>
 - [Characters and Strings](lectures/characters_text.md)
 - [Character Arrays](lectures/character_arrays.md)
 - [printf](PRINTF.md)
+- [control structures](control_structures.md)
 
 
 
