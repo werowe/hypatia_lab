@@ -8,4 +8,9 @@
 
 * bonus question [difficult] print the last letters of you name
 
+  here is code from class
+
+  - https://github.com/werowe/hypatia_c/blob/main/characters.c
+  - https://github.com/werowe/hypatia_c/blob/main/integers.c
+
   
