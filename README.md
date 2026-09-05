@@ -105,6 +105,10 @@ for students ages 13–18.</strong>
 - [Character Arrays](lectures/character_arrays.md)
 - [printf](PRINTF.md)
 - [control structures](control_structures.md)
+- [Math, Comparisons, and Logic](lectures/operators_and_logic.md)
+- [Pointers and Dynamic Memory](lectures/pointers_dynamic_memory.md)
+- [Strings and Dynamic Memory](lectures/dynamic_strings.md)
+- [Dynamic Arrays of Numbers](lectures/dynamic_number_arrays.md)
 
 
 
