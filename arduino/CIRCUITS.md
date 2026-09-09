@@ -11,3 +11,4 @@
 * [Two-Transistor Resistor-Transistor Logic RTL NAND Gate](https://everycircuit.com/circuit/4612312401051648/two-transistor-resistor-transistor-logic-rtl-nand-gate)
 * [1-Bit Memory Cell with NAND Gates](https://everycircuit.com/circuit/6258825694937088)
 * [74HC00 NAND Gate](https://www.tinkercad.com/things/eRY2YZ6IHYd-nand-single?sharecode=cm1C_QGX918UaoXFylzWq8A6-jMBnGBkyS7pCxD8IOU)
+* [1 Bit Memory](https://www.tinkercad.com/things/ls1HD9mKX2r-memory-1-nand-gate?sharecode=h6dkQhVqG3tSrEsFXcbhpPVMBuXbSfiGf3IYBmCDNDg)
