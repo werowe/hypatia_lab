@@ -1,7 +1,7 @@
 # Circuits We have Built
 
 
-| Link | |
+| Circuit 1 | Circuit 2 |
 |---|---|
 | [Turn on Led](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) | |
 | [Using a Transistor as a Switch](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | |
