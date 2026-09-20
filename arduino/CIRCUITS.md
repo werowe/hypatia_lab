@@ -4,7 +4,7 @@
 | Circuit 1 | Circuit 2 |
 |---|---|
 | [Turn on Led](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) | |
-| [Using a Transistor as a Switch](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | |
+| [Using a Transistor as a Switch](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | https://everycircuit.com/circuit/6367444193116160/transistor-led-switch-circuit |
 | [Logical Or](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or) | |
 | [Logical AND gate](https://www.tinkercad.com/things/car8xmCvPKY-logical-and) | |
 | [Shift Register](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led) | |
