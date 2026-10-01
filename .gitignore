@@ -29,15 +29,8 @@ obj/
 !.vscode/settings.json
 !.vscode/tasks.json
 
-# DeepState local credentials and development artifacts
-deepstate/add_save_data_feature.ipynb
-deepstate/.env
-deepstate/.env.*
-!deepstate/.env.example
-deepstate/.venv/
-deepstate/.idea/
-deepstate/.ipynb_checkpoints/
-deepstate/*.ipynb.bak-*
+# DeepState project
+/deepstate/
 
 # Temporary/editor files
 *~
