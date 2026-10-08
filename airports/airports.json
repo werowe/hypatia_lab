@@ -1,0 +1,8 @@
+[
+  {"iata": "SVO", "icao": "UUEE", "name": "Moscow Sheremetyevo", "timezone": "Europe/Moscow"},
+  {"iata": "DME", "icao": "UUDD", "name": "Moscow Domodedovo", "timezone": "Europe/Moscow"},
+  {"iata": "VKO", "icao": "UUWW", "name": "Moscow Vnukovo", "timezone": "Europe/Moscow"},
+  {"iata": "LED", "icao": "ULLI", "name": "St Petersburg Pulkovo", "timezone": "Europe/Moscow"},
+  {"iata": "KZN", "icao": "UWKD", "name": "Kazan", "timezone": "Europe/Moscow"},
+  {"iata": "AER", "icao": "URSS", "name": "Sochi", "timezone": "Europe/Moscow"}
+]
