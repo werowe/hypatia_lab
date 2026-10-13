@@ -1,4 +1,8 @@
+# circuit https://everycircuit.com/circuit/5486623643009024
+
+
 r1 = 6
+ 
 
 r2 = 1000
 
