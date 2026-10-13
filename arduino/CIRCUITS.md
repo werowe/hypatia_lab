@@ -19,6 +19,6 @@
 
 # Ohms Law and Kirchoffs Law
 
-* [Calculate volta two resisters in series](electronics/resistance_series.c(
+* [Calculate voltage two resisters in series](electronics/resistance_series.c)
 
 
