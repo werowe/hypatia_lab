@@ -18,17 +18,27 @@ The book says that $-i_n$ is defined to be positive for current flowing out of t
 
 ### Second question
 
-Show that:
+### Second question
+
+Starting from KCL,
 
 $$
-\sum_{n=1}^{M} i_n = \sum_{m=M+1}^{N} - ( i_n )
+\sum_{n=1}^{N} i_n = 0,
 $$
 
-Hint:
+show that:
 
-Then draw a circuit with 4 nodes.  So N = 4. Then pick M = 2.  Then do the addition by hand.  
+$$
+\sum_{n=1}^{M} i_n = -\sum_{n=M+1}^{N} i_n.
+$$
 
-so then show that:
+Hint: Split the original sum into two groups, then move the second group to the other side.
 
-$$i_1 + i_2 = - (i_3 + i_4)$$
+Draw one node with four connected branches, so $N = 4$. Choose $M = 2$ and expand the sums by hand to show that:
+
+$$
+i_1 + i_2 = -(i_3 + i_4).
+$$
+
+Use signed currents, taking currents entering the node as positive and currents leaving as negative.
 
