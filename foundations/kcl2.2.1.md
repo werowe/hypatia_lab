@@ -21,12 +21,12 @@ The book says that $-i_n$ is defined to be positive for current flowing out of t
 Show that:
 
 $$
-\sum_{n=1}^{M} i_n = \sum_{m=n\M+1}^{N} - ( i_n )
+\sum_{n=1}^{M} i_n = \sum_{m=M+1}^{N} - ( i_n )
 $$
 
 Hint:
 
-Then draw a circuit with 4 nodes.  So N = 4.
+Then draw a circuit with 4 nodes.  So N = 4. Then pick M = 2.  Then do the addition by hand.  
 
 so then show that:
 
