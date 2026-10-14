@@ -8,11 +8,15 @@ even when relatively few flights are recorded as cancelled. The two sources meas
 different things. The comparison does not establish what caused a restriction.
 
 The production installation runs continuously on `werowe@walker-server` in
-`/home/werowe/Documents/airports`. The copy in
-`/Users/walkerrowe/Documents/hypatia_lab/airports` is for source control and local
-analysis. Its database is a manually copied snapshot; it does not synchronize itself
-with the server. GitHub contains the code, configuration example, notebook, tests,
-and documentation, while the live database and credentials stay outside Git.
+`/home/werowe/Documents/hypatia_lab/airports`, inside the server's clone of
+[werowe/hypatia_lab](https://github.com/werowe/hypatia_lab). The Mac source is in
+`/Users/walkerrowe/Documents/hypatia_lab/airports`. Source changes are pushed from
+the Mac to GitHub and pulled into the server clone. The Mac database remains a
+manually copied snapshot; it does not synchronize itself with the server. The live
+database, private `.env`, logs, downloaded CSV, generated dashboard, and backups
+are preserved locally on the server and excluded from Git. The former
+`/home/werowe/Documents/airports` path links to the new airport directory so existing
+notebook links continue to work.
 
 ## Data sources and collection
 
@@ -71,7 +75,8 @@ The two sources share `flights.sqlite3` but use separate tables:
 | `airports.json` | Airports monitored through AeroDataBox |
 | `.env.example` | Template for the private server environment file |
 | `requirements-notebook.txt` | Optional pandas and Jupyter dependencies |
-| `test_restrictions.py` | Automated correctness and failure-handling tests |
+| `flight_report.py` | Independent cancellations and per-airport flight request coverage |
+| `test_restrictions.py`, `test_flight_report.py` | Automated correctness and failure-handling tests |
 | `.gitignore` | Exclude credentials, databases, logs, generated dashboards, and caches |
 
 ## How daily metrics work
@@ -151,7 +156,7 @@ for that September date, so its cancellation value is unavailable rather than ze
 The existing crontab entry remains:
 
 ```cron
-17 2 * * * /home/werowe/Documents/airports/run_daily.sh
+17 2 * * * /home/werowe/Documents/hypatia_lab/airports/run_daily.sh
 ```
 
 Cron interprets 02:17 in the server's timezone. The runner uses
@@ -168,7 +173,8 @@ regeneration after a failed restriction fetch uses the prior successful import c
 The scheduled process runs on the server independently of the Mac being on.
 
 Before the extension was installed, the server code and database were backed up under
-`backups/pre-restrictions-20261008-173939`. The extension preserved the existing
+`backups/pre-restrictions-20261008-173939`. These backups are retained in the new
+airport directory after the repository migration. The extension preserved the existing
 23,440 flight observations. This backup and runtime data are excluded from Git.
 
 ## Setup and validation
@@ -186,17 +192,19 @@ cp .env.example .env
 python3 tracker.py init
 python3 collect_restrictions.py
 python3 restriction_report.py --html dashboard.html
-python3 -m unittest -v test_restrictions.py
+python3 -m unittest -v test_restrictions.py test_flight_report.py
 ```
 
 On the existing server, manual collection uses `./run_daily.sh`. On another machine,
 set `PYTHON_BIN=python3` when invoking it. A local run will collect into that machine's
 database; it does not update the production server automatically.
 
-The 14 automated tests cover CSV delimiters and BOMs, duplicate imports, historical
+The 22 automated tests cover CSV delimiters and BOMs, duplicate imports, historical
 retention, ongoing completion, stale records, midnight splitting, airport-hour
 calculations, overlaps, type/scope filtering, invalid timestamps, download failure,
 flight deduplication, payload normalization, coverage/cutoff handling, a restriction-only
-dashboard, and attempting both collectors after failure. They use synthetic data and
+dashboard, attempting both collectors after failure, independent per-airport flight
+coverage, missing versus zero cancellations, and rendering without closure imports.
+They use synthetic data and
 make no paid API calls. They passed on both server and Mac; the notebook also executed
 successfully against the server database.

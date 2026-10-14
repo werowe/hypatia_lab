@@ -10,23 +10,7 @@ from datetime import datetime, time, timedelta
 from html import escape
 from pathlib import Path
 from collect_restrictions import MSK, ROOT, timestamp
-
-
-def instant(value):
-    return datetime.fromisoformat(value.replace('Z', '+00:00')).astimezone(MSK)
-
-
-def merged_seconds(intervals):
-    total = 0
-    end = None
-    for a, b in sorted(intervals):
-        if end is None or a > end:
-            total += (b - a).total_seconds()
-            end = b
-        elif b > end:
-            total += (b - end).total_seconds()
-            end = b
-    return total
+from flight_report import flight_daily, instant, merged_seconds
 
 
 def daily_restrictions(records, cutoff, airports=None, kind=None):
@@ -64,40 +48,6 @@ def daily_restrictions(records, cutoff, airports=None, kind=None):
             restrictions_started=b['starts'], affected_airports=len(b['airports']),
             restriction_status='provisional' if b['provisional'] or day == cutoff.date() else 'completed intervals')
     return output
-
-
-def flight_daily(observations, airports):
-    """Latest observation of each airport/direction/number/scheduled movement.
-
-    Historical records have missing normalized times: recover from retained payloads.
-    Counts are airport flight movements (arrivals/departures), not network-unique aircraft legs.
-    """
-    latest = {}
-    missing = 0
-    for r in observations:
-        if r['airport_iata'] not in airports:
-            continue
-        raw = json.loads(r['raw_json'])
-        if raw.get('codeshareStatus') == 'IsCodeshared':
-            continue
-        side = raw.get('movement') or raw.get('departure' if r['direction'] == 'Departure' else 'arrival') or {}
-        scheduled = side.get('scheduledTime') or {}
-        value = r['scheduled_utc'] or scheduled.get('utc') or r['scheduled_local'] or scheduled.get('local')
-        try:
-            dt = instant(value)
-        except (ValueError, TypeError, AttributeError):
-            missing += 1
-            continue
-        number = r['flight_number'] or raw.get('number') or r['flight_key']
-        if isinstance(number, dict):
-            number = number.get('iata') or number.get('icao') or r['flight_key']
-        identity = (r['airport_iata'], r['direction'], str(number).replace(' ', '').upper(), dt.isoformat())
-        if identity not in latest or (instant(r['observed_at']), r['id']) > latest[identity][0]:
-            latest[identity] = ((instant(r['observed_at']), r['id']), dt.date().isoformat(), int(r['is_cancelled']))
-    counts = defaultdict(lambda: defaultdict(int))
-    for key, (_, day, cancelled) in latest.items():
-        counts[day][key[0]] += cancelled
-    return {day: dict(values) for day, values in counts.items()}, missing
 
 
 def report_data(con, config, scope='all', kind=None, cutoff=None):
