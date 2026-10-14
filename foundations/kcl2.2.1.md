@@ -18,7 +18,6 @@ The book says that $-i_n$ is defined to be positive for current flowing out of t
 
 ### Second question
 
-### Second question
 
 Starting from KCL,
 
