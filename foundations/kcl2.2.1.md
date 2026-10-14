@@ -1,6 +1,6 @@
 ### Question about KCL — Section 2.2.1
 
-In *Foundations of Analog and Digital Electronic Circuits*, Section 2.2.1, Kirchhoff’s Current Law says that for a node with \(N = 4\) branches:
+In *Foundations of Analog and Digital Electronic Circuits*, Section 2.2.1, Kirchhoff’s Current Law says that for a node with $N = 4$ branches:
 
 $$
 i_1 + i_2 + i_3 + i_4 = 0
