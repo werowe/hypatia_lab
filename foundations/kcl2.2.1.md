@@ -6,14 +6,14 @@ $$
 i_1 + i_2 + i_3 + i_4 = 0
 $$
 
+This is written in compact form as:
+
+$$
+\sum_{n=1}^{4} i_n = 0
+$$
+
 How can this work if each current is greater than zero?
 
 The book says that $-i_n$ is defined to be positive for current flowing out of the node. I interpreted this as meaning that all the $i_n$ values are positive. What am I misunderstanding about the sign convention?
 
 
-i_1 + i_2 + i_3 + i_4 = 0
-$$
-
-How can this work if each current is greater than zero?
-
-The book says that \(-i_n\) is defined to be positive for current flowing out of the node. I interpreted this as meaning that all the \(i_n\) values are positive. What am I misunderstanding about the sign convention?
