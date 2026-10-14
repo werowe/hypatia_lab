@@ -21,7 +21,7 @@ The book says that $-i_n$ is defined to be positive for current flowing out of t
 Show that:
 
 $$
-\sum_{n=1}^{4} i_n = \sum_{m=n\M+1}^{N} - ( i_n )
+\sum_{n=1}^{M} i_n = \sum_{m=n\M+1}^{N} - ( i_n )
 $$
 
 Hint:
