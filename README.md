@@ -94,6 +94,9 @@ for students ages 13–18.</strong>
  
 ---
 
+
+## Logic Lectures
+- [XOR, OR, NOT. AND, from 74HC00](lectures/74hc00.md)
  
 
  
