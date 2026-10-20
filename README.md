@@ -84,6 +84,7 @@ to logic gates, memory, and PWM.
 | 1-bit memory | [Open](https://www.tinkercad.com/things/ls1HD9mKX2r-memory-1-nand-gate?sharecode=h6dkQhVqG3tSrEsFXcbhpPVMBuXbSfiGf3IYBmCDNDg) |  |
 | LED with logic analyzer | [Open](https://wokwi.com/projects/474865859873788929) | [Open](https://everycircuit.com/circuit/5216310279667712) |
 | PWM and RC Filter | [Open](https://www.tinkercad.com/things/lHeHs0gkbTg-pwm-with-osciliscope?sharecode=QvGWhA7d9FEslYPROzAjqN-2C8iM60GD8N7SZW-R7dQ) | [Open](https://everycircuit.com/circuit/4711407480340480) |
+|  XOR, AND, NOT, OR from 4 NAND Gates     | [Homework](lectures/74hc00.md)       |  [Open](https://everycircuit.com/circuit/6022823030161408)        |
 
 ### Electronics Lessons and Tools
 
