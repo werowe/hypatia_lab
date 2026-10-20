@@ -6,7 +6,6 @@
 &nbsp;&nbsp;&nbsp;
 <img src="https://raw.githubusercontent.com/werowe/HypatiaAcademy/master/images/hypatia_lab_logo.jpg" alt="Hypatia Arduino Lab" height="140">
 
-
 <div class="contact-links">
   <a href="mailto:werowe@walkerrowe.com">
     📧 werowe@walkerrowe.com
@@ -14,9 +13,8 @@
   <br>
 </div>
 
-
 <p>
-<strong>Free live classes in C programming and Arduino electronics<br>
+<strong>Free live classes in electronics, Arduino, and circuit theory<br>
 for students ages 13–18.</strong>
 </p>
 
@@ -26,43 +24,21 @@ for students ages 13–18.</strong>
 
 <br>
 
-<div align="center">
-
-<h2>📚 Archived Hypatia Academy Course Material</h2>
-
-<p>
-  Before this course moved to C, electronics, Arduino, and computer architecture,
-  Hypatia Academy taught Python, data science, machine learning, databases,
-  algorithms, statistics, and AI.
-</p>
-
-<p>
-  <strong>All of that earlier course material remains available free in the archived repository.</strong>
-</p>
-
-<p>
-  <a href="https://github.com/werowe/HypatiaAcademy">
-    <strong>➡️ Browse the Archived Hypatia Academy Courses</strong>
-  </a>
-</p>
-
-</div>
-
-<hr>
-
 <a href="https://hypatiaacademy.io/">
 <img src="https://img.shields.io/badge/%F0%9F%8C%90%20%20ENROLL%20AT%20HYPATIAACADEMY.IO%20%20%E2%86%92-fb923c?style=for-the-badge&labelColor=0A2540" alt="Enroll at hypatiaacademy.io">
 </a>
 &nbsp;
-<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">
+<a href="https://www.youtube.com/@TheSiliconSkeptic-e8g">
 <img src="https://img.shields.io/badge/WATCH%20ON%20YOUTUBE-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="Hypatia Arduino Lab on YouTube">
 </a>
 
 <br><br>
 
-<a href="#-the-c-course"><img src="https://img.shields.io/badge/C%20COURSE-22d3ee?style=for-the-badge&labelColor=0A2540" alt="C Course"></a>
-&nbsp;
 <a href="#-arduino-circuits"><img src="https://img.shields.io/badge/CIRCUITS-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Circuits"></a>
+&nbsp;
+<a href="MATH.md"><img src="https://img.shields.io/badge/MATH%20%26%20THEORY-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Math and Theory"></a>
+&nbsp;
+<a href="C_REFERENCE.md"><img src="https://img.shields.io/badge/C%20COURSE-22d3ee?style=for-the-badge&labelColor=0A2540" alt="C Course"></a>
 &nbsp;
 <a href="projects/PROJECTS.md"><img src="https://img.shields.io/badge/PROJECTS-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Projects"></a>
 &nbsp;
@@ -74,7 +50,7 @@ for students ages 13–18.</strong>
 
 <a href="https://hypatiaacademy.io/">🌐 hypatiaacademy.io</a>
 &nbsp;•&nbsp;
-<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">▶️ YouTube</a>
+<a href="https://www.youtube.com/@TheSiliconSkeptic-e8g">▶️ YouTube</a>
 &nbsp;•&nbsp;
 <a href="mailto:contact@walkerrowe.com">✉️ contact@walkerrowe.com</a>
 &nbsp;•&nbsp;
@@ -88,116 +64,49 @@ for students ages 13–18.</strong>
 
 ## 🔌 Arduino Circuits
 
-- [Programing Tools](arduino/TOC.md)
-- [Circuits we have Built](arduino/CIRCUITS.md)
+Most of our class time is spent building and understanding electronic circuits.
+Open a simulation below to explore the circuits we have built, from a single LED
+to logic gates, memory, and PWM.
+
+### Circuits We Have Built
+
+| Circuit | Tinkercad / Wokwi | EveryCircuit |
+|---|---|---|
+| Turn on an LED | [Open](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) |  |
+| Using a Transistor as a Switch | [Open](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | [Open](https://everycircuit.com/circuit/6367444193116160/transistor-led-switch-circuit) |
+| Logical OR gate | [Open](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or) |  |
+| Logical AND gate | [Open](https://www.tinkercad.com/things/car8xmCvPKY-logical-and) |  |
+| Shift Register | [Open](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led) |  |
+| How Arduino turns voltage into a number | [Open](https://www.tinkercad.com/things/bqHnsq0DNjH-convert-voltage-to-number) |  |
+| Two-Transistor Resistor-Transistor Logic RTL NAND Gate |  | [Open](https://everycircuit.com/circuit/4612312401051648/two-transistor-resistor-transistor-logic-rtl-nand-gate) |
+| 1-Bit Memory Cell with NAND Gates |  | [Open](https://everycircuit.com/circuit/6258825694937088) |
+| 74HC00 NAND Gate | [Open](https://www.tinkercad.com/things/eRY2YZ6IHYd-nand-single?sharecode=cm1C_QGX918UaoXFylzWq8A6-jMBnGBkyS7pCxD8IOU) |  |
+| 1-bit memory | [Open](https://www.tinkercad.com/things/ls1HD9mKX2r-memory-1-nand-gate?sharecode=h6dkQhVqG3tSrEsFXcbhpPVMBuXbSfiGf3IYBmCDNDg) |  |
+| LED with logic analyzer | [Open](https://wokwi.com/projects/474865859873788929) | [Open](https://everycircuit.com/circuit/5216310279667712) |
+| PWM and RC Filter | [Open](https://www.tinkercad.com/things/lHeHs0gkbTg-pwm-with-osciliscope?sharecode=QvGWhA7d9FEslYPROzAjqN-2C8iM60GD8N7SZW-R7dQ) | [Open](https://everycircuit.com/circuit/4711407480340480) |
+
+### Electronics Lessons and Tools
+
+- [Programming Tools and Circuit Simulators](arduino/TOC.md)
 - [Arduino Basic Info](arduino/ARDUINO.md)
- 
----
-
-
-## Logic Lectures
-- [XOR, OR, NOT. AND, from 74HC00](lectures/74hc00.md)
- 
-
- 
-
-## 💻 C Classes Lectures
-
-- [Integers](lectures/integers.md)
-- [Characters and Strings](lectures/characters_text.md)
-- [Character Arrays](lectures/character_arrays.md)
-- [printf](lectures/PRINTF.md)
-- [control structures](lectures/control_structures.md)
-- [Math, Comparisons, and Logic](lectures/operators_and_logic.md)
-- [Pointers and Dynamic Memory](lectures/pointers_dynamic_memory.md)
-- [Strings and Dynamic Memory](lectures/dynamic_strings.md)
-- [Dynamic Arrays of Numbers](lectures/dynamic_number_arrays.md)
-
-
-
-## 💻 C Reference
- 
-
-
-### The language
-- [Data Types](misc/DATATYPES.md)
-- [Integers](integers/INTEGERS.md)
-- [char](char/CHAR.md)
-- [Operators](operators/OPERATORS.md)
-- [Conditionals](conditionals/CONDITIONALS.md)
-- [Loops](loops/LOOPS.md)
-- [Functions](functions/FUNCTIONS.md)
-
-### Data and memory
-
-- [Arrays](arrays/ARRAYS.md)
-- [Strings](strings/STRINGS.md)
-- [Structs](structs/STRUCTS.md)
-- [Pointers](pointers/POINTERS.md)
-- [Memory](memory/MEMORY.md)
-
-### Down to the metal
-
-- [Bits and Bitwise Operations](bits/BITS.md)
-- [Registers](registers/REGISTERS.md)
-
-### Build things
-
-- [Projects](projects/PROJECTS.md)
-- [Snippets](snippets/SNIPPETS.md)
-
-### Other
-- [DeepState Data Ukraine War Geospatial Analysis](deepstate/README.md)
+- [Electronics: Voltage, Current, Resistance, and Transistors](electronics/ELECTRONICS.md)
+- [Build XOR, OR, NOT, and AND Gates from a 74HC00](lectures/74hc00.md)
+- [Calculate Voltage Across Two Resistors in Series — C Example](electronics/resistance_series.c)
 
 ---
 
-<div align="center">
+## 📐 Math and Circuit Theory
 
-## 🧰 What You Need
+[Math and Circuit Theory Notes](MATH.md) — an index to the material in the
+[foundations folder](foundations/), including circuit models and abstraction,
+and Kirchhoff’s Current Law.
 
-</div>
+---
 
-<table>
-<tr>
-<th align="left" width="30%">Item</th>
-<th align="left">Notes</th>
-</tr>
-<tr>
-<td><strong>A computer</strong></td>
-<td>Any OS. We compile C from the command line.</td>
-</tr>
-<tr>
-<td><strong>An Arduino Uno</strong></td>
-<td>A clone is fine and costs a fraction of the price.</td>
-</tr>
-<tr>
-<td><strong>A breadboard kit</strong></td>
-<td>Jumper wires, LEDs, resistors, push buttons.</td>
-</tr>
-<tr>
-<td><strong>2N2222 transistors</strong></td>
-<td>For building gates out of raw silicon. Buy a pack of 10.</td>
-</tr>
-<tr>
-<td><strong>74HC00 NAND ICs</strong></td>
-<td>Four NAND gates per chip. The heart of the course.</td>
-</tr>
-<tr>
-<td><strong>Curiosity</strong></td>
-<td>No prior programming or electronics experience required.</td>
-</tr>
-</table>
+## 💻 C Programming
 
-<div align="center">
-
-<br>
-
-<strong>Don't have the parts yet?</strong> Start anyway — the first weeks run entirely in
-<a href="https://www.tinkercad.com/">TinkerCAD</a>, which simulates the whole breadboard in your browser.
-
-<br><br>
-
-</div>
+[C Lectures and Reference](C_REFERENCE.md) — all the C lessons, language reference,
+memory topics, projects, and code snippets in one place.
 
 ---
 
@@ -208,17 +117,16 @@ for students ages 13–18.</strong>
 <table>
 <tr><td align="center">
 
-### ▶️ Hypatia Arduino Lab on YouTube
+### ▶️ The Silicon Skeptic on YouTube
 
-Every topic in this repository is also taught on video.
+Watch the course videos on [The Silicon Skeptic](https://www.youtube.com/@TheSiliconSkeptic-e8g).
 
-Not just circuits — we explain **what the code means, how the circuit works,
-and why each component is there.** C programming, Arduino IDE 2, digital pins,
-analog input, serial communication, LEDs, resistors, breadboards, sensors,
-motors, and the electronics theory underneath all of it.
+We explain **how the circuit works, why each component is there, and what the code means.**
+Topics include electronics theory, Arduino, logic gates, LEDs, resistors,
+breadboards, sensors, motors, and C programming.
 
-<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">
-<img src="https://img.shields.io/badge/%20%20SUBSCRIBE%20TO%20HYPATIA%20ARDUINO%20LAB%20%20-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="Subscribe on YouTube">
+<a href="https://www.youtube.com/@TheSiliconSkeptic-e8g">
+<img src="https://img.shields.io/badge/%20%20SUBSCRIBE%20TO%20THE%20SILICON%20SKEPTIC%20%20-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="Subscribe on YouTube">
 </a>
 
 </td></tr>
@@ -267,7 +175,7 @@ Based in Paphos, Cyprus — European time zones.
 <img src="https://img.shields.io/badge/%F0%9F%8C%90%20%20HYPATIAACADEMY.IO%20%20%E2%86%92-0A2540?style=for-the-badge&labelColor=0A2540" alt="hypatiaacademy.io">
 </a>
 &nbsp;
-<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">
+<a href="https://www.youtube.com/@TheSiliconSkeptic-e8g">
 <img src="https://img.shields.io/badge/YOUTUBE-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A2540" alt="YouTube">
 </a>
 
@@ -275,7 +183,7 @@ Based in Paphos, Cyprus — European time zones.
 
 <a href="https://hypatiaacademy.io/">🌐 hypatiaacademy.io</a>
 &nbsp;•&nbsp;
-<a href="https://www.youtube.com/channel/UCeVVG0cwtAb311Di1pp9dfA">▶️ YouTube</a>
+<a href="https://www.youtube.com/@TheSiliconSkeptic-e8g">▶️ YouTube</a>
 &nbsp;•&nbsp;
 <a href="mailto:contact@walkerrowe.com">✉️ contact@walkerrowe.com</a>
 &nbsp;•&nbsp;
