@@ -70,7 +70,7 @@ to logic gates, memory, and PWM.
 
 ### Circuits We Have Built
 
-| Circuit | Tinkercad / Wokwi | EveryCircuit |
+| Circuit | Tinkercad / Wokwi / Lecture | EveryCircuit |
 |---|---|---|
 | Turn on an LED | [Open](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) |  |
 | Using a Transistor as a Switch | [Open](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | [Open](https://everycircuit.com/circuit/6367444193116160/transistor-led-switch-circuit) |
