@@ -36,6 +36,8 @@ for students ages 13–18.</strong>
 
 <a href="#-arduino-circuits"><img src="https://img.shields.io/badge/CIRCUITS-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Circuits"></a>
 &nbsp;
+<a href="logic/README.md"><img src="https://img.shields.io/badge/LOGIC-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Logic"></a>
+&nbsp;
 <a href="MATH.md"><img src="https://img.shields.io/badge/MATH%20%26%20THEORY-22d3ee?style=for-the-badge&labelColor=0A2540" alt="Math and Theory"></a>
 &nbsp;
 <a href="C_REFERENCE.md"><img src="https://img.shields.io/badge/C%20COURSE-22d3ee?style=for-the-badge&labelColor=0A2540" alt="C Course"></a>
@@ -91,8 +93,18 @@ to logic gates, memory, and PWM.
 - [Programming Tools and Circuit Simulators](arduino/TOC.md)
 - [Arduino Basic Info](arduino/ARDUINO.md)
 - [Electronics: Voltage, Current, Resistance, and Transistors](electronics/ELECTRONICS.md)
-- [Build XOR, OR, NOT, and AND Gates from a 74HC00](lectures/74hc00.md)
 - [Calculate Voltage Across Two Resistors in Series — C Example](electronics/resistance_series.c)
+
+---
+
+## Logic
+
+[Browse the logic lessons](logic/README.md).
+
+- [Boolean Logic: Rules, Simplification, and Circuits](logic/boolean_logic.md) —
+  two lectures on Boolean rules, truth tables, De Morgan’s laws, NAND gates,
+  and half adders, with exercises and a teacher answer key.
+- [Build XOR, OR, NOT, and AND Gates from a 74HC00](lectures/74hc00.md)
 
 ---
 
