@@ -4,7 +4,7 @@
 
 In `xy' + x'y`:
 
-- **`xy'`** means x is 1 **and y is 0**.
+- **`xy'`** means x is 1 **and y is 0**.  (**Explanation**:  xy' is 1 only when x is 1 and y is 0. In that case y' is 1.)
 - **`x'y`** means x is 0 **and y is 1**.
 - **`+`** means OR: either case makes the output 1.
 
