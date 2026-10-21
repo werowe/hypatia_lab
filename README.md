@@ -99,12 +99,7 @@ to logic gates, memory, and PWM.
 
 ## Logic
 
-[Browse the logic lessons](logic/README.md).
-
-- [Boolean Logic: Rules, Simplification, and Circuits](logic/boolean_logic.md) —
-  two lectures on Boolean rules, truth tables, De Morgan’s laws, NAND gates,
-  and half adders, with exercises and a teacher answer key.
-- [Build XOR, OR, NOT, and AND Gates from a 74HC00](lectures/74hc00.md)
+[Browse the logic lessons](logic/boolean_logic.md)
 
 ---
 
