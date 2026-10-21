@@ -29,7 +29,7 @@ Each lesson is planned for about two hours, including discussion and practical w
 
 In Boolean expressions, **+ means OR**, not numerical addition. **1 + 1 = 1** in Boolean algebra. In ordinary binary arithmetic, one plus one is the two-digit number **10**. Arithmetic lessons label the context explicitly.
 
-We write exclusive OR as `xy' + x'y`, following the book's algebraic notation, rather than introducing another operator.  (See [here](boolean_logic/xor.md for an explanation).
+We write exclusive OR as `xy' + x'y`, following the book's algebraic notation, rather than introducing another operator.  (See [here](boolean_logic/xor.md for an explanation)).
 
 ## How to work
 
