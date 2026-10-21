@@ -2,6 +2,8 @@
 
 [← Logic lessons](README.md) · [Course home](../README.md)
 
+> **Reference** See chapter 4.  **Switching Algebra** in **Boolean Algebra and its Applications** by J. Eldon Whitesitt.  
+
 Two one-hour lectures connecting Boolean algebra to logic gates and binary adders.
 
 ## Notation
