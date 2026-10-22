@@ -85,7 +85,7 @@ to logic gates, memory, and PWM.
 | 74HC00 NAND Gate | [Open](https://www.tinkercad.com/things/eRY2YZ6IHYd-nand-single?sharecode=cm1C_QGX918UaoXFylzWq8A6-jMBnGBkyS7pCxD8IOU) | [YouTube](https://youtu.be/tz0Z7IxRa0Y)| |
 | 1-bit memory | [Open](https://www.tinkercad.com/things/ls1HD9mKX2r-memory-1-nand-gate?sharecode=h6dkQhVqG3tSrEsFXcbhpPVMBuXbSfiGf3IYBmCDNDg) | | |
 | LED with logic analyzer | [Open](https://wokwi.com/projects/474865859873788929) | | [Open](https://everycircuit.com/circuit/5216310279667712) |
-| PWM and RC Filter | [Open](https://www.tinkercad.com/things/lHeHs0gkbTg-pwm-with-osciliscope?sharecode=QvGWhA7d9FEslYPROzAjqN-2C8iM60GD8N7SZW-R7dQ) | | [Open](https://everycircuit.com/circuit/4711407480340480) |
+| PWM and RC Filter | [Open](https://www.tinkercad.com/things/lHeHs0gkbTg-pwm-with-osciliscope?sharecode=QvGWhA7d9FEslYPROzAjqN-2C8iM60GD8N7SZW-R7dQ) | [YouTube](https://www.youtube.com/watch?v=BbyGqQ6ZQyA) | [Open](https://everycircuit.com/circuit/4711407480340480) |
 | XOR, AND, NOT, OR from 4 NAND Gates | | [Homework](lectures/74hc00.md)  [YouTube](https://youtu.be/_oebhzll5Hw)| [Open](https://everycircuit.com/circuit/6022823030161408) |
 
 ### Electronics Lessons and Tools
