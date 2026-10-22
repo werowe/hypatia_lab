@@ -29,6 +29,11 @@ Put x and y in series. Both must close, so f = xy. Now connect them in parallel.
 
 Ask why the final OR entry is 1 rather than 2. There is a path; Boolean algebra does not count paths.
 
+
+![Series AND and parallel OR switch networks](../assets/series_parallel.svg)
+
+A and B are the terminals of the switch network. Connect the supply, resistor and LED outside these terminals.
+
 ## 3. Complementary contacts (15 minutes)
 
 The expression x' means the opposite state of x. A pair of contacts labelled x and x' must operate together: whenever x closes, x' opens, and conversely.
@@ -39,6 +44,11 @@ The expression x' means the opposite state of x. A pair of contacts labelled x a
 | 1 | 0 |
 
 Two unrelated pushbuttons are not automatically complements. Use a changeover switch, linked simulator contacts or a NOT gate in the appropriate model. Multiple contacts with the same label also represent one linked control, not independent inputs.
+
+
+![Complement contacts in parallel and series](../assets/complements.svg)
+
+Contacts with the same control must move together; a primed contact has the opposite state.
 
 ## 4. Read a compound expression (20 minutes)
 
@@ -60,6 +70,11 @@ The LED lights when x is closed and at least one of y and z is closed.
 | 1 | 0 | 1 | 1 | 1 |
 | 1 | 1 | 0 | 1 | 1 |
 | 1 | 1 | 1 | 1 | 1 |
+
+
+![Compare x(y + z) with xy + z](../assets/compound.svg)
+
+Trace each complete conducting path between A and B.
 
 ## 5. Practical work (35 minutes)
 

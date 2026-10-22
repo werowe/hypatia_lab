@@ -44,6 +44,13 @@ Gate recipe:
 
 Another useful expression is s = (x + y)(xy)'. Expand to verify that it gives the same function. This shares the xy result with the carry circuit.
 
+
+![Half-adder gate schematic](../assets/half_adder.svg)
+
+![Five NAND gates implementing a half adder](../assets/nand_half.svg)
+
+These are IEC rectangular gate symbols: & means AND, ≥1 means OR, and an output circle means NOT. Matching wire labels are connected electrically. These are logical schematics, not breadboard pinouts.
+
 ## 4. Practical work (45 minutes)
 
 Build the half adder in a simulator with two input controls and two labelled indicators, **s** and **c**. Test all four rows. Label the outputs so the two-bit answer reads cs.

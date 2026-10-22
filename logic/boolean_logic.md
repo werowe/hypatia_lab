@@ -31,6 +31,12 @@ In Boolean expressions, **+ means OR**, not numerical addition. **1 + 1 = 1** in
 
 We write exclusive OR as `xy' + x'y`, following the book's algebraic notation, rather than introducing another operator.  **See** [here](boolean_logic/xor.md) for an explanation.
 
+## Circuit diagrams
+
+![Before and after Boolean simplification](boolean_logic/assets/simplify.svg)
+
+[All circuit diagrams](boolean_logic/assets/README.md) include switch networks, half and full adders, NAND implementations and the four-bit carry chain.
+
 ## How to work
 
 For a circuit task, submit a labelled circuit, its Boolean expression, a complete truth table and any simplification with a reason for each step. Test every input combination. Simulator screenshots are useful evidence, but do not replace an expression or table.

@@ -25,6 +25,11 @@ Read the complete unsigned answer as c4 s3 s2 s1 s0. Four input bits represent u
 
 The first column can use a half adder instead because c0 is fixed at 0. Four full adders are convenient if one wants identical reusable blocks.
 
+
+![Four full adders connected by carry wires](../assets/ripple_adder.svg)
+
+The drawing places the least significant bit on the left so carry propagation is easy to trace. Numerical notation still places the most significant bit on the left.
+
 ## 2. Trace an example (25 minutes)
 
 Add X = 0111 and Y = 0101: seven plus five.

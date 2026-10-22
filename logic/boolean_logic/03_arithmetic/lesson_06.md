@@ -49,19 +49,14 @@ Let the second receive p and z:
 
 The final carry is c = q + r. Equivalently, c = xy + z(xy' + x'y). It equals the majority form xy + xz + yz.
 
-```mermaid
-flowchart TD
-    X["x"] --> H1["Half adder 1"]
-    Y["y"] --> H1
-    H1 -->|p| H2["Half adder 2"]
-    Z["z: carry in"] --> H2
-    H1 -->|q| O["OR"]
-    H2 -->|r| O
-    H2 --> S["s: sum"]
-    O --> C["c: carry out"]
-```
+![Full adder built from two half adders and an OR gate](../assets/full_adder.svg)
 
 There is no feedback or memory in this circuit. Once inputs stop changing and gate delays have passed, outputs settle to the required result.
+
+
+![Nine NAND gates implementing a full adder](../assets/nand_full.svg)
+
+Follow matching wire labels between gates; they denote one signal, not independent inputs.
 
 ## 4. Build and verify (45 minutes)
 

@@ -48,6 +48,11 @@ The companion law is x(x + y) = x. One proof is:
 
 x(x + y) = xx + xy = x + xy = x.
 
+
+![Absorption before and after simplification](../assets/absorption.svg)
+
+The branch containing xy cannot conduct unless the separate x branch already conducts.
+
 ## 4. Complement a whole condition (20 minutes)
 
 De Morgan's laws:

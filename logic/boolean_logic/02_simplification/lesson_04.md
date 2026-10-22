@@ -28,6 +28,11 @@ f = x[y'z + y(z' + z)] = x(y'z + y) = x(y + z).
 
 The table gives a correct starting expression even when the simpler form is not obvious.
 
+
+![Accepted minterms and simplified enable-request network](../assets/design.svg)
+
+Each original branch corresponds to one accepted truth-table row.
+
 ## 3. Two places control one light (25 minutes)
 
 Either control must change the light's state, whatever the other control's position. Choose the light to be off at 00.
@@ -44,6 +49,11 @@ Then f = xy' + x'y. Use linked complementary contacts or changeover switches.
 Whitesitt chooses the alternative initial state in his example, giving xy + x'y'. Both meet the requirement that changing either control changes the light. The wording alone does not select the initial state.
 
 This is an indicator experiment at low voltage, not a household mains wiring exercise.
+
+
+![XOR and its complemented output as switch networks](../assets/xor_contacts.svg)
+
+The left circuit is off at 00; the right is on at 00. Either control toggles the output in both circuits.
 
 ## 4. Practical design (35 minutes)
 

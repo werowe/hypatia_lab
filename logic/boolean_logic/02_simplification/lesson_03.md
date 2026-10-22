@@ -24,6 +24,11 @@ The test is equal closure conditions, not equal resistance or current. Two equiv
 
 Start with f = xy + xy' + x'z.
 
+
+![Six-contact circuit and equivalent two-contact circuit](../assets/simplify.svg)
+
+Compare the original and simplified networks before following the proof.
+
 | Step | Reason |
 |---|---|
 | f = x(y + y') + x'z | Factor x |
@@ -51,6 +56,11 @@ Consider g = xy + xz = x(y + z). Either expression works. A direct series-parall
 Count contacts, not only distinct letters. A circuit may need two contacts driven by the same control. A simulator with independent toggles must have those contacts linked or updated consistently.
 
 For electronic logic gates, contact count is not automatically chip count or speed. An inverter might be shared, available gates come in packages, and extra gate levels introduce delay.
+
+
+![Four contacts reduced to three by factoring](../assets/factor.svg)
+
+The repeated x contacts in the original are linked to one control.
 
 ## 4. Practical comparison (40 minutes)
 
