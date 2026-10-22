@@ -74,8 +74,8 @@ to logic gates, memory, and PWM.
 
 | Circuit | Tinkercad / Wokwi | Lecture/Video | EveryCircuit |
 |---|---|---|---|
-| Turn on an LED | [Open](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) | https://youtu.be/OFJqmgFnlJ0 | |
-| Using a Transistor as a Switch | [Open](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | | [Open](https://everycircuit.com/circuit/6367444193116160/transistor-led-switch-circuit) |
+| Turn on an LED | [Open](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) | [YouTube](https://youtu.be/OFJqmgFnlJ0) | |
+| Using a Transistor as a Switch | [Open](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | [YouTube](https://youtu.be/pmJU3fAExvk)| [Open](https://everycircuit.com/circuit/6367444193116160/transistor-led-switch-circuit) |
 | Logical OR gate | [Open](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or) | | |
 | Logical AND gate | [Open](https://www.tinkercad.com/things/car8xmCvPKY-logical-and) | | |
 | Shift Register | [Open](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led) | | |
