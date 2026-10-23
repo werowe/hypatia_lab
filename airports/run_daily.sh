@@ -13,15 +13,15 @@ PYTHON_BIN="${PYTHON_BIN:-/home/werowe/venvs/main/bin/python3}"
     . "$SCRIPT_DIR/.env"
     set +a
   fi
-  "$PYTHON_BIN" "$SCRIPT_DIR/tracker.py" collect --hours 24
-  flight_result=$?
+  "$PYTHON_BIN" "$SCRIPT_DIR/collect_cancellations.py"
+  cancellation_result=$?
   "$PYTHON_BIN" "$SCRIPT_DIR/collect_restrictions.py"
   restrictions_result=$?
   "$PYTHON_BIN" "$SCRIPT_DIR/restriction_report.py" --html "$SCRIPT_DIR/dashboard.html"
   dashboard_result=$?
   result=0
-  if [ "$flight_result" -ne 0 ] || [ "$restrictions_result" -ne 0 ] || [ "$dashboard_result" -ne 0 ]; then result=1; fi
-  echo "Collector exits: flights=$flight_result restrictions=$restrictions_result dashboard=$dashboard_result"
+  if [ "$cancellation_result" -ne 0 ] || [ "$restrictions_result" -ne 0 ] || [ "$dashboard_result" -ne 0 ]; then result=1; fi
+  echo "Collector exits: cancellations=$cancellation_result restrictions=$restrictions_result dashboard=$dashboard_result"
   echo "===== $(date -Iseconds) daily collection finished (exit=$result) ====="
   exit "$result"
 } >> "$LOG_FILE" 2>&1

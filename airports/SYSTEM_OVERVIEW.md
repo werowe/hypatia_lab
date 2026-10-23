@@ -1,210 +1,110 @@
-# Russian Airport Restrictions Tracker: purpose and operation
+# Airport reports: sources, calculations and operation
 
-## What it does
+Production runs in `/home/werowe/Documents/hypatia_lab/airports` on walker-server.
+The Mac source copy is `/Users/walkerrowe/Documents/hypatia_lab/airports`.
+The six configured airports are SVO, DME, VKO, LED, KZN and AER. Both collectors
+use Airports.ru public downloads/pages and require no paid API or API key.
 
-This project compares Russian airport restrictions with reported flight cancellations.
-It helps show days when restrictions affect many airports or last for many hours,
-even when relatively few flights are recorded as cancelled. The two sources measure
-different things. The comparison does not establish what caused a restriction.
+## Daily process
 
-The production installation runs continuously on `werowe@walker-server` in
-`/home/werowe/Documents/hypatia_lab/airports`, inside the server's clone of
-[werowe/hypatia_lab](https://github.com/werowe/hypatia_lab). The Mac source is in
-`/Users/walkerrowe/Documents/hypatia_lab/airports`. Source changes are pushed from
-the Mac to GitHub and pulled into the server clone. The Mac database remains a
-manually copied snapshot; it does not synchronize itself with the server. The live
-database, private `.env`, logs, downloaded CSV, generated dashboard, and backups
-are preserved locally on the server and excluded from Git. The former
-`/home/werowe/Documents/airports` path links to the new airport directory so existing
-notebook links continue to work.
+The existing 02:17 server-time cron entry invokes `run_daily.sh`:
 
-## Data sources and collection
+1. `collect_cancellations.py` downloads each airport's English delays page.
+2. `collect_restrictions.py` downloads the 90-day restriction-history CSV.
+3. `restriction_report.py` regenerates `dashboard.html`.
 
-**AeroDataBox through RapidAPI** supplies flight observations for the airports in
-`airports.json`. The current configuration includes SVO, DME, VKO, LED, KZN, and AER.
-`tracker.py` collects arrivals and departures for the previous 24 hours when invoked
-by the daily runner. It divides the period into at most 12-hour API requests using
-each airport's configured timezone. This preserves the existing API usage pattern.
-The API key comes from the server's private `.env` file.
+All stages are attempted. Exit statuses and errors are appended to
+`airport_tracker.log`; any failed stage makes the runner return 1. The Mac and SSH
+tunnel do not need to be running for collection. Notebooks are refreshed separately
+with Kernel → Restart & Run All.
 
-The collector stores status, scheduled/revised/actual times, cancellation and diversion
-flags, calculated delay, and the raw response for each flight observation. Repeated
-observations are retained to preserve the collection history. Each requested window
-also has a success or failure record in `fetch_runs`.
+## Cancellation totals
 
-**[Airports.ru restriction history](https://airports.ru/en/history/)** supplies a
-semicolon-delimited CSV through
-[the 90-day download](https://airports.ru/en/history/?format=csv&period=90).
-`collect_restrictions.py` uses curl to fetch it and Python's standard-library
-`csv.DictReader` to parse it. It makes no RapidAPI requests. The source timestamps
-use Moscow time (`Europe/Moscow`, UTC+3).
+The source is `https://airports.ru/en/delays/<airport>/`, with slugs configured in
+`collect_cancellations.py`. A custom `airports_ru_slug` can be set in an airport's
+configuration. Each source page has a seven-day completed-date history with:
 
-The restriction collector validates all required columns, timestamps, durations,
-and ongoing flags before writing any rows. Its stable key is airport IATA code,
-restriction kind, and start time. Re-importing a period updates that record instead
-of adding a duplicate. An ongoing record can acquire an end time when the source
-publishes it; a stale ongoing record cannot reopen a completed period. Records absent
-from a later download are retained. Failed downloads or invalid CSVs do not erase
-previously imported history.
+- Date, without a year.
+- Delayed departures and delayed arrivals.
+- Cancelled flights.
+- Flights with data.
 
-The initial October 8, 2026 import contained 540 records, including September history
-and an earliest start of August 31. The download is a rolling 90-day window; older
-records survive in SQLite after they leave that window, provided they were imported
-while available. The observed kinds are `restricted` and `partial`. A partial period
-means operation with restrictions and must not be interpreted as a complete closure.
+The collector resolves each date against the seven completed Moscow dates before
+the collection time. This handles New Year and leap days without guessing a year
+from the process's local timezone. It requires the correct airport in the heading,
+one history table with the expected headers, seven unique completed dates through
+yesterday, and nonnegative integer counts. Stale or malformed pages fail explicitly.
+Only a validated airport page is written, in one SQLite transaction.
 
-## Database and files
+Every run refreshes all seven days. The `(airport_iata,date_msk)` key prevents
+duplicates, while newer imports update source corrections. Older stored days survive
+when they leave the source window; older snapshots cannot replace newer rows.
+Failures for one airport do not prevent collecting the others.
 
-The two sources share `flights.sqlite3` but use separate tables:
+`flight_report.cancellation_report_data` reads only these source totals. It returns
+independent airport-day counts, source URLs, collection timestamps and source flight
+counts. Missing days, missing airports, and rows with zero flights with data are
+unavailable. Explicit cancellation zeros with flight data remain zero. Reporting
+availability is not a guarantee of exhaustive source coverage. Source totals are
+not claimed to be deduplicated network flights or codeshare-filtered movements.
+The combined total is shown only when every configured airport has usable data.
+
+## Closure hours and events
+
+`collect_restrictions.py` downloads
+`https://airports.ru/en/history/?format=csv&period=90`. The semicolon-delimited CSV
+contains airport identity, restriction kind, Moscow start/end times, minutes and
+ongoing state. A validated import upserts by airport, kind and start time. A stale
+ongoing row cannot reopen a completed interval, and older imported history remains
+stored beyond the rolling source window.
+
+`restriction_report.daily_restrictions` merges overlapping intervals per airport
+and splits them across Moscow midnights. Duration comes from timestamps, not the
+source's rounded minutes. `restricted` contributes to hours closed; `partial` means
+operating with restrictions and is excluded from notebook closure totals.
+Ongoing periods end at the last successful restriction import. Current-date totals
+and days with ongoing intervals are provisional. Event counts are restriction
+starts on that date; affected airports are distinct airports with restriction time.
+
+Hours are summed across airports. Two airports closed for three hours contribute
+six airport-hours. These data alone do not establish the cause of restrictions.
+
+## Storage
 
 | Table | Purpose |
 | --- | --- |
-| `airports` | Airport configuration recorded by the flight collector |
-| `fetch_runs` | Flight request windows, outcomes, and errors |
-| `flight_observations` | Historical flight observations and raw API payloads |
-| `airport_restrictions` | Restriction intervals, duration, kind, and ongoing status |
-| `restriction_imports` | Successful restriction imports and their reporting cutoffs |
+| `daily_cancellations` | Per-airport/day source counts, URL and collection timestamp |
+| `cancellation_fetches` | Successful and failed airport page fetch/import attempts |
+| `airport_restrictions` | Restriction intervals and ongoing state |
+| `restriction_imports` | Successful CSV imports and reporting cutoffs |
 
-| File | Role |
-| --- | --- |
-| `tracker.py` | Collect flight observations and print observation reports |
-| `collect_restrictions.py` | Download, validate, and upsert restriction history |
-| `restriction_report.py` | Calculate daily metrics and generate the HTML dashboard |
-| `airport_analysis.ipynb` | Jupyter analysis with cancellation tables and dashboard |
-| `run_daily.sh` | Run collection and dashboard generation, with logging |
-| `airports.json` | Airports monitored through AeroDataBox |
-| `.env.example` | Template for the private server environment file |
-| `requirements-notebook.txt` | Optional pandas and Jupyter dependencies |
-| `flight_report.py` | Independent cancellations and per-airport flight request coverage |
-| `test_restrictions.py`, `test_flight_report.py` | Automated correctness and failure-handling tests |
-| `.gitignore` | Exclude credentials, databases, logs, generated dashboards, and caches |
+A pre-migration database may retain `airports`, `fetch_runs` and
+`flight_observations` from AeroDataBox. New reports do not read those tables. They
+are not mixed with the new cancellation totals. No API credentials are needed.
 
-## How daily metrics work
+## User-facing reports
 
-All comparison dates use Moscow time. Restrictions crossing midnight are split:
-a period from 22:00 to 04:00 contributes two airport-hours to the first date and four
-to the next. Hours come from timestamps rather than the CSV's rounded `minutes` field.
-Overlapping intervals are merged per airport, so one airport cannot contribute more
-than 24 hours to one day. The union across kinds can be smaller than the sum of
-separate restricted and partial totals.
+- `airport_analysis.ipynb`: one cancellation line for each of the six airports.
+- `airport_closure_hours.ipynb`: total hours closed and per-airport closure hours.
+- `dashboard.html`: aligned restriction-hours, cancellations, starts and affected
+  airports, with scope and restriction-kind selectors.
 
-An airport-hour sums time across airports. For example, three airports restricted
-for two hours contribute six airport-hours. This is not six hours during which the
-entire Russian aviation system was closed.
+The notebooks exclude the current Moscow day. They show up to 14 collected days;
+cancellations start with seven source days and accumulate thereafter. Missing
+cancellation data stays unavailable. Closure report dates depend on closure history,
+not cancellation availability. Saved notebook outputs are refreshed by running the
+notebook. The daily process refreshes the HTML dashboard automatically.
 
-The daily restriction metrics are:
+## Validation and limits
 
-- Airport restriction-hours during the date.
-- Number of restriction records whose start falls on the date.
-- Number of distinct airports with restriction time during the date.
+Run `python3 -m unittest -v test_restrictions.py test_flight_report.py`. Tests cover
+HTML table validation, year rollover, leap days, corrections and retention, failure
+isolation, missing versus zero counts, partial six-airport totals, notebook rendering,
+closure intervals, overlaps, provisional cutoffs and daily-run failure handling.
+They make no network or paid API calls.
 
-Ongoing periods are capped at the last successful import time, rather than extended
-silently to the time the report is opened. Dates containing ongoing intervals and the
-cutoff date are provisional. The first history date is marked as a source boundary.
-“Completed intervals” means the stored periods have ends; it does not guarantee
-that the external source recorded every event.
-
-Daily cancellations use the latest observation for each combination of airport,
-arrival/departure direction, flight number, and scheduled timestamp. Explicit
-codeshare records are excluded. Historical scheduled times missing from normalized
-columns are recovered from the retained raw payloads without rewriting those rows.
-Future collection extracts them from the actual departure or arrival payload fields.
-
-These are cancelled **airport flight movements**. A flight departing one tracked
-airport and arriving at another can contribute two movements, so the total is not
-a count of unique network flights. Flights are assigned to their scheduled Moscow
-date rather than the date the tracker ran.
-
-Successful request windows are merged to indicate flight collection coverage for
-each date. Partial windows, missing dated observations, and the current cutoff date
-are labeled. A successful API request does not guarantee exhaustive flight reporting.
-
-## Dashboard and reports
-
-`dashboard.html` is a standalone browser report with four aligned daily charts:
-restriction-hours, cancelled movements, restriction starts, and affected airports.
-They share calendar dates and use separate vertical scales. Faded bars identify
-provisional totals or incomplete flight windows; a cross marks missing dated flight
-observations. Hover text and the daily table expose the coverage labels.
-
-The selector switches restriction scope between all Airports.ru airports and only
-those in `airports.json`, and can filter by restriction kind. Flight counts always
-refer to configured AeroDataBox airports. Use the tracked restriction scope for the
-closest comparison between sources.
-
-From the project directory:
-
-```bash
-python3 restriction_report.py --scope all
-python3 restriction_report.py --scope tracked --kind restricted
-python3 restriction_report.py --html dashboard.html
-```
-
-The first two commands print daily CSV summaries. `--cutoff` accepts an ISO timestamp
-with an offset and is capped at the last successful import. Open `dashboard.html`
-in a browser, or start Jupyter in the project directory and open
-`airport_analysis.ipynb`. The notebook also regenerates the HTML file.
-A database containing only restriction imports can generate a report with flight
-coverage shown as unavailable.
-
-Example from the initial import: September 9, 2026 contributed 158.8 airport-hours,
-31 restriction starts, and 26 affected airports. Flight observations were not available
-for that September date, so its cancellation value is unavailable rather than zero.
-
-## Production automation on walker-server
-
-The existing crontab entry remains:
-
-```cron
-17 2 * * * /home/werowe/Documents/hypatia_lab/airports/run_daily.sh
-```
-
-Cron interprets 02:17 in the server's timezone. The runner uses
-`/home/werowe/venvs/main/bin/python3`, loads the private `.env`, then runs:
-
-1. `tracker.py collect --hours 24`
-2. `collect_restrictions.py`
-3. `restriction_report.py --html dashboard.html`
-
-It attempts both collectors even if one fails, logs each exit status to
-`airport_tracker.log`, and returns nonzero if either collector or dashboard generation
-fails. The flight collector reports failure when any API window fails. Dashboard
-regeneration after a failed restriction fetch uses the prior successful import cutoff.
-The scheduled process runs on the server independently of the Mac being on.
-
-Before the extension was installed, the server code and database were backed up under
-`backups/pre-restrictions-20261008-173939`. These backups are retained in the new
-airport directory after the repository migration. The extension preserved the existing
-23,440 flight observations. This backup and runtime data are excluded from Git.
-
-## Setup and validation
-
-Collectors and HTML reports require Python 3.9+ and curl, with no third-party Python
-packages. Jupyter analysis additionally uses the packages in
-`requirements-notebook.txt`.
-
-For a fresh installation, from the project directory:
-
-```bash
-cp .env.example .env
-# Edit .env locally to supply the RapidAPI key.
-# run_daily.sh loads .env; direct tracker.py commands require exported variables.
-python3 tracker.py init
-python3 collect_restrictions.py
-python3 restriction_report.py --html dashboard.html
-python3 -m unittest -v test_restrictions.py test_flight_report.py
-```
-
-On the existing server, manual collection uses `./run_daily.sh`. On another machine,
-set `PYTHON_BIN=python3` when invoking it. A local run will collect into that machine's
-database; it does not update the production server automatically.
-
-The 22 automated tests cover CSV delimiters and BOMs, duplicate imports, historical
-retention, ongoing completion, stale records, midnight splitting, airport-hour
-calculations, overlaps, type/scope filtering, invalid timestamps, download failure,
-flight deduplication, payload normalization, coverage/cutoff handling, a restriction-only
-dashboard, attempting both collectors after failure, independent per-airport flight
-coverage, missing versus zero cancellations, and rendering without closure imports.
-They use synthetic data and
-make no paid API calls. They passed on both server and Mac; the notebook also executed
-successfully against the server database.
+Public-page HTML is not a documented API. Layout changes will fail collection
+rather than silently write guessed counts. The source offers seven cancellation
+history days, so a longer collection outage can leave an unrecoverable gap. Retained
+history is not automatically revised after leaving that window. Source records and
+coverage may differ from the retired AeroDataBox feed.

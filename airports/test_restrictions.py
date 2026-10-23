@@ -8,7 +8,6 @@ from pathlib import Path
 from unittest.mock import patch
 import collect_restrictions as c
 import restriction_report as report
-import tracker
 
 HEADER = 'airport;iata;city;kind;start_msk;end_msk;minutes;ongoing\n'
 CLOSED = 'Airport;SVO;Moscow;restricted;2026-09-01 22:00;2026-09-02 04:00;360;0\n'
@@ -75,31 +74,15 @@ class RestrictionsTests(unittest.TestCase):
                 self.assertEqual(c.collect(db),1)
             with sqlite3.connect(db) as con:
                 self.assertEqual(con.execute('SELECT count(*) FROM airport_restrictions').fetchone()[0],1)
-    def test_historical_flights_latest_observation_and_moscow_date(self):
-        row=dict(airport_iata='SVO',direction='Departure',scheduled_utc=None,scheduled_local=None,
-                 raw_json=json.dumps({'departure':{'scheduledTime':{'utc':'2026-09-01 22:00Z'}}}),
-                 flight_number='SU 1',flight_key='oldkey',observed_at='2026-09-02T05:00:00+03:00',id=1,is_cancelled=1)
-        newer=dict(row,observed_at='2026-09-03T05:00:00+03:00',id=2,is_cancelled=0)
-        counts,missing=report.flight_daily([row,row,newer],{'SVO'})
-        self.assertEqual(counts,{'2026-09-02':{'SVO':0}})
-        self.assertEqual(missing,0)
-    def test_normalization_payload_and_failure_exit(self):
-        flight={'number':'SU 1','departure':{'scheduledTime':{'utc':'2026-09-01 22:00Z','local':'2026-09-02 01:00+03:00'}}}
-        airport={'iata':'SVO','icao':'UUEE','name':'Test','timezone':'Europe/Moscow'}
-        self.assertEqual(tracker.normalize(flight,'Departure',airport)['scheduled_utc'],'2026-09-01 22:00Z')
-        with patch.dict('os.environ',{'RAPIDAPI_KEY':'test'}), patch.object(tracker,'load_airports',return_value=[airport]), patch.object(tracker,'db_connect',return_value=self.con),patch.object(tracker,'api_fetch',side_effect=TimeoutError):
-            self.con.executescript(tracker.SCHEMA)
-            with self.assertRaises(SystemExit) as exc: tracker.collect(1)
-            self.assertEqual(exc.exception.code,1)
     def test_restriction_only_database_dashboard(self):
         c.import_csv(self.con,HEADER+CLOSED,cutoff=CUTOFF)
         html = report.dashboard(self.con,[{'iata':'SVO'}])
-        self.assertIn('no successful fetch window',html)
+        self.assertIn('no cancellation history',html)
         self.assertIn('Only airports.json airports',html)
 
     def test_daily_runner_attempts_both_collectors_on_failure(self):
         import shutil
-        for failed in ('tracker.py', 'collect_restrictions.py'):
+        for failed in ('collect_cancellations.py', 'collect_restrictions.py'):
             with tempfile.TemporaryDirectory() as d:
                 root = Path(d)
                 shutil.copy(Path(c.__file__).parent / 'run_daily.sh', root / 'run_daily.sh')
@@ -110,17 +93,14 @@ class RestrictionsTests(unittest.TestCase):
                 result = subprocess.run(['bash', str(root / 'run_daily.sh')], env=dict(os.environ, PYTHON_BIN=str(stub)), capture_output=True)
                 self.assertEqual(result.returncode, 1)
                 calls = (root / 'calls').read_text()
-                self.assertIn('tracker.py', calls)
+                self.assertIn('collect_cancellations.py', calls)
                 self.assertIn('collect_restrictions.py', calls)
                 self.assertIn('restriction_report.py', calls)
 
-    def test_full_vs_incomplete_fetch_coverage_and_stale_cutoff(self):
-        self.con.executescript(tracker.SCHEMA)
+    def test_stale_closure_cutoff(self):
         c.import_csv(self.con,HEADER+CLOSED,cutoff=CUTOFF)
-        self.con.execute('INSERT INTO fetch_runs(airport_iata,started_at,window_from,window_to,status) VALUES(?,?,?,?,?)',('SVO','2026-09-02','2026-09-01T00:00+03:00','2026-09-02T00:00+03:00','ok'))
         rows,cutoff,_=report.report_data(self.con,[{'iata':'SVO'}],cutoff=datetime(2026,10,1,tzinfo=c.MSK))
         self.assertEqual(cutoff,CUTOFF)
-        self.assertEqual(rows[0]['flight_coverage'],'full requested windows')
-        self.assertEqual(rows[1]['flight_coverage'],'no successful fetch window')
+        self.assertEqual(rows[0]['flight_coverage'],'no cancellation history')
 
 if __name__=='__main__': unittest.main()
