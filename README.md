@@ -74,6 +74,7 @@ to logic gates, memory, and PWM.
 
 | Circuit | Tinkercad / Wokwi | Lecture/Video | EveryCircuit |
 |---|---|---|---|
+| Basics of Electricity | | [YouTube](https://youtu.be/kicm7ysPzYo) | |
 | Turn on an LED | [Open](https://www.tinkercad.com/things/cqRmrcOm3gv-first-class-simple-led) | [YouTube](https://youtu.be/OFJqmgFnlJ0) | |
 | Using a Transistor as a Switch | [Open](https://www.tinkercad.com/things/cCD3kAaFX9Z-use-transistor-as-switch) | [YouTube](https://youtu.be/pmJU3fAExvk)| [Open](https://everycircuit.com/circuit/6367444193116160/transistor-led-switch-circuit) |
 | Logical OR gate | [Open](https://www.tinkercad.com/things/01P3CTTz8oX-logical-or) |[YouTube](https://youtu.be/tiyeuKIoVpI) | |
@@ -87,6 +88,15 @@ to logic gates, memory, and PWM.
 | LED with logic analyzer | [Open](https://wokwi.com/projects/474865859873788929) | | [Open](https://everycircuit.com/circuit/5216310279667712) |
 | PWM and RC Filter | [Open](https://www.tinkercad.com/things/lHeHs0gkbTg-pwm-with-osciliscope?sharecode=QvGWhA7d9FEslYPROzAjqN-2C8iM60GD8N7SZW-R7dQ) | [YouTube](https://www.youtube.com/watch?v=BbyGqQ6ZQyA) | [Open](https://everycircuit.com/circuit/4711407480340480) |
 | XOR, AND, NOT, OR from 4 NAND Gates | | [Homework](lectures/74hc00.md)  [YouTube](https://youtu.be/_oebhzll5Hw)| [Open](https://everycircuit.com/circuit/6022823030161408) |
+| How does a MOSFET work| | [YouTube](https://www.youtube.com/watch?v=70JWyatd51s) |
+| Volts, Amps & Ohms | | [YouTube](https://youtu.be/T1Nx0zG7s-c) | |
+| Wokwi, VS Code, PlatformIO, GitHub & AI Coding Tools| | [YouTube](https://youtu.be/wwKv66rVZyg) | |
+| Turns Voltage Into a Number — ADC, PWM & LED Brightness| | [YouTube](https://youtu.be/wwKv66rVZyg) | | |
+| Configure Arduino with Visual Studio Code and PlatformIO | | [YouTube](https://youtu.be/8W7YjA8kFIY) | | 
+|  How George Boole and Claude Shannon Created Computer Circuits | | [YouTube](https://youtu.be/7ckEQ91E6F8) | |
+
+
+
 
 ### Electronics Lessons and Tools
 
