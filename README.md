@@ -94,6 +94,7 @@ to logic gates, memory, and PWM.
 | Turns Voltage Into a Number — ADC, PWM & LED Brightness| | [YouTube](https://youtu.be/wwKv66rVZyg) | | |
 | Configure Arduino with Visual Studio Code and PlatformIO | | [YouTube](https://youtu.be/8W7YjA8kFIY) | | 
 |  How George Boole and Claude Shannon Created Computer Circuits | | [YouTube](https://youtu.be/7ckEQ91E6F8) | |
+| How Binary Adders Work  |  | [YouTube](https://youtu.be/jUeYgnuQ5Vs) | |
 
 
 
