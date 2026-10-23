@@ -95,6 +95,7 @@ to logic gates, memory, and PWM.
 | Configure Arduino with Visual Studio Code and PlatformIO | | [YouTube](https://youtu.be/8W7YjA8kFIY) | | 
 |  How George Boole and Claude Shannon Created Computer Circuits | | [YouTube](https://youtu.be/7ckEQ91E6F8) | |
 | How Binary Adders Work  |  | [YouTube](https://youtu.be/jUeYgnuQ5Vs) | |
+| Electricity Basics Explained Visually | | [YouTube](https://youtu.be/xXFvzCJR-hg) | |
 
 
 
