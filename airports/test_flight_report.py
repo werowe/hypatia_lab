@@ -1,6 +1,6 @@
 import json
-import sqlite3
 import os
+import sqlite3
 import sys
 import tempfile
 import unittest
@@ -9,129 +9,144 @@ from pathlib import Path
 from types import ModuleType
 from unittest.mock import patch
 
+import collect_cancellations as collector
 import flight_report as report
-import tracker
+import restriction_report
+
+NOW = datetime(2026, 10, 23, 12, tzinfo=report.MSK)
 
 
-class CancellationCoverageTests(unittest.TestCase):
+def history(code='SVO', now=NOW, cancelled=3, flights=100):
+    rows = ['<h1>Airport (' + code + '): flight delays today</h1><table><tr>' +
+            ''.join('<th>' + s + '</th>' for s in collector.HEADERS) + '</tr>']
+    for i in range(7, 0, -1):
+        day = now.date() - timedelta(days=i)
+        cells = [day.strftime('%d.%m %a'), '10', '20', str(cancelled), str(flights)]
+        rows.append('<tr>' + ''.join('<td><span>' + c + '</span></td>' for c in cells) + '</tr>')
+    return ''.join(rows) + '</table>'
+
+
+class DatabaseCase(unittest.TestCase):
     def setUp(self):
         self.con = sqlite3.connect(':memory:')
-        self.con.executescript(tracker.SCHEMA)
-        self.config = [{'iata': 'SVO'}, {'iata': 'DME'}]
-        self.as_of = datetime(2026, 10, 14, 7, tzinfo=report.MSK)
 
     def tearDown(self):
         self.con.close()
 
-    def run_window(self, code, start, end, status='ok'):
-        self.con.execute('INSERT INTO fetch_runs(airport_iata,started_at,finished_at,window_from,window_to,status) '
-                         'VALUES(?,?,?,?,?,?)', (code, end, end, start, end, status))
+    def insert(self, code='SVO', **kwargs):
+        return collector.import_history(self.con, history(code=code, **kwargs), code,
+                                        'https://airports.ru/test/', kwargs.get('now', NOW))
 
-    def observation(self, code, cancelled=0):
-        airport = dict(iata=code, icao='TEST', name='Test', timezone='Europe/Moscow')
-        flight = dict(number=code + '1', status='Canceled' if cancelled else 'Arrived',
-                      arrival={'scheduledTime': {'utc': '2026-10-12T22:00:00Z'}})
-        row = tracker.normalize(flight, 'Arrival', airport)
-        row['observed_at'] = '2026-10-14T02:17:00+03:00'
-        self.con.execute('INSERT INTO flight_observations(' + ','.join(row) + ') VALUES(' +
-                         ','.join('?' for _ in row) + ')', list(row.values()))
 
+class CollectorTests(DatabaseCase):
+    def test_history_extracts_seven_completed_dates_and_counts(self):
+        rows = collector.parse_history(history(), 'SVO', NOW)
+        self.assertEqual(len(rows), 7)
+        self.assertEqual(rows[-1], ('2026-10-22', 10, 20, 3, 100))
+
+    def test_year_rollover_and_leap_day(self):
+        for now, expected in [(datetime(2027, 1, 2, tzinfo=report.MSK), '2026-12-26'),
+                              (datetime(2028, 3, 1, tzinfo=report.MSK), '2028-02-23')]:
+            rows = collector.parse_history(history(now=now), 'SVO', now)
+            self.assertEqual(rows[0][0], expected)
+            self.assertEqual(rows[-1][0], (now.date() - timedelta(days=1)).isoformat())
+
+    def test_invalid_or_stale_pages_are_rejected_without_writes(self):
+        self.insert()
+        bad_pages = [history('DME'), history().replace('Cancelled', 'Missing'),
+                     history().replace('22.10', '01.10'),
+                     history().replace('<span>3</span>', '<span>-1</span>'),
+                     history().replace('<span>3</span>', '<span>unknown</span>'),
+                     history().replace('22.10', '21.10'), '<html>Unavailable</html>']
+        for page in bad_pages:
+            with self.assertRaises(ValueError):
+                collector.import_history(self.con, page, 'SVO', 'test', NOW)
+        self.assertEqual(self.con.execute('SELECT count(*),sum(cancelled) FROM daily_cancellations').fetchone(), (7, 21))
+
+    def test_corrections_upsert_and_older_history_is_retained(self):
+        self.insert()
+        self.insert(now=NOW + timedelta(days=1), cancelled=4)
+        self.assertEqual(self.con.execute('SELECT count(*) FROM daily_cancellations').fetchone()[0], 8)
+        self.assertEqual(self.con.execute("SELECT cancelled FROM daily_cancellations WHERE date_msk='2026-10-22'").fetchone()[0], 4)
+        self.insert()
+        self.assertEqual(self.con.execute("SELECT cancelled FROM daily_cancellations WHERE date_msk='2026-10-22'").fetchone()[0], 4)
+
+    def test_download_failure_is_recorded_other_airports_still_collected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db = Path(tmp) / 'flights.sqlite3'
+            with patch.object(collector, 'download', side_effect=[TimeoutError('unreachable'), history('DME')]):
+                self.assertEqual(collector.collect(db, [{'iata':'SVO'}, {'iata':'DME'}], NOW), 1)
+            with sqlite3.connect(db) as con:
+                self.assertEqual(con.execute('SELECT airport_iata,status FROM cancellation_fetches ORDER BY id').fetchall(), [('SVO','error'), ('DME','ok')])
+                self.assertEqual(con.execute('SELECT count(*) FROM daily_cancellations').fetchone()[0], 7)
+
+
+class CancellationReportTests(DatabaseCase):
     def data(self):
-        return report.cancellation_report_data(self.con, self.config, as_of=self.as_of)
+        return report.cancellation_report_data(self.con, [{'iata':'SVO'}, {'iata':'DME'}], NOW)
 
-    def test_coverage_is_per_airport_and_needs_no_closure_tables(self):
-        self.run_window('SVO', '2026-10-13T00:00+03:00', '2026-10-14T00:00+03:00')
-        self.run_window('DME', '2026-10-13T12:00+03:00', '2026-10-14T00:00+03:00')
-        self.observation('SVO', 1)
-        self.observation('DME')
-        row = self.data()[0][0]['airports']
-        self.assertEqual(row['SVO']['flight_coverage'], 'full requested windows')
-        self.assertEqual(row['DME']['flight_coverage'], 'partial requested windows')
-        self.assertEqual(row['SVO']['cancelled_movements'], 1)
-        self.assertEqual(row['DME']['cancelled_movements'], 0)
+    def test_published_zero_is_distinct_from_missing_airport(self):
+        self.insert(cancelled=0)
+        rows, updated, _ = self.data()
+        self.assertEqual(rows[-1]['airports']['SVO']['cancelled_movements'], 0)
+        self.assertIsNone(rows[-1]['airports']['DME']['cancelled_movements'])
+        self.assertEqual(updated, NOW.isoformat(timespec='seconds'))
 
-    def test_stale_or_ongoing_closures_do_not_change_flight_report(self):
-        self.observation('SVO', 1)
-        before = self.data()
-        self.con.executescript('CREATE TABLE restriction_imports(imported_at TEXT); '
-                              "INSERT INTO restriction_imports VALUES('2026-09-01T00:00:00Z'); "
-                              'CREATE TABLE airport_restrictions(ongoing INTEGER); '
-                              'INSERT INTO airport_restrictions VALUES(1);')
-        self.assertEqual(self.data(), before)
-        self.assertEqual(before[0][0]['date'], '2026-10-13')
+    def test_no_flight_data_does_not_turn_into_zero_cancellations(self):
+        self.insert(cancelled=0, flights=0)
+        self.assertIsNone(self.data()[0][-1]['airports']['SVO']['cancelled_movements'])
 
-    def test_zero_and_missing_observations_are_distinct(self):
-        self.observation('SVO')
-        self.run_window('DME', '2026-10-13T00:00+03:00', '2026-10-14T00:00+03:00')
-        row = self.data()[0][0]['airports']
-        self.assertEqual(row['SVO']['cancelled_movements'], 0)
-        self.assertIsNone(row['DME']['cancelled_movements'])
-
-    def test_overlaps_do_not_inflate_coverage_and_errors_do_not_count(self):
-        for _ in range(2):
-            self.run_window('SVO', '2026-10-13T00:00+03:00', '2026-10-13T12:00+03:00')
-        self.run_window('SVO', '2026-10-13T12:00+03:00', '2026-10-14T00:00+03:00', 'error')
-        row = self.data()[0][0]['airports']['SVO']
-        self.assertEqual(row['coverage_seconds'], 43200)
-        self.assertEqual(row['flight_coverage'], 'partial requested windows')
-
-    def test_missing_days_and_midnight_boundaries(self):
-        self.run_window('SVO', '2026-10-10T21:00Z', '2026-10-11T21:00Z')
-        self.run_window('SVO', '2026-10-12T21:00Z', '2026-10-13T21:00Z')
-        rows = self.data()[0]
-        self.assertEqual([r['date'] for r in rows], ['2026-10-11', '2026-10-12', '2026-10-13'])
-        self.assertEqual(rows[0]['airports']['SVO']['coverage_seconds'], 86400)
-        self.assertEqual(rows[1]['airports']['SVO']['coverage_seconds'], 0)
-
-    def test_current_day_is_provisional_using_flight_clock(self):
-        self.run_window('SVO', '2026-10-14T00:00+03:00', '2026-10-14T02:17+03:00')
-        row = self.data()[0][0]
-        self.assertEqual(row['date'], '2026-10-14')
-        self.assertEqual(row['airports']['SVO']['flight_coverage'],
-                         'provisional / partial requested windows')
-
-    def test_empty_database(self):
+    def test_reports_ignore_legacy_data_and_need_no_closure_tables(self):
+        self.con.executescript('CREATE TABLE flight_observations(dummy INTEGER); INSERT INTO flight_observations VALUES(999);')
         self.assertEqual(self.data(), ([], None, 0))
+        self.insert()
+        self.assertEqual(self.data()[0][-1]['airports']['SVO']['cancelled_movements'], 3)
 
-    def test_notebook_renders_independent_airport_lines_without_closures(self):
-        today = datetime.now(report.MSK).date()
-        first = today - timedelta(days=2)
-        for code in ('SVO', 'DME'):
-            for offset in (0, 1):
-                day = first + timedelta(days=offset)
-                start = datetime.combine(day, datetime.min.time(), report.MSK)
-                end = start + timedelta(days=1)
-                self.run_window(code, (start if code == 'SVO' else start + timedelta(hours=12)).isoformat(), end.isoformat())
-                row = tracker.normalize({'number': code + str(offset), 'status': 'Canceled',
-                                         'arrival': {'scheduledTime': {'local': (start + timedelta(hours=13)).isoformat()}}},
-                                        'Arrival', dict(iata=code, icao='TEST', name=code, timezone='Europe/Moscow'))
-                self.con.execute('INSERT INTO flight_observations(' + ','.join(row) + ') VALUES(' +
-                                 ','.join('?' for _ in row) + ')', list(row.values()))
-        nb = json.loads((Path(__file__).parent / 'airport_analysis.ipynb').read_text())
+    def test_aggregate_total_requires_all_airports(self):
+        import collect_restrictions as restrictions
+        restrictions.import_csv(self.con, 'airport;iata;city;kind;start_msk;end_msk;minutes;ongoing\nAirport;SVO;Moscow;restricted;2026-10-22 01:00;2026-10-22 02:00;60;0\n', cutoff=NOW)
+        self.insert()
+        config = [{'iata':'SVO'}, {'iata':'DME'}]
+        rows, _, _ = restriction_report.report_data(self.con, config)
+        day = next(r for r in rows if r['date']=='2026-10-22')
+        self.assertIsNone(day['cancelled_movements'])
+        self.assertEqual(day['flight_coverage'], 'available for 1/2 airports')
+        self.insert(code='DME', cancelled=0)
+        rows, _, _ = restriction_report.report_data(self.con, config)
+        day = next(r for r in rows if r['date']=='2026-10-22')
+        self.assertEqual(day['cancelled_movements'], 3)
+        self.assertEqual(day['flight_coverage'], 'source daily totals')
+
+    def test_notebook_renders_six_airports_without_closures_or_paid_data(self):
+        now = datetime.now(report.MSK)
+        config = json.loads((Path(__file__).parent / 'airports.json').read_text())
+        for airport in config:
+            self.insert(code=airport['iata'], now=now)
+        notebook = json.loads((Path(__file__).parent / 'airport_analysis.ipynb').read_text())
         rendered = []
-        display_module = ModuleType('IPython.display')
-        display_module.HTML = lambda value: value
-        display_module.display = rendered.append
+        module = ModuleType('IPython.display')
+        module.HTML = lambda value: value
+        module.display = rendered.append
         old_cwd = Path.cwd()
         with tempfile.TemporaryDirectory() as tmp:
             with sqlite3.connect(str(Path(tmp) / 'flights.sqlite3')) as target:
                 self.con.commit()
                 self.con.backup(target)
-            (Path(tmp) / 'airports.json').write_text(json.dumps([dict(iata=code, name=code) for code in ('SVO', 'DME')]))
+            (Path(tmp) / 'airports.json').write_text(json.dumps(config))
             try:
                 os.chdir(tmp)
-                namespace = {}
-                with patch.dict(sys.modules, {'IPython': ModuleType('IPython'), 'IPython.display': display_module}):
-                    for cell in nb['cells']:
-                        if cell['cell_type'] == 'code':
+                with patch.dict(sys.modules, {'IPython': ModuleType('IPython'), 'IPython.display': module}):
+                    namespace = {}
+                    for cell in notebook['cells']:
+                        if cell['cell_type']=='code':
                             exec(compile(''.join(cell['source']), 'airport_analysis.ipynb', 'exec'), namespace)
             finally:
                 os.chdir(old_cwd)
         html = ''.join(rendered)
-        self.assertIn('stroke="#2563eb" stroke-width="2.5"/>', html)
-        self.assertNotIn('stroke="#2563eb" stroke-width="2.5" stroke-dasharray', html)
-        self.assertIn('stroke="#ea580c" stroke-width="2.5" stroke-dasharray="6 4"', html)
-        self.assertNotIn('Closures last imported', html)
+        for airport in config:
+            self.assertIn(airport['iata'] + ': 3 cancellations', html)
+        self.assertIn('Airports.ru cancellations last collected', html)
+        self.assertNotIn('AeroDataBox', html)
 
 
 if __name__ == '__main__':

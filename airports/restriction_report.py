@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Daily Moscow-time restriction and deduplicated flight-movement reports."""
+"""Daily Moscow-time restriction and source-reported cancellation totals."""
 import argparse
 import csv
-import io
 import json
+import os
 import sqlite3
 from collections import defaultdict
 from datetime import datetime, time, timedelta
 from html import escape
 from pathlib import Path
 from collect_restrictions import MSK, ROOT, timestamp
-from flight_report import flight_daily, instant, merged_seconds
+from flight_report import cancellation_report_data, instant, merged_seconds
 
 
 def daily_restrictions(records, cutoff, airports=None, kind=None):
@@ -60,13 +60,8 @@ def report_data(con, config, scope='all', kind=None, cutoff=None):
     # Never extrapolate ongoing restrictions beyond the last successful source fetch.
     cutoff = min(cutoff, instant(imported)) if cutoff else instant(imported)
     restrictions = daily_restrictions(records, cutoff, selected if scope == 'tracked' else None, kind)
-    tables = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-    observations = con.execute('SELECT * FROM flight_observations') if 'flight_observations' in tables else []
-    flights, missing = flight_daily(observations, selected)
-    intervals = defaultdict(list)
-    runs = con.execute("SELECT airport_iata, window_from, window_to FROM fetch_runs WHERE status='ok'") if 'fetch_runs' in tables else []
-    for run in runs:
-        intervals[run['airport_iata']].append((instant(run['window_from']), instant(run['window_to'])))
+    flight_rows, _, missing = cancellation_report_data(con, config)
+    flights = {r['date']: r['airports'] for r in flight_rows}
     source_first = min((timestamp(r['start_msk']).date() for r in records), default=cutoff.date())
     first = min([source_first] + [datetime.fromisoformat(d).date() for d in flights])
     day = first
@@ -82,16 +77,14 @@ def report_data(con, config, scope='all', kind=None, cutoff=None):
             row['restriction_status'] = 'source boundary / ' + row['restriction_status']
         if day == cutoff.date():
             row['restriction_status'] = 'provisional'
-        a = datetime.combine(day, time(), MSK)
-        b = a + timedelta(days=1)
-        coverage = [merged_seconds([(max(a, x), min(b, y)) for x, y in intervals[i] if x < b and y > a])
-                    for i in selected]
-        row['cancelled_movements'] = sum(flights.get(d, {}).values()) if d in flights else None
-        row['flight_coverage'] = ('full requested windows' if coverage and min(coverage) >= 86400
-                                  else 'partial requested windows' if any(coverage) else 'no successful fetch window')
-        if day == cutoff.date():
-            row['flight_coverage'] = 'provisional / ' + row['flight_coverage']
-        row['cancellations_by_airport'] = flights.get(d, {})
+        daily = flights.get(d, {})
+        counts = {code: daily.get(code, {}).get('cancelled_movements') for code in selected}
+        available = sum(value is not None for value in counts.values())
+        row['cancelled_movements'] = sum(counts.values()) if selected and available == len(selected) else None
+        row['flight_coverage'] = ('source daily totals' if selected and available == len(selected)
+                                  else f'available for {available}/{len(selected)} airports' if available
+                                  else 'no cancellation history')
+        row['cancellations_by_airport'] = counts
         rows.append(row)
         day += timedelta(days=1)
     return rows, cutoff, missing
@@ -113,7 +106,7 @@ def svg_chart(rows, column, title, color):
         x = left + j * step
         if value is not None:
             h = (bottom - top) * value / maximum
-            opacity = '.45' if (column == 'cancelled_movements' and row['flight_coverage'] != 'full requested windows') or (column != 'cancelled_movements' and row['restriction_status'] != 'completed intervals') else '1'
+            opacity = '.45' if (column == 'cancelled_movements' and row['flight_coverage'] != 'source daily totals') or (column != 'cancelled_movements' and row['restriction_status'] != 'completed intervals') else '1'
             label = f"{row['date']}: {value:.2f}; {row['restriction_status']}; {row['flight_coverage']}"
             parts.append(f"<rect x='{x+1}' y='{bottom-h}' width='{max(step-2,1)}' height='{max(h,1)}' fill='{color}' opacity='{opacity}'><title>{escape(label)}</title></rect>")
         else:
@@ -132,15 +125,15 @@ def dashboard(con, config):
             label = ('All Airports.ru airports' if scope == 'all' else 'Only airports.json airports') + ' / ' + (kind or 'all kinds (union)')
             charts = ''.join(svg_chart(rows, c, t, color) for c, t, color in [
                 ('restriction_hours', 'Airports.ru · daily airport restriction-hours', '#2563eb'),
-                ('cancelled_movements', 'AeroDataBox · daily cancelled airport flight movements', '#dc2626'),
+                ('cancelled_movements', 'Airports.ru · daily reported cancellations', '#dc2626'),
                 ('restrictions_started', 'Airports.ru · restrictions initiated per day', '#7c3aed'),
                 ('affected_airports', 'Airports.ru · distinct airports affected per day', '#0d9488')])
-            table = '<table><tr><th>Moscow date</th><th>Airport-hours</th><th>Starts</th><th>Airports</th><th>Restriction totals</th><th>Cancelled movements</th><th>Flight coverage</th></tr>'
+            table = '<table><tr><th>Moscow date</th><th>Airport-hours</th><th>Starts</th><th>Airports</th><th>Restriction totals</th><th>Reported cancellations</th><th>Cancellation data</th></tr>'
             for r in rows:
                 table += '<tr>' + ''.join(f'<td>{escape(str(v))}</td>' for v in
                     (r['date'], f"{r['restriction_hours']:.2f}", r['restrictions_started'], r['affected_airports'],
                      r['restriction_status'], r['cancelled_movements'] if r['cancelled_movements'] is not None else 'unavailable', r['flight_coverage'])) + '</tr>'
-            views.append((label, f'<p>Reporting cutoff: {escape(cutoff.isoformat())}. Flight observations without usable scheduled times: {missing}.</p>' + charts + table + '</table>'))
+            views.append((label, f'<p>Reporting cutoff: {escape(cutoff.isoformat())}. Cancellations: Airports.ru daily history for configured airports.</p>' + charts + table + '</table>'))
     options = ''.join(f"<option value='{i}'>{escape(label)}</option>" for i, (label, _) in enumerate(views))
     sections = ''.join(f"<section id='view-{i}' {'hidden' if i else ''}>{body}</section>" for i, (_, body) in enumerate(views))
     return '''<!doctype html><html><head><meta charset="utf-8"><title>Russian aviation disruption tracker</title>
@@ -149,19 +142,19 @@ def dashboard(con, config):
 <p>All dates use Moscow time. Airport-hours sum time across airports, not hours of nationwide closure.
 “partial” means operating with restrictions, not a complete closure. Overlaps are merged per airport.
 Restrictions and cancellations are different measures, shown on aligned dates with independent scales.</p>
-<p>Faded bars mark provisional restriction totals or incomplete flight windows; × means no dated flight observations.
+<p>Faded bars mark provisional restriction totals; × means cancellation totals are unavailable for one or more configured airports.
 Completed intervals remain subject to source revisions. The first history date may be incomplete.
 An ongoing restriction is capped at the last successful import; refresh collection to update it.</p>
-<p>Cancellations use the latest observation per scheduled airport flight movement, excluding explicit codeshares.
-Arrivals and departures are separate movements; these are not unique network flights. Successful fetch windows
-measure collection coverage, not the completeness of AeroDataBox reporting. This comparison does not establish the cause of restrictions.</p>
+<p>Cancellations are source-reported daily totals from Airports.ru for the configured airports.
+Missing airport-days are unavailable, not zero. Source totals may be revised and are not guaranteed exhaustive.
+The seven-day source history is refreshed daily and retained in SQLite. This comparison does not establish the cause of restrictions.</p>
 <label>Restriction airport scope and type: <select onchange="document.querySelectorAll('section').forEach((s,i)=>s.hidden=i!=this.value)">''' + options + '</select></label>' + sections + '</body></html>'
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--db', type=Path, default=ROOT / 'flights.sqlite3')
-    p.add_argument('--airports', type=Path, default=ROOT / 'airports.json')
+    p.add_argument('--db', type=Path, default=os.getenv('DATABASE_FILE', ROOT / 'flights.sqlite3'))
+    p.add_argument('--airports', type=Path, default=os.getenv('AIRPORTS_FILE', ROOT / 'airports.json'))
     p.add_argument('--scope', choices=['all', 'tracked'], default='all')
     p.add_argument('--kind')
     p.add_argument('--cutoff', help='ISO timestamp with offset; capped at last successful import')
@@ -173,7 +166,7 @@ def main():
             args.html.write_text(dashboard(con, config), encoding='utf-8')
         else:
             rows, cutoff, missing = report_data(con, config, args.scope, args.kind, instant(args.cutoff) if args.cutoff else None)
-            print(f'# cutoff={cutoff.isoformat()} missing flight timestamps={missing}')
+            print(f'# cutoff={cutoff.isoformat()} cancellation_source=Airports.ru')
             writer = csv.DictWriter(__import__('sys').stdout, fieldnames=[k for k in rows[0] if k != 'cancellations_by_airport'])
             writer.writeheader()
             for row in rows:
