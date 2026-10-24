@@ -1,6 +1,6 @@
 # Lesson 2: Boolean laws and short proofs
 
-[Course home](../../boolean_logic.md) | [Previous](lesson_01.md) | [Next](../02_simplification/lesson_03.md)
+[Course home](../../boolean_logic.md) | [Previous: Gates to Boolean algebra](connecting_gates_to_boolean_algebra.md) | [Next](../02_simplification/lesson_03.md)
 
 **Reading:** Use 4-2 and the start of 4-3 as circuit context. The laws below supply the background assumed by the book. **Time:** 120 minutes.
 

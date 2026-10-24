@@ -1,6 +1,6 @@
 # Lesson 1: Switches and Boolean expressions
 
-[Course home](../../boolean_logic.md) | [Next lesson](lesson_02.md)
+[Course home](../../boolean_logic.md) | [Next: Gates to Boolean algebra](connecting_gates_to_boolean_algebra.md)
 
 **Reading:** Whitesitt 4-1 and 4-2, pp. 75–79. **Time:** 120 minutes.
 

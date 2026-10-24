@@ -51,3 +51,10 @@ A simulator result without an explanation is incomplete. A correct algebraic sim
 ## Deployment
 
 Extract the ZIP into the desired GitHub directory. Keep boolean_logic.md beside the boolean_logic folder. Links are relative and work when the whole package is placed under a directory such as lectures. The teacher answer page is a normal Markdown file and will be public if committed to a public repository; omit the teacher folder if answers should be withheld, and remove its links from the landing and exercise pages.
+
+
+## New gate-to-algebra bridge
+
+Use [Connecting Gates to Boolean Algebra](../01_algebra/connecting_gates_to_boolean_algebra.md) after the switch introduction and before the Boolean-law and simplification work. Students who already know gates can start here. Ask for one intermediate equation per gate before substitution. Distinguish translating the existing wiring from simplifying the function.
+
+This is a Hypatia Academy supplement for modern logic gates. Credit Whitesitt for the switching-algebra reference material, not for this added teaching sequence. Arithmetic and adders are reserved for later videos.

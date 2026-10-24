@@ -6,6 +6,12 @@ How can an equation describe a circuit? How can changing that equation remove un
 
 This course answers those questions in three parts. We begin with switches and Boolean algebra, use algebra to simplify circuits, and finish by building half adders, full adders and a four-bit adder.
 
+## New bridge for students who already know gates
+
+Before the algebraic simplification lessons, use [Connecting Gates to Boolean Algebra](boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md). Students translate gate connections into expressions, reverse the process, and prove that different circuits can have the same output.
+
+**Attribution:** this bridge and its modern gate diagrams are Hypatia Academy supplements. The switching-algebra references below credit Whitesitt; the gate-to-algebra teaching sequence is not attributed to the book. Arithmetic lessons remain in the existing course for later; the first two new videos exclude them.
+
 ## Course map
 
 | Topic | Lessons | Reference and practice |

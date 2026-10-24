@@ -2,19 +2,16 @@
 
 [← Back to the electronics course](../README.md)
 
-Learn the rules behind logic gates, simplify circuits, and connect Boolean
-expressions to binary arithmetic.
+Connect gates to Boolean expressions, prove the laws, and simplify circuits. Arithmetic circuits are retained from the existing course for later lessons and videos.
 
-## Lessons
+## Start here
 
-- [Boolean Logic: Rules, Simplification, and Circuits](boolean_logic.md) — two
-  one-hour lectures covering Boolean rules, truth tables, De Morgan’s laws,
-  absorption, NAND circuits, and half adders. Includes exercises and a teacher
-  answer key.
-- [Build XOR, OR, NOT, and AND Gates from a 74HC00](../lectures/74hc00.md) —
-  implement logic operations using NAND gates.
+- [Connecting Gates to Boolean Algebra](boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md) — new Hypatia Academy bridge from previously taught gates to notation, wiring, complete expressions, simple proofs and simplification.
+- [Full Boolean course map](boolean_logic.md) — algebra, simplification, references and exercises; existing arithmetic material is for later.
+- [Build gates from a 74HC00](../lectures/74hc00.md) — link into the parent Hypatia Academy repository.
 
-## Related Circuits
+## Attribution
 
-[Explore the circuits we have built](../README.md#circuits-we-have-built), including
-AND and OR gates, NAND gates, and one-bit memory.
+J. Eldon Whitesitt’s *Boolean Algebra and Its Applications* is the reference for switching algebra. The modern gate-to-expression bridge, gate diagrams and video teaching sequence are Hypatia Academy supplements. They are not presented as a lesson or wording from the book.
+
+The links beginning `../` point to the surrounding course repository when this `logic` directory is restored there.
