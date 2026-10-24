@@ -113,6 +113,8 @@ to logic gates, memory, and PWM.
 
 [Browse the logic lessons](logic/boolean_logic.md)
 
+- [Connecting Gates to Boolean Algebra](logic/boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md) — translate gate circuits into expressions, prove the rules, and simplify circuits.
+
 | Topic | Lessons | Reference and practice |
 |---|---|---|
 | 1. Boolean algebra | [Lesson 1: Switches and expressions](boolean_logic/01_algebra/lesson_01.md); [Lesson 2: Laws and proofs](boolean_logic/01_algebra/lesson_02.md) | [Reference](boolean_logic/01_algebra/reference.md); [Exercises](boolean_logic/01_algebra/exercises.md) |
