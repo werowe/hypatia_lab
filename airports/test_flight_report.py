@@ -135,7 +135,9 @@ class CancellationReportTests(DatabaseCase):
             (Path(tmp) / 'airports.json').write_text(json.dumps(config))
             try:
                 os.chdir(tmp)
-                with patch.dict(sys.modules, {'IPython': ModuleType('IPython'), 'IPython.display': module}):
+                # Simulate an open Jupyter kernel retaining the old report function.
+                with patch.dict(sys.modules, {'IPython': ModuleType('IPython'), 'IPython.display': module}), \
+                     patch.object(report, 'cancellation_report_data', side_effect=AssertionError('stale report function')):
                     namespace = {}
                     for cell in notebook['cells']:
                         if cell['cell_type']=='code':

@@ -6,7 +6,7 @@ Connect gates to Boolean expressions, prove the laws, and simplify circuits. Ari
 
 ## Start here
 
-- [Connecting Gates to Boolean Algebra](boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md) — new Hypatia Academy bridge from previously taught gates to notation, wiring, complete expressions, simple proofs and simplification.
+- [Connecting Electric Circuits to Boolean Algebra](boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md) — new Hypatia Academy bridge from powered switch networks and conducting paths to Boolean notation, proofs and simplification.
 - [Full Boolean course map](boolean_logic.md) — algebra, simplification, references and exercises; existing arithmetic material is for later.
 - [Build gates from a 74HC00](../lectures/74hc00.md) — link into the parent Hypatia Academy repository.
 

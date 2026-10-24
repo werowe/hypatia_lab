@@ -55,6 +55,6 @@ Extract the ZIP into the desired GitHub directory. Keep boolean_logic.md beside 
 
 ## New gate-to-algebra bridge
 
-Use [Connecting Gates to Boolean Algebra](../01_algebra/connecting_gates_to_boolean_algebra.md) after the switch introduction and before the Boolean-law and simplification work. Students who already know gates can start here. Ask for one intermediate equation per gate before substitution. Distinguish translating the existing wiring from simplifying the function.
+Use [Connecting Electric Circuits to Boolean Algebra](../01_algebra/connecting_gates_to_boolean_algebra.md) after the switch introduction and before the Boolean-law and simplification work. Students who already know gates can start here. Ask for one intermediate equation per gate before substitution. Distinguish translating the existing wiring from simplifying the function.
 
 This is a Hypatia Academy supplement for modern logic gates. Credit Whitesitt for the switching-algebra reference material, not for this added teaching sequence. Arithmetic and adders are reserved for later videos.

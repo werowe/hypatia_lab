@@ -1,188 +1,156 @@
-# Connecting Gates to Boolean Algebra
+# Connecting Electric Circuits to Boolean Algebra
 
 [Course home](../../boolean_logic.md) | [Previous: Switches and expressions](lesson_01.md) | [Next: Laws and proofs](lesson_02.md)
 
-**Hypatia Academy supplement. Suggested time: 60–90 minutes.**
+**Hypatia Academy teaching supplement. Time: 60–90 minutes.**
 
-Students have already met logic gates and their truth tables. This lesson connects that knowledge to algebra before we use algebra to simplify circuits. It supplements the switching-algebra material referenced to J. Eldon Whitesitt; the modern gate diagrams and the gate-to-expression teaching sequence are Hypatia Academy material, not a quotation or a lesson attributed to his book.
+Begin with switches, wires, a supply, a current-limiting resistor and an LED. Establish the logic by tracing complete electrical paths. Only afterward introduce electronic gate symbols as a compact representation of already-understood behaviour.
 
-## Goals
+Reference for switching algebra: J. Eldon Whitesitt, *Boolean Algebra and Its Applications*, Chapter 4. Animated powered circuits and this teaching sequence are Hypatia Academy adaptations; a later connection to modern electronic gate blocks is supplementary.
 
-- Translate a gate into a Boolean expression.
-- Follow gate connections to construct a complete expression.
-- Draw a gate network from an expression.
-- Explain why Boolean `1 + 1 = 1`.
-- Distinguish circuit translation from circuit simplification.
-- Use a complete truth table to establish equivalence.
+## 1. Parallel branches make OR visible
 
-## 1. Start from the gates students already know
+![Two parallel switch branches, shared resistor and LED](../assets/gates_to_boolean.svg)
 
-A Boolean variable is either 0 or 1. In positive-logic gate diagrams these correspond to LOW and HIGH. We are describing a logical state, not calculating voltage, current or brightness.
+Connect two parallel wires, each with a switch, followed by one shared series resistor and LED, with a complete return to a low-voltage supply.
 
-| Gate | Expression | Read it as |
-|---|---|---|
-| NOT | `x'` | The opposite of x |
-| AND | `xy` | x and y must both be 1 |
-| OR | `x + y` | At least one of x and y is 1 |
-| NAND | `(xy)'` | NOT of the complete AND result |
-| NOR | `(x + y)'` | NOT of the complete OR result |
-| XOR | `xy' + x'y` | Exactly one input is 1 |
+Let x and y describe their switches: 0 means open, 1 means closed. Let f say whether the switch network provides a complete conducting path. Do not use f to describe brightness or numerical current.
 
-A prime after parentheses complements the entire group. Read NOT before AND, and AND before OR. Thus `x'y + z` means `(x' AND y) OR z`.
+| x | y | Available path | f = x + y |
+|---|---|---|---|
+| 0 | 0 | Neither branch | 0 |
+| 0 | 1 | Through y | 1 |
+| 1 | 0 | Through x | 1 |
+| 1 | 1 | Both branches available | 1 |
 
-An open electrical input is not automatically a defined Boolean zero. Fixed LOW and HIGH inputs must be provided correctly in a physical circuit. Do not join gate outputs together to imitate the parallel paths of a switch network.
+At 11 the condition “a path exists” remains true, so the Boolean output is 1. The plus sign represents OR, not arithmetic addition. **1 + 1 = 1** records a true conducting condition; it does not count paths.
 
-### Why is 1 + 1 = 1?
+## 2. Series contacts make AND visible
 
-Here `+` is the OR operation, not numerical addition. The output records whether the condition is true; it does not count how many inputs are true.
+Place x and y in series. Every possible current path must pass through both contacts. The LED lights only when both close, so the condition is xy.
 
-| x | y | x + y | xy | xy' + x'y |
-|---|---|---|---|---|
-| 0 | 0 | 0 | 0 | 0 |
-| 0 | 1 | 1 | 0 | 1 |
-| 1 | 0 | 1 | 0 | 1 |
-| 1 | 1 | 1 | 1 | 0 |
+A permanent wire represents constant 1. A permanent break represents constant 0. These are physical continuity conditions in the switching model.
 
-At `11`, OR is 1 because at least one input is 1. XOR is 0 because the inputs are not different. These are different operations. This lesson is about Boolean logic, not arithmetic addition.
+## 3. Prove the basic rules using paths
 
-## 2. Follow a circuit from inputs to output
+| Rule | Electrical explanation |
+|---|---|
+| x + 0 = x | A broken parallel branch cannot add a path |
+| x1 = x | A permanent wire in series adds no restriction |
+| x + 1 = 1 | A parallel wire bypasses the switch |
+| x0 = 0 | A permanent series break blocks every path |
+| x + x = x | Two linked parallel contacts still follow one control |
+| xx = x | Two linked series contacts still follow one control |
 
-![NOT x, AND with y, then OR with z](../assets/gates_to_boolean.svg)
+For each rule, demonstrate x open and x closed. Those two cases are the complete proof for a single Boolean control.
 
-Take a circuit with these connections:
+Repeated labels are the **same linked control**. Do not independently operate two contacts labelled x and then apply xx = x.
 
-1. Feed x into a NOT gate. Call its output `a`.
-2. Feed a and y into an AND gate. Call its output `b`.
-3. Feed b and z into an OR gate. Call the final output `f`.
+## 4. Complementary contacts
 
-Write one equation per gate:
+A contact labelled x′ closes when x opens and opens when x closes. Use linked changeover contacts or correctly constrained simulated contacts, not independent pushbuttons.
 
-```text
-a = x'
-b = ay
-f = b + z
-```
+| x | x′ | Parallel x + x′ | Series xx′ |
+|---|---|---|---|
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 1 | 0 |
 
-Substitute the earlier expressions into the later ones:
+In parallel, one contact always provides a path. In series, one contact always breaks the path. Thus x + x′ = 1 and xx′ = 0.
 
-```text
-b = x'y
-f = x'y + z
-```
+## 5. Read a network before simplifying it
 
-We have written the circuit as an expression. **Nothing has been simplified yet.** The expression records the original connections.
+A series pair x and y is xy. A series pair x and z is xz. Put those branches in parallel: the complete condition is xy + xz.
 
-| x | y | z | a = x' | b = x'y | f = x'y + z |
-|---|---|---|---|---|---|
-| 0 | 0 | 0 | 1 | 0 | 0 |
-| 0 | 0 | 1 | 1 | 0 | 1 |
-| 0 | 1 | 0 | 1 | 1 | 1 |
-| 0 | 1 | 1 | 1 | 1 | 1 |
-| 1 | 0 | 0 | 0 | 0 | 0 |
-| 1 | 0 | 1 | 0 | 0 | 1 |
-| 1 | 1 | 0 | 0 | 0 | 0 |
-| 1 | 1 | 1 | 0 | 0 | 1 |
+Writing that expression is a translation of the existing wiring. It has not simplified anything yet.
 
-Ask students to identify the intermediate signal at each wire before showing the final formula.
-
-## 3. Reverse the process: expression to gates
-
-Given `f = x(y + z)`:
-
-1. The parentheses require an OR gate combining y and z.
-2. Feed that result and x into an AND gate.
-3. The AND output is f.
-
-Given `g = xy + z`:
-
-1. Use an AND gate for x and y.
-2. Feed that result and z into an OR gate.
-
-These are different circuits and different functions. At `x = 0, y = 0, z = 1`, f is 0 but g is 1. The parentheses record an important difference in the connections.
-
-## 4. Now algebra can change the circuit
-
-Start with `h = xy + xz`.
-
-A direct implementation has two AND gates feeding one OR gate: three gates.
-
-Factor x:
+Now factor:
 
 ```text
 xy + xz = x(y + z)
 ```
 
-The factored form needs one OR gate feeding one AND gate: two gates.
+Place one x contact before a parallel pair y and z. Four contact occurrences become three.
 
-### A short proof
+**Proof:** if x = 0 both networks block; if x = 1 both conduct exactly when y or z closes. These cases exhaust every value of x, whatever y and z do.
 
-- If `x = 0`, both expressions are 0 for every y and z.
-- If `x = 1`, both expressions are `y + z`.
+## 6. Remove a redundant branch
 
-These cases exhaust the possible values of x. Therefore the two expressions are equivalent for every assignment. A complete eight-row truth table gives another proof.
-
-The number of distinct input variables has not changed. The number of illustrated gate instances has.
-
-## 5. A second application: a branch that adds nothing
-
-Translate a circuit with an AND gate for xy and an OR gate for x and xy:
+For x + xy, the xy branch cannot conduct unless the separate x branch already conducts.
 
 ```text
-f = x + xy
+x + xy = x1 + xy = x(1 + y) = x1 = x
 ```
 
-Whenever the AND output is 1, x is already 1. The extra branch cannot add a new true case.
+Three contact occurrences become one. Trace the actual paths after each change.
 
-The algebraic proof is:
+For xy + xy′:
 
-| Step | Reason |
-|---|---|
-| `x + xy = x1 + xy` | Identity: x = x1 |
-| `= x(1 + y)` | Distributive law |
-| `= x1` | Domination: 1 + y = 1 |
-| `= x` | Identity |
+```text
+xy + xy′ = x(y + y′) = x1 = x
+```
 
-The final network can connect x directly to the output: zero logic gates in this ideal representation. Revisit each underlying rule in the laws lesson and prove it by its possible input values.
+The complementary y pair always provides a path, so y can disappear from the final condition. Four contact occurrences become one.
 
-## 6. Why this belongs on the path to a CPU
+## 7. De Morgan describes complementary networks
 
-CPU designers describe digital behaviour using Boolean logic. Logic synthesis tools transform design descriptions into gate networks and optimize them while preserving the required function.
+A series network xy conducts only at 11. The parallel complementary network x′ + y′ conducts in the other three cases. Their LED states are opposite, proving:
 
-Our small examples expose that reasoning step by step. Real designs also account for area, timing, power, available cells and fan-out. Fewer drawn gates does not by itself establish lower cost, lower power or higher speed.
+```text
+(xy)′ = x′ + y′
+```
 
-Truth-table equivalence describes settled logic outputs. Real gate delays can also create temporary glitches when inputs change; this lesson does not analyse those transients.
+A parallel network x + y fails to conduct only at 00. The series complementary network x′y′ conducts only at 00. Therefore:
 
-## 7. Student work
+```text
+(x + y)′ = x′y′
+```
 
-**G1. Translate into expressions.** Label intermediate wires first.
+To complement a series-parallel conducting condition, complement every contact and swap series with parallel. This does not mean a passive switch network independently produces an inverted voltage.
 
-1. OR x and y, then NOT the result.
-2. NOT x and NOT y, then AND those results.
-3. AND x and y, then OR with z.
-4. OR y and z, then AND with x.
+## 8. Exactly one: XOR
 
-**G2. Draw gate circuits** for `(xy)'`, `x' + y`, and `x(y + z')`.
+Build two parallel branches: x followed by y′, and x′ followed by y.
 
-**G3. Prove identity laws** `x + 0 = x` and `x1 = x` by checking both possible values of x. Draw the gates and the direct-wire equivalents.
+The first branch conducts only at 10; the second only at 01. Both branches are blocked at 00 and 11. The expression xy′ + x′y therefore describes exactly-one logic.
 
-**G4. Prove complement laws** `x + x' = 1` and `xx' = 0`. Explain why x and x' must not be independently controlled.
+Compare ordinary parallel OR: at 11 the OR network conducts and the XOR network does not.
 
-**G5. Translate, simplify and redraw** `xy + xy'`. Include the original expression, the short algebraic proof, the two circuits and a four-row truth table.
+## 9. Six contacts become two
 
-**G6. Find a counterexample** to the claim `xy + z = x(y + z)`.
+```text
+xy + xy′ + x′z
+= x(y + y′) + x′z
+= x + x′z
+= (x + x′)(x + z)
+= x + z
+```
 
-**G7. Explain in words:** Why does Boolean `1 + 1 = 1`? How is XOR different from OR when both inputs are 1?
+The last step replaces an always-conducting factor by a wire. Compare all eight xyz assignments before accepting the final two-parallel-contact circuit.
 
-## Teacher answers
+The second distributive identity can be proved by cases: for x = 0, both x + yz and (x + y)(x + z) become yz; for x = 1, both become 1.
 
-- G1: `(x + y)'`; `x'y'`; `xy + z`; `x(y + z)`.
-- G2: AND then NOT; NOT x then OR with y; NOT z then OR with y, followed by AND with x.
-- G3: For x = 0 both results are 0; for x = 1 both are 1.
-- G4: The pairs `(x, x')` are only `(0,1)` and `(1,0)`; OR is always 1 and AND always 0.
-- G5: `xy + xy' = x(y + y') = x1 = x`. Four illustrated gates become a wire when NOT is counted separately. Outputs in xy order 00, 01, 10, 11: 0, 0, 1, 1.
-- G6: x = 0, y = 0, z = 1 gives 1 on the left and 0 on the right.
-- G7: OR records whether at least one input is 1. It does not count inputs. OR(1,1) = 1; XOR(1,1) = 0.
+## 10. Connect this understanding to electronic gates later
 
-## Teaching sequence
+Once students can explain series and parallel paths, show AND, OR and NOT symbols as compact descriptions of the same truth tables. Electronic gates use transistor circuits, not stored program instructions. Their voltage behaviour requires a different physical implementation from passive contacts.
 
-Use this bridge after students know individual gates and before asking them to simplify whole circuits. Continue with [Laws and short proofs](lesson_02.md), then [Simplify an existing circuit](../02_simplification/lesson_03.md). The video narration and Manim source in the accompanying pack cover the same examples.
+Boolean reasoning also underlies digital design and logic synthesis. CPU implementations add timing, power, area and component constraints. Contact counts are not chip counts or transistor counts.
+
+## Student exercises
+
+1. Draw powered circuits for x + y, xy, x + 0 and x1. Include the shared resistor, LED and return connection.
+2. Explain Boolean 1 + 1 = 1 by opening and closing the two parallel contacts.
+3. Draw x + xy and its simplified circuit. Give the proof and all four input cases.
+4. Build linked complementary-contact networks for x + x′ and xx′. Explain why they behave differently.
+5. Draw xy + xy′ and simplify it to x, keeping repeated controls linked.
+6. Draw both De Morgan pairs. Verify that the original and complementary networks have opposite outputs in all four rows.
+7. Disprove xy + z = x(y + z) with x = 0, y = 0, z = 1.
+
+### Teacher checks
+
+1–2: use series for AND, parallel for OR; 0 is a break and 1 is a wire. Both parallel contacts closed still makes the existence-of-a-path condition true.
+
+3: x + xy = x; outputs in xy order 00, 01, 10, 11 are 0, 0, 1, 1. 4: parallel always conducts, series never conducts. 5: factor x and use y + y′ = 1. 6: outputs are complementary, not equal. 7: the original conducts through z, but the proposed x contact blocks every path.
+
+## Physical scope
+
+Use a low-voltage supply and an appropriately sized current-limiting resistor shared in series with the LED. Ideal continuity does not calculate current, LED brightness, contact resistance or transient effects. Two networks can be Boolean-equivalent without having identical electrical properties.
