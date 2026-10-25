@@ -22,7 +22,7 @@ Therefore, $xx=x$.
 
 **Parallel contacts**: $x+x=x$
 
-$$
+```msth
 \begin{aligned}
 x
 &=x+0 &&\text{Identity}\\
@@ -31,7 +31,7 @@ x
 &=(x+x)\cdot1 &&\text{Complement: }x+x'=1\\
 &=x+x &&\text{Identity}
 \end{aligned}
-$$
+```
 Therefore, $x+x=x$.
 
 Here $x'$ means NOT x.
