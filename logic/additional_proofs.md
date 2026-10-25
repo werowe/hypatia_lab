@@ -22,7 +22,7 @@ Therefore, $xx=x$.
 
 **Parallel contacts**: $x+x=x$
 
-```msth
+```math
 \begin{aligned}
 x
 &=x+0 &&\text{Identity}\\
