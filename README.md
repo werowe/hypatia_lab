@@ -122,6 +122,7 @@ to logic gates, memory, and PWM.
 | 2. Simplifying circuits | [Lesson 3: Simplify an existing circuit](boolean_logic/02_simplification/lesson_03.md); [Lesson 4: Design from requirements](boolean_logic/02_simplification/lesson_04.md) | [Reference](boolean_logic/02_simplification/reference.md); [Exercises](boolean_logic/02_simplification/exercises.md) |
 | 3. Circuits for arithmetic | [Lesson 5: Binary and the half adder](boolean_logic/03_arithmetic/lesson_05.md); [Lesson 6: The full adder](boolean_logic/03_arithmetic/lesson_06.md); [Lesson 7: A four-bit adder](boolean_logic/03_arithmetic/lesson_07.md) | [Reference](boolean_logic/03_arithmetic/reference.md); [Exercises](boolean_logic/03_arithmetic/exercises.md); [Optional subtraction](boolean_logic/03_arithmetic/extension_subtraction.md) |
 | 4. [Connecting Gates to Boolean Algebra](logic/boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md)  | | 
+| 5. [Additional Proofs](https://github.com/werowe/hypatia_lab/blob/main/logic/additional_proofs.md) | | 
 
 ---
 
