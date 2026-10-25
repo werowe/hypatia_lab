@@ -9,16 +9,15 @@ You can prove them algebraically using the identity, complement, and distributiv
 **Series contacts**: $xx=x$
 
 Start with \(x\) and rewrite it:
-$$
+```math
 \begin{aligned}
-x
-&=x\cdot1 &&\text{Identity}\\
-&=x(x+x') &&\text{Complement: }x+x'=1\\
-&=xx+xx' &&\text{Distribute}\\
-&=xx+0 &&\text{Complement: }xx'=0\\
-&=xx &&\text{Identity}
+x &= x\cdot 1 && \text{Identity}\\
+  &= x(x+x') && \text{Complement: }x+x'=1\\
+  &= xx+xx' && \text{Distribute}\\
+  &= xx+0 && \text{Complement: }xx'=0\\
+  &= xx && \text{Identity}
 \end{aligned}
-$$
+```
 Therefore, $xx=x$.
 
 **Parallel contacts**: $x+x=x$
