@@ -419,3 +419,5 @@ $$
 4. \(a+bb\)
 
 For each answer, write which idempotent law you used.
+
+### Assignment 3:  [Study this Proof](https://github.com/werowe/hypatia_lab/blob/main/logic/additional_proofs.md)
