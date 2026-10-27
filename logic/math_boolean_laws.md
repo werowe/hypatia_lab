@@ -388,7 +388,7 @@ This is one of the foundations of digital circuit design.
 
 ## Homework
 
-## Homework
+ 
 
 ### Assignment 1: Verify the idempotent laws
 
