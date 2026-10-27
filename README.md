@@ -115,15 +115,26 @@ to logic gates, memory, and PWM.
 
  
 
-| Topic | Lessons | Reference and practice |
-|---|---|---|
-| [Browse the logic lessons](logic/boolean_logic.md) | | |
-|  Boolean algebra | [Lesson 1: Switches and expressions](logic/boolean_logic/01_algebra/lesson_01.md); [Lesson 2: Laws and proofs](logic/boolean_logic/01_algebra/lesson_02.md) | [Reference](logic/boolean_logic/01_algebra/reference.md); [Exercises](boolean_logic/01_algebra/exercises.md) |
-| Simplifying circuits | [Lesson 3: Simplify an existing circuit](boolean_logic/02_simplification/lesson_03.md); [Lesson 4: Design from requirements](boolean_logic/02_simplification/lesson_04.md) | [Reference](boolean_logic/02_simplification/reference.md); [Exercises](boolean_logic/02_simplification/exercises.md) |
-| Circuits for arithmetic | [Lesson 5: Binary and the half adder](boolean_logic/03_arithmetic/lesson_05.md); [Lesson 6: The full adder](boolean_logic/03_arithmetic/lesson_06.md); [Lesson 7: A four-bit adder](boolean_logic/03_arithmetic/lesson_07.md) | [Reference](boolean_logic/03_arithmetic/reference.md); [Exercises](boolean_logic/03_arithmetic/exercises.md); [Optional subtraction](boolean_logic/03_arithmetic/extension_subtraction.md) |
-|  [Connecting Gates to Boolean Algebra](logic/boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md)  | | 
-|  [Additional Proofs](logic/additional_proofs.md) | | 
-[ Math vs Boolean Laws](logic/math_boolean_laws.md  | | 
+| | |
+|---|---|
+| [Browse the logic lessons](logic/boolean_logic.md) | |
+| | [Switches and expressions](logic/boolean_logic/01_algebra/lesson_01.md) |
+| | [Laws and proofs](logic/boolean_logic/01_algebra/lesson_02.md) |
+| | [Reference](logic/boolean_logic/01_algebra/reference.md) |
+| | [Exercises](logic/boolean_logic/01_algebra/exercises.md) |
+| | [Simplify a circuit](logic/boolean_logic/02_simplification/lesson_03.md) |
+| | [Design from requirements](logic/boolean_logic/02_simplification/lesson_04.md) |
+| | [Reference](logic/boolean_logic/02_simplification/reference.md) |
+| | [Exercises](logic/boolean_logic/02_simplification/exercises.md) |
+| | [Binary and the half adder](logic/boolean_logic/03_arithmetic/lesson_05.md) |
+| | [The full adder](logic/boolean_logic/03_arithmetic/lesson_06.md) |
+| | [A four-bit adder](logic/boolean_logic/03_arithmetic/lesson_07.md) |
+| | [Reference](logic/boolean_logic/03_arithmetic/reference.md) |
+| | [Exercises](logic/boolean_logic/03_arithmetic/exercises.md) |
+| | [Optional subtraction](logic/boolean_logic/03_arithmetic/extension_subtraction.md) |
+| [Connecting Gates to Boolean Algebra](logic/boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md) | |
+| [Additional Proofs](logic/additional_proofs.md) | |
+| [Math vs Boolean Laws](logic/math_boolean_laws.md) | |
 
 ---
 
