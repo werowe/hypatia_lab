@@ -377,6 +377,7 @@ $$
 
 The AND and OR gates are unnecessary.
 
+
 This is why Boolean algebra is so important in computer design.
 
 **We can use mathematics to reduce the number of logic gates needed to implement a function without changing what that function does.**
@@ -384,3 +385,35 @@ This is why Boolean algebra is so important in computer design.
 Fewer gates can mean simpler circuits, fewer transistors, and potentially less power consumption.
 
 This is one of the foundations of digital circuit design.
+
+## Homework
+
+## Homework
+
+### Assignment 1: Verify the idempotent laws
+
+In Boolean algebra, `+` means OR and multiplication means AND.
+
+Complete the truth table:
+
+| \(x\) | \(x+x\) | \(xx\) |
+|---|---|---|
+| 0 | ? | ? |
+| 1 | ? | ? |
+
+Use your results to explain why \(x+x=xx\).
+
+### Assignment 2: Simplify Boolean expressions
+
+Simplify each expression using the idempotent laws:
+
+$$
+x+x=x \qquad xx=x
+$$
+
+1. \(a+a\)
+2. \(bb\)
+3. \((x+x)y\)
+4. \(a+bb\)
+
+For each answer, write which idempotent law you used.
