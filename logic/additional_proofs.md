@@ -1,9 +1,11 @@
 ## Prove x + x = xx
 
 These are the idempotent laws:
+
 $$
 x+x=x \qquad xx=x
 $$
+
 You can prove them algebraically using the identity, complement, and distributive laws.
 
 **Series contacts**: $xx=x$
