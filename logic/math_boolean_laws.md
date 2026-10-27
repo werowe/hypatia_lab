@@ -1,5 +1,7 @@
 # Mathematical Laws and Boolean Algebra
 
+> [Homework 1](#homework)
+
 Boolean algebra uses many of the same laws as ordinary mathematics. This makes it easier to understand and simplify digital logic circuits.
 
 The important difference is that Boolean algebra uses only two values:
