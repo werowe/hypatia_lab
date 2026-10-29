@@ -118,7 +118,7 @@ to logic gates, memory, and PWM.
 | |  
 |---| 
 | [Browse the logic lessons](logic/boolean_logic.md)  |
-| [Basic Boolean Rules](logic/boolean_logic/01_algebra/reference.md#laws) |
+| [Basic Boolean Rules](logic/boolean_logic/01_algebra/reference.md#laws) and [Proofs](ogic/proofs.md) |
 | [Switches and expressions](logic/boolean_logic/01_algebra/lesson_01.md) |
 |  [Laws and proofs](logic/boolean_logic/01_algebra/lesson_02.md) |
 |  [Reference](logic/boolean_logic/01_algebra/reference.md) |
