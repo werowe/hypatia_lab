@@ -10,6 +10,8 @@ Read x' before products, and products before sums. Thus x'y + z means (x' y) + z
 
 ## Laws
 
+See [proofs](logic/proofs.md)
+
 | Name | Identities |
 |---|---|
 | Commutative | x + y = y + x; xy = yx |
