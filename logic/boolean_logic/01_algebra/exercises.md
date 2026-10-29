@@ -10,7 +10,7 @@
 
 **A3.** Make the eight-row table for f = x'y + z. Include a column for x'.
 
-**A4.** Explain why two independent switches cannot be labelled x and x' unless their operation is constrained.
+**A4.** Explain why two independent switches cannot be labelled x and x' unless their operation is constrained.  **Constrained** means the switches are linked so they must always be in opposite states: when x is open (0), x' is closed (1), and vice versa.
 
 ## Algebra
 
