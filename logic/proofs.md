@@ -4,9 +4,9 @@ Here, `$+$` means **OR**, multiplication means **AND**, and a prime means **NOT*
 
 The definitions are:
 
-- `$x + y = 1$` if at least one input is `$1$`.
-- `$xy = 1$` only if both inputs are `$1$`.
-- `$x' = 1$` when `$x = 0$`, and `$x' = 0$` when `$x = 1$`.
+- $x + y = 1$ if at least one input is $1$.
+- $xy = 1$ only if both inputs are $1$.
+- $x' = 1$ when $x = 0$, and $x = 0$ when $x = 1$.
 
 Because each variable has only two possible values, checking every case proves an identity for all inputs.
 
