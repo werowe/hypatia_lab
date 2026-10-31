@@ -111,7 +111,7 @@ to logic gates, memory, and PWM.
 
 ## Logic
 
-
+> Start with this [Detailed Introduction and Index](logic/README.md)
 
  
 
