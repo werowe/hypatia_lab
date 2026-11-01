@@ -1,5 +1,7 @@
 # Boolean Algebra and Arithmetic Circuits
 
+> Start with this [Detailed Introduction and Index](logic/README.md)
+
 Hypatia Academy | From switches to an adder
 
 How can an equation describe a circuit? How can changing that equation remove unnecessary switches? How can a circuit add two numbers?
