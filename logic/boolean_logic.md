@@ -1,6 +1,6 @@
 # Boolean Algebra and Arithmetic Circuits
 
-> Start with this [Detailed Introduction and Index](logic/README.md)
+> Start with this [Detailed Introduction and Index](README.md)
 
 Hypatia Academy | From switches to an adder
 
