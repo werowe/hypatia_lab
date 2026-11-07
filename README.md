@@ -96,6 +96,7 @@ to logic gates, memory, and PWM.
 |  How George Boole and Claude Shannon Created Computer Circuits | | [YouTube](https://youtu.be/7ckEQ91E6F8) | |
 | How Binary Adders Work  |  | [YouTube](https://youtu.be/jUeYgnuQ5Vs) | |
 | Electricity Basics Explained Visually | | [YouTube](https://youtu.be/xXFvzCJR-hg) | |
+| De Morgan's ORc| |  [EveryCircuit](https://everycircuit.com/circuit/6613122798452736)|
 
 
 
@@ -136,6 +137,7 @@ to logic gates, memory, and PWM.
 | [Connecting Gates to Boolean Algebra](logic/boolean_logic/01_algebra/connecting_gates_to_boolean_algebra.md)  |
 | [Additional Proofs](logic/additional_proofs.md)  |
 | [Math vs Boolean Laws](logic/math_boolean_laws.md)  |
+
 
 
 ---
