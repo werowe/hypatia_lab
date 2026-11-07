@@ -97,7 +97,7 @@ to logic gates, memory, and PWM.
 | How Binary Adders Work  |  | [YouTube](https://youtu.be/jUeYgnuQ5Vs) | |
 | Electricity Basics Explained Visually | | [YouTube](https://youtu.be/xXFvzCJR-hg) | |
 | [De Morgan's OR](logic/math_boolean_laws.md#de-morgans-laws)| | [YouTube](https://www.youtube.com/watch?v=3gXXYnvsIiM) [EveryCircuit](https://everycircuit.com/circuit/6613122798452736)|
-| XOR from 4 NAND Gates | | [EveryCircuit]([XOR Gate from Four NAND Gates](https://everycircuit.com/circuit/6022823030161408) |
+| XOR from 4 NAND Gates | | [EveryCircuit](https://everycircuit.com/circuit/6022823030161408) |
 
 
 
