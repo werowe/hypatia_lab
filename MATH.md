@@ -12,5 +12,6 @@ Notes and exercises for the theory behind our electronics classes, based on
 - [Section 2.2.1: Kirchhoff’s Current Law](foundations/kcl2.2.1.md) — questions and
   exercises on signed currents, summation notation, and splitting a node’s currents
   into two groups.
+- [Calculation Resistance Across an Intel I7 Size Silicon Cube](foundations/1.6.resistance.i7.intel.md(
 
 [Browse the foundations folder](foundations/) · [Explore the circuits we have built](README.md#circuits-we-have-built)
