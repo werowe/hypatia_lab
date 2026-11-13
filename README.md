@@ -82,6 +82,7 @@ to logic gates, memory, and PWM.
 | Shift Register | [Open](https://www.tinkercad.com/things/6iE8B4aSI0L-shift-register-1-led) | [YouTube](https://youtu.be/Z2lO-PBKauw) | |
 | How Arduino turns voltage into a number | [Open](https://www.tinkercad.com/things/bqHnsq0DNjH-convert-voltage-to-number) | | |
 | Two-Transistor Resistor-Transistor Logic RTL NAND Gate | | [YouTube](https://youtu.be/2CMcOQZbbVM) | [Open](https://everycircuit.com/circuit/4612312401051648/two-transistor-resistor-transistor-logic-rtl-nand-gate) |
+| 1=Bit Memory made Three Ways | [NAND](https://everycircuit.com/circuit/4631469851017216)     [SR Latch](https://everycircuit.com/circuit/4723672262770688) |   [74HC000](https://www.tinkercad.com/things/kjJpXA2dwMt-1-bit-memory?sharecode=8EcA2E__I5FLk03T1PUtBm9j7m4LWO8IL9_5fX1UOUY) |
 | 1-Bit Memory Cell with NAND Gates | | [YouTube](https://youtu.be/JtlNjAhDYu8) | [Open](https://everycircuit.com/circuit/6258825694937088) |
 | 74HC00 NAND Gate | [Open](https://www.tinkercad.com/things/eRY2YZ6IHYd-nand-single?sharecode=cm1C_QGX918UaoXFylzWq8A6-jMBnGBkyS7pCxD8IOU) | [YouTube](https://youtu.be/tz0Z7IxRa0Y)| |
 | [1-bit memory SR Latch](https://everycircuit.com/circuit/5851263245877248) |    |     |
