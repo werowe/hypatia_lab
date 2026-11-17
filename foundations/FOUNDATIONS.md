@@ -9,4 +9,5 @@
 **Student Work**
 
 [§ 1.6 Resitance across an Intel I7 sized silicon chip](https://github.com/Nazar-Popovych/Hypatia-Academy/blob/main/Nazar-Popovych-Silicon-Resistance-Homework.md)
+
 [§ 1.6 Resitance across an Intel I7 sized silicon chip](https://github.com/Diana241099/Math/blob/main/silicon_resistance_homework.md)
