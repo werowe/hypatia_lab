@@ -100,7 +100,7 @@ to logic gates, memory, and PWM.
 | Electricity Basics Explained Visually | | [YouTube](https://youtu.be/xXFvzCJR-hg) | |
 | [De Morgan's OR](logic/math_boolean_laws.md#de-morgans-laws)| | [YouTube](https://www.youtube.com/watch?v=3gXXYnvsIiM) [EveryCircuit](https://everycircuit.com/circuit/6613122798452736)|
 | XOR from 4 NAND Gates | [YouTube](https://youtu.be/_oebhzll5Hw)| [EveryCircuit](https://everycircuit.com/circuit/6022823030161408) |
-| Full Adder |   | [Boolean proof](electronics/full_adder.md)
+| Full Adder |  | [EveryCircuit](https://everycircuit.com/circuit/6036268895043584) | [Boolean proof](electronics/full_adder.md) |
 
 
 
