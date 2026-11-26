@@ -112,6 +112,7 @@ to logic gates, memory, and PWM.
 - [Electronics: Voltage, Current, Resistance, and Transistors](electronics/ELECTRONICS.md)
 - [Calculate Voltage Across Two Resistors in Series — C Example](electronics/resistance_series.c)
 - [Why do we need pull down resistors](electronics/pull_down_resistor.md)
+- [](electronics/wavelength_clock_speed.md)
 
 ---
 
